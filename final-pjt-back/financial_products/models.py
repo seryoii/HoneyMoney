@@ -2,7 +2,7 @@ from django.db import models
 from django.conf import settings
 # Create your models here.
 class SavingProduct(models.Model):
-    interest_user = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='')
+    interest_user = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='interest_saving')
     fin_prdt_cd = models.TextField()
     fin_co_no = models.TextField()
     kor_co_nm = models.TextField()
@@ -16,7 +16,7 @@ class SavingProduct(models.Model):
     max_limit = models.IntegerField()
 
 class DepositProduct(models.Model):
-    interest_user = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='')
+    interest_user = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='interest_deposit')
     fin_prdt_cd = models.TextField()
     fin_co_no = models.TextField()
     kor_co_nm = models.TextField()
