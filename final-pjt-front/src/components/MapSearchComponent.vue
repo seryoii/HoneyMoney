@@ -35,7 +35,7 @@ const searchKeyword = ref(""); // 검색어를 저장할 변수 추가
 const loadKakaoMap = function () {
   // Kakao 지도 API 스크립트 동적으로 추가
   const script = document.createElement("script");
-  const KAKAO_KEY = "bd0b631300ce8e8d3379e76e7ca31376"; // 발급받은 APP KEY를 사용하세요
+  const KAKAO_KEY = import.meta.env.VITE_KAKAO_MAP_API; // APP KEY
   script.src = `https://dapi.kakao.com/v2/maps/sdk.js?appkey=${KAKAO_KEY}&autoload=false&libraries=services`;
   script.async = true;
   script.onload = () => {
@@ -49,16 +49,28 @@ const loadKakaoMap = function () {
 };
 
 const initializeKakaoMap = function () {
-  // Kakao 지도 API 초기화
-  console.log("Initializing Kakao Map");
-  const mapContainer = document.getElementById("mapContainer");
-  const mapOption = {
-    center: new window.kakao.maps.LatLng(37.566826, 126.9786567),
-    level: 3,
-  };
+  let lat = 36.10706;
+  let lon = 128.415494;
+  if (navigator.geolocation) {
+    // GeoLocation을 이용해서 접속 위치를 얻어옵니다
+    navigator.geolocation.getCurrentPosition(function (position) {
+      lat = position.coords.latitude; // 위도
+      lon = position.coords.longitude; // 경도
 
-  map.value = new window.kakao.maps.Map(mapContainer, mapOption);
-  infowindow.value = new window.kakao.maps.InfoWindow({ zIndex: 1 });
+      // Kakao 지도 API 초기화
+      console.log("Initializing Kakao Map");
+      const mapContainer = document.getElementById("mapContainer");
+      const mapOption = {
+        center: new window.kakao.maps.LatLng(lat, lon),
+        level: 3,
+      };
+
+      map.value = new window.kakao.maps.Map(mapContainer, mapOption);
+      infowindow.value = new window.kakao.maps.InfoWindow({ zIndex: 1 });
+    });
+  } else {
+    console.log("사용불가");
+  }
 };
 
 const handleWindowResize = function () {
@@ -92,7 +104,7 @@ const placesSearchCB = function (data, status, pagination) {
   if (status === window.kakao.maps.services.Status.OK) {
     // 검색 결과가 OK일 때 기존 마커들을 모두 제거
     removeAllMarkers();
-    
+
     // 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
     // LatLngBounds 객체에 좌표를 추가
     let bounds = new window.kakao.maps.LatLngBounds();

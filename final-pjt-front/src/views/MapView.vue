@@ -13,7 +13,7 @@
       <option v-for="c in cities" :key="c">{{ c }}</option>
     </select>
     <select v-model="bank">
-      <option value="">은행명</option>
+      <option value="">은행</option>
       <option v-for="b in banks" :key="b">{{ b }}</option>
     </select>
     <!-- 지도 출력 Component 연결, 선택된 데이터 전달 -->
