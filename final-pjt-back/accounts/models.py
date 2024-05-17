@@ -7,9 +7,9 @@ from financial_products.models import DepositProduct
 # Create your models here.
 
 class User(AbstractUser):
-    username = models.CharField(max_length=10, unique=True)
-    name = models.CharField(max_length=10)
-    email = models.EmailField(max_length=300, blank=True, null=True)
+    username = models.CharField(max_length=20, unique=True)
+    nickname = models.CharField(max_length=10)
+    email = models.EmailField(max_length=30, blank=True, null=True)
     age = models.IntegerField(default=0)
     profile_img = models.ImageField(upload_to='image/', default='image/default_profile.png')
     salary = models.IntegerField(default=0)
