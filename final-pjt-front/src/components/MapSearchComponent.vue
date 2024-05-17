@@ -6,21 +6,10 @@
   </div>
 </template>
 
-<script>
-import { onMounted, ref } from "vue";
-
-export default {
-  name: "KakaoMap",
-  beforeUnmount() {
-    // 컴포넌트가 파괴될 때 이벤트 리스너 제거
-    window.removeEventListener("resize", handleWindowResize);
-  },
-};
-</script>
-
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, onBeforeUnmount } from "vue";
 
+// props 정의
 const props = defineProps({
   province: String,
   city: String,
@@ -85,6 +74,11 @@ onMounted(() => {
   loadKakaoMap();
   // 창 크기가 변경될 때의 이벤트 리스너 추가
   window.addEventListener("resize", handleWindowResize);
+});
+
+onBeforeUnmount(() => {
+  // 컴포넌트가 파괴될 때 이벤트 리스너 제거
+  window.removeEventListener("resize", handleWindowResize);
 });
 
 const searchOnMap = function () {
