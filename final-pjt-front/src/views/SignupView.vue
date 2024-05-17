@@ -3,7 +3,7 @@
     <div>
       <label for="username">Username</label>
       <input id="username" v-model="state.username" @blur="v$.username.$touch" />
-      <span v-if="v$.username.$error">Username is required and must be at least 10 characters long</span>
+      <span v-if="v$.username.$error">Username is required and must be at least 20 characters long</span>
     </div>
     <div>
       <label for="nickname">Nickname</label>
@@ -45,16 +45,6 @@
       <input id="desirePeriod" type="number" v-model="state.desirePeriod" @blur="v$.desirePeriod.$touch" />
       <span v-if="v$.desirePeriod.$error">Desire period is required</span>
     </div>
-    <!-- <div>
-      <label for="saving">Saving</label>
-      <input id="saving" type="number" v-model="state.saving" @blur="v$.saving.$touch" />
-      <span v-if="v$.saving.$error">Saving is required</span>
-    </div>
-    <div>
-      <label for="deposit">Deposit</label>
-      <input id="deposit" type="number" v-model="state.deposit" @blur="v$.deposit.$touch" />
-      <span v-if="v$.deposit.$error">Deposit is required</span>
-    </div> -->
     <button type="submit">Submit</button>
   </form>
 </template>
@@ -62,7 +52,7 @@
 <script setup>
 import { ref } from "vue";
 import useVuelidate from "@vuelidate/core";
-import { required, minLength } from "@vuelidate/validators";
+import { required, minLength, maxLength, minValue } from "@vuelidate/validators";
 import { useUserStore } from "@/stores/user";
 
 const userStore = useUserStore();
@@ -81,10 +71,10 @@ const state = ref({
 
 // 유효성 검사 규칙 정의
 const rules = {
-  username: { required, minLength: minLength(5) },
-  nickname: { required, minLength: minLength(5) },
-  password1: { required, minLength: minLength(5) },
-  password2: { required, minLength: minLength(5) },
+  username: { required, maxLength: maxLength(20) },
+  nickname: { required, maxLength: maxLength(20) },
+  password1: { required, maxLength: maxLength(128) },
+  password2: { required, maxLength: maxLength(128) },
   age: { required },
   salary: { required },
   wealth: { required },
