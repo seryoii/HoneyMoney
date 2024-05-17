@@ -7,14 +7,14 @@ class DepositProduct(models.Model):
     fin_prdt_cd = models.TextField()
     fin_co_no = models.TextField()
     kor_co_nm = models.TextField()
-    fin_prdt_nm = models.IntegerField()
-    join_way = models.CharField(max_length=5)
+    fin_prdt_nm = models.TextField()
+    join_way = models.TextField()
     mtrt_int = models.TextField()
     spcl_cnd = models.TextField()
     join_deny = models.IntegerField()
     join_member = models.TextField()
     etc_note = models.TextField()
-    max_limit = models.IntegerField()
+    max_limit = models.IntegerField(null=True)
 
 class SavingProduct(models.Model):
     interest_user = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='interest_saving')
