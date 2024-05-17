@@ -6,6 +6,7 @@ from django.contrib.auth import get_user_model
 from allauth.account.adapter import get_adapter
 from allauth.account.utils import setup_user_email
 
+# 유저 생성
 class CustomRegisterSerializer(RegisterSerializer):
     nickname = serializers.CharField(max_length=20, required=True, allow_blank=False)
     email = serializers.EmailField(required=False)
@@ -47,11 +48,11 @@ class CustomRegisterSerializer(RegisterSerializer):
 class CustomLoginSerializer(LoginSerializer):
     email = None
 
+# 로그인 시 유저 정보 전달
 class CustomUserDetailSerializer(UserDetailsSerializer):
     class Meta:
          model = get_user_model()
-         fields = ('pk', 'username', 'email',)
-         read_only_fields = ('email',)
+         fields = ('id','username','nickname','age','salary','wealth','tendency','desirePeriod','saving','deposit')
 
 class CustomTokenSerializer(TokenSerializer):
     user = CustomUserDetailSerializer(read_only=True)
