@@ -3,6 +3,10 @@ import MainView from "@/views/MainView.vue";
 import MapView from "@/views/MapView.vue";
 import SignupView from "@/views/SignupView.vue";
 import LoginView from "@/views/LoginView.vue";
+import CommunityView from "@/views/CommunityView.vue";
+import ExchangeView from "@/views/ExchangeView.vue";
+import UserProfileView from "@/views/UserProfileView.vue";
+import ProductsView from "@/views/ProductsView.vue";
 
 const routes = [
   {
@@ -24,6 +28,26 @@ const routes = [
     path: "/login",
     name: "LoginView",
     component: LoginView,
+  },
+  {
+    path: "/community",
+    name: "CommunityView",
+    component: CommunityView,
+  },
+  {
+    path: "/exchange",
+    name: "ExchangeView",
+    component: ExchangeView,
+  },
+  {
+    path: "/profile",
+    name: "UserProfileView",
+    component: UserProfileView,
+  },
+  {
+    path: "/products",
+    name: "ProductsView",
+    component: ProductsView,
   },
 ];
 
