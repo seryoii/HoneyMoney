@@ -5,7 +5,8 @@ from rest_framework.response import Response
 from django.http import HttpResponse
 from .serializers import DepositSerializer
 import requests
-API_KEY = settings.API_KEY
+from .models import DepositProduct
+API_KEY = settings.FIN_API_KEY
 # API_KEY='075aba31f295dc17f85b416dfabc2969'
 # Create your views here.
 
@@ -34,8 +35,12 @@ def get_deposit_products(request):
         #     serializer.save()
         #     return Response(deposit_product)
         
-    return Response(deposit_optionlist)
-    # for option in deposit_optionlist:
+    # return Response(deposit_optionlist)
+    for option in deposit_optionlist:
+        prdt_cd = option.get('fin_prdt_cd')
+        product = DepositProduct.objects.get(fin_prdt_cd=prdt_cd)
+        print(product)
+        # return Response(product)
 
     # return Response(deposit_optionlist)
 @api_view(['GET'])
