@@ -1,13 +1,15 @@
 <template>
   <v-app>
     <v-main>
-      <RouterLink :to="{ name: 'MapView' }">Map</RouterLink>
-      |
-      <RouterLink :to="{ name: 'SignupView' }">Signup</RouterLink>
-      |
-      <RouterLink :to="{ name: 'LoginView' }">Login</RouterLink>
-      |
-      <a @click="userStore.logoutUser">Logout</a>
+      <RouterLink :to="{ name: 'MainView' }">Main </RouterLink>
+      <RouterLink :to="{ name: 'ProductsView' }">| Products </RouterLink>
+      <RouterLink :to="{ name: 'CommunityView' }">| Community </RouterLink>
+      <RouterLink :to="{ name: 'ExchangeView' }">| Exchange </RouterLink>
+      <RouterLink :to="{ name: 'UserProfileView' }">| Profile </RouterLink>
+      <RouterLink :to="{ name: 'MapView' }">| Map </RouterLink>
+      <RouterLink v-if="!userStore.isLogin" :to="{ name: 'SignupView' }">| Signup </RouterLink>
+      <RouterLink v-if="!userStore.isLogin" :to="{ name: 'LoginView' }">| Login </RouterLink>
+      <a v-if="userStore.isLogin" @click="userStore.logoutUser">| Logout </a>
       <RouterView />
     </v-main>
   </v-app>
