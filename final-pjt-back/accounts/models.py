@@ -16,5 +16,5 @@ class User(AbstractUser):
     wealth = models.IntegerField(default=0)
     tendency = models.IntegerField(default=0)
     desirePeriod = models.IntegerField(default=0)
-    interest_saving = models.ManyToManyField(SavingProduct, related_name='interested_users_saving')
-    interest_deposit = models.ManyToManyField(DepositProduct, related_name='interested_users_deposit')
+    saving = models.ManyToManyField(SavingProduct, related_name='interested_users_saving')
+    deposit = models.ManyToManyField(DepositProduct, related_name='interested_users_deposit')

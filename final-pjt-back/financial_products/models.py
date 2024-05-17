@@ -30,7 +30,7 @@ class SavingProduct(models.Model):
     etc_note = models.TextField()
     max_limit = models.IntegerField(blank=True, null=True)
 
-class DpositOption(models.Model):
+class DepositOption(models.Model):
     # fin_prdt_cd = models.IntegerField()
     depositProduct = models.ForeignKey(DepositProduct, on_delete=models.CASCADE)
     intr_rate_type = models.CharField(max_length=100)
