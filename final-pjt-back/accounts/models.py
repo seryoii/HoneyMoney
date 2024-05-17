@@ -8,13 +8,13 @@ from financial_products.models import DepositProduct
 
 class User(AbstractUser):
     username = models.CharField(max_length=20, unique=True)
-    nickname = models.CharField(max_length=10)
+    nickname = models.CharField(max_length=20)
     email = models.EmailField(max_length=30, blank=True, null=True)
     age = models.IntegerField(default=0)
     profile_img = models.ImageField(upload_to='image/', default='image/default_profile.png')
     salary = models.IntegerField(default=0)
     wealth = models.IntegerField(default=0)
-    tendency = models.CharField(max_length=5)
+    tendency = models.IntegerField(default=0)
     desirePeriod = models.IntegerField(default=0)
-    saving = models.ManyToManyField(SavingProduct, related_name='interest_users')
-    deposit = models.ManyToManyField(DepositProduct, related_name='interest_users')
+    interest_saving = models.ManyToManyField(SavingProduct, related_name='interested_users_saving')
+    interest_deposit = models.ManyToManyField(DepositProduct, related_name='interested_users_deposit')

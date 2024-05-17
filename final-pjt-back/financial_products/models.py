@@ -11,10 +11,10 @@ class DepositProduct(models.Model):
     join_way = models.TextField()
     mtrt_int = models.TextField()
     spcl_cnd = models.TextField()
-    join_deny = models.IntegerField()
+    join_deny = models.IntegerField(default=0)
     join_member = models.TextField()
     etc_note = models.TextField()
-    max_limit = models.IntegerField(null=True)
+    max_limit = models.IntegerField(blank=True, null=True)
 
 class SavingProduct(models.Model):
     interest_user = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='interest_saving')
@@ -25,21 +25,23 @@ class SavingProduct(models.Model):
     join_way = models.TextField()
     mtrt_int = models.TextField()
     spcl_cnd = models.TextField()
-    join_deny = models.IntegerField()
+    join_deny = models.IntegerField(default=0)
     join_member = models.TextField()
     etc_note = models.TextField()
-    max_limit = models.IntegerField(null=True)
+    max_limit = models.IntegerField(blank=True, null=True)
 
 class DpositOption(models.Model):
-    fin_prdt_cd = models.IntegerField()
+    # fin_prdt_cd = models.IntegerField()
+    depositProduct = models.ForeignKey(DepositProduct, on_delete=models.CASCADE)
     intr_rate_type = models.CharField(max_length=100)
     intr_rate_type_nm = models.CharField(max_length=100)    
-    save_trm = models.IntegerField()
+    save_trm = models.IntegerField(default=0)
     intr_rate = models.FloatField()
     intr_rate2 = models.FloatField()
 
 class SavingOption(models.Model):
-    fin_prdt_cd = models.IntegerField()
+    # fin_prdt_cd = models.IntegerField()
+    savingProduct = models.ForeignKey(SavingProduct, on_delete=models.CASCADE)
     intr_rate_type = models.CharField(max_length=100)
     intr_rate_type_nm = models.CharField(max_length=100)
     rsrv_type = models.TextField()
