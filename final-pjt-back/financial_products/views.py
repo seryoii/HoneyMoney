@@ -3,7 +3,7 @@ from rest_framework.decorators import api_view
 from django.conf import settings
 from rest_framework.response import Response
 from django.http import HttpResponse
-from .serializers import DepositSerializer
+from .serializers import DepositSerializer, DepositOptionSerializer
 import requests
 from .models import DepositProduct
 API_KEY = settings.FIN_API_KEY
@@ -39,7 +39,17 @@ def get_deposit_products(request):
     for option in deposit_optionlist:
         prdt_cd = option.get('fin_prdt_cd')
         product = DepositProduct.objects.get(fin_prdt_cd=prdt_cd)
-        print(product)
+        deposit_option = {
+            'intr_rate_type': option.get('intr_rate_type'),
+            'intr_rate_type_nm': option.get('intr_rate_type_nm'),
+            'save_trm': option.get('save_trm'),
+            'intr_rate': option.get('intr_rate'),
+            'intr_rate2': option.get('intr_rate2'),  
+        }
+        serializer = DepositOptionSerializer(data=deposit_option)
+        if serializer.is_valid(raise_exception=True):
+            serializer.save()
+            return Response(deposit_option)
         # return Response(product)
 
     # return Response(deposit_optionlist)
