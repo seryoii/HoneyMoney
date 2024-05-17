@@ -66,6 +66,8 @@ export const useUserStore = defineStore(
           router.push({ name: "MainView" });
         })
         .catch((err) => {
+          window.alert("아이디 혹은 비밀번호가 틀립니다.");
+          location.reload();
           console.log(err);
         });
     };

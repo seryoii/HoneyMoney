@@ -1,95 +1,129 @@
 <template>
-  <form @submit.prevent="submitForm">
-    <div>
-      <label for="username">Username</label>
-      <input id="username" v-model="state.username" @blur="v$.username.$touch" />
-      <span v-if="v$.username.$error">Username is required and must be at least 20 characters long</span>
-    </div>
-    <div>
-      <label for="nickname">Nickname</label>
-      <input id="nickname" v-model="state.nickname" @blur="v$.nickname.$touch" />
-      <span v-if="v$.nickname.$error">Nickname is required and must be at least 20 characters long</span>
-    </div>
-    <div>
-      <label for="password1">Password</label>
-      <input id="password1" type="password" v-model="state.password1" @blur="v$.password1.$touch" />
-      <span v-if="v$.password1.$error">Password is required and must be at least 10 characters long</span>
-    </div>
-    <div>
-      <label for="password2">Check Password</label>
-      <input id="password2" type="password" v-model="state.password2" @blur="v$.password2.$touch" />
-      <span v-if="v$.password2.$error">Password confirmation is required and must be at least 10 characters long</span>
-    </div>
-    <div>
-      <label for="age">Age</label>
-      <input id="age" type="number" v-model="state.age" @blur="v$.age.$touch" />
-      <span v-if="v$.age.$error">Age is required</span>
-    </div>
-    <div>
-      <label for="salary">Salary</label>
-      <input id="salary" type="number" v-model="state.salary" @blur="v$.salary.$touch" />
-      <span v-if="v$.salary.$error">Salary is required</span>
-    </div>
-    <div>
-      <label for="wealth">Wealth</label>
-      <input id="wealth" type="number" v-model="state.wealth" @blur="v$.wealth.$touch" />
-      <span v-if="v$.wealth.$error">Wealth is required</span>
-    </div>
-    <div>
-      <label for="tendency">Tendency</label>
-      <input id="tendency" type="text" v-model="state.tendency" @blur="v$.tendency.$touch" />
-      <span v-if="v$.tendency.$error">Tendency is required</span>
-    </div>
-    <div>
-      <label for="desirePeriod">Desire Period</label>
-      <input id="desirePeriod" type="number" v-model="state.desirePeriod" @blur="v$.desirePeriod.$touch" />
-      <span v-if="v$.desirePeriod.$error">Desire period is required</span>
-    </div>
-    <button type="submit">Submit</button>
-  </form>
+  <v-app>
+    <v-sheet class="mx-auto" width="80%" elevation="4" height="auto" rounded color="">
+      <v-form ref="form" @submit.prevent="submitForm">
+        <v-text-field
+          class="mx-10 my-5"
+          hint="사용할 아이디를 입력 해주세요"
+          label="Username"
+          variant="outlined"
+          v-model="state.username"
+          @blur="v$.username.$touch"
+          :error-messages="v$.username.$error ? ['아이디는 최대 20자리 입니다.'] : []"
+        ></v-text-field>
+
+        <v-text-field
+          class="mx-10 my-5"
+          label="Nickname"
+          variant="outlined"
+          hint="사용할 닉네임을 입력해주세요"
+          v-model="state.nickname"
+          @blur="v$.nickname.$touch"
+          :error-messages="v$.nickname.$error ? ['닉네임은 최대 20자리 입니다.'] : []"
+        ></v-text-field>
+
+        <v-text-field
+          class="mx-10 my-5"
+          hint="특수문자를 제외한 10자리 이상을 입력해주세요"
+          label="Password"
+          variant="outlined"
+          type="password"
+          v-model="state.password1"
+          @blur="v$.password1.$touch"
+          :error-messages="v$.password1.$error ? ['비밀번호는 최소 10자리 이상입니다.'] : []"
+        ></v-text-field>
+
+        <v-text-field
+          hint="동일한 비밀번호를 입력해주세요"
+          class="mx-10 my-5"
+          label="Check Password"
+          variant="outlined"
+          type="password"
+          v-model="state.password2"
+          @blur="v$.password2.$touch"
+          :error-messages="v$.password2.$error ? ['비밀번호가 일치하지 않습니다.'] : []"
+        ></v-text-field>
+
+        <v-text-field hint="나이를 입력해주세요" class="mx-10 my-5" label="Age" variant="outlined" type="number" v-model="state.age" @blur="v$.age.$touch" :error-messages="v$.age.$error ? ['나이는 최소 0살, 최대 100살 입니다.'] : []"></v-text-field>
+
+        <v-text-field hint="연봉을 입력해주세요" class="mx-10 my-5" label="Salary" variant="outlined" type="number" v-model="state.salary" @blur="v$.salary.$touch" :error-messages="v$.salary.$error ? ['연봉은 최소 0원 입니다.'] : []"></v-text-field>
+
+        <v-text-field hint="자산을 입력해주세요" class="mx-10 my-5" label="Wealth" variant="outlined" type="number" v-model="state.wealth" @blur="v$.wealth.$touch" :error-messages="v$.wealth.$error ? ['자산은 최소 0원 입니다.'] : []"></v-text-field>
+
+        <v-text-field
+          hint="0에 가까울 수록 안정성, 10에 가까울 수록 적극성을 의미합니다"
+          class="mx-10 my-5"
+          label="Tendency"
+          variant="outlined"
+          type="number"
+          v-model="state.tendency"
+          @blur="v$.tendency.$touch"
+          :error-messages="v$.tendency.$error ? ['투자 성향은 최소 0, 최대 10입니다.'] : []"
+        ></v-text-field>
+
+        <v-text-field
+          hint="원하는 투자 기간을 기입해주세요"
+          class="mx-10 my-5"
+          label="Desire Period"
+          variant="outlined"
+          type="number"
+          v-model="state.desirePeriod"
+          @blur="v$.desirePeriod.$touch"
+          :error-messages="v$.desirePeriod.$error ? ['기간은 최소 0개월, 최대 36개월입니다.'] : []"
+        ></v-text-field>
+        <v-checkbox class="mx-10" color="#F9A825" label="(필수) 서비스 이용약관 동의" value="service" v-model="selected"></v-checkbox>
+        <v-checkbox class="mx-10" color="#F9A825" label="(필수) 개인정보 처리 동의" value="info" v-model="selected"></v-checkbox>
+        <v-row justify="center">
+          <v-col cols="auto">
+            <v-btn color="#F9A825" class="mb-5" type="submit">Submit</v-btn>
+          </v-col>
+        </v-row>
+      </v-form>
+    </v-sheet>
+  </v-app>
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, computed } from "vue";
 import useVuelidate from "@vuelidate/core";
-import { required, minLength, maxLength, minValue } from "@vuelidate/validators";
+import { required, minLength, maxLength, minValue, maxValue, sameAs } from "@vuelidate/validators";
 import { useUserStore } from "@/stores/user";
 
+const selected = ref([]);
 const userStore = useUserStore();
-// 상태 정의
 const state = ref({
-  username: "",
-  nickname: "",
+  username: null,
+  nickname: null,
   password1: "",
   password2: "",
-  age: 0,
-  salary: 0,
-  wealth: 0,
-  tendency: 0,
-  desirePeriod: 0,
+  age: null,
+  salary: null,
+  wealth: null,
+  tendency: null,
+  desirePeriod: null,
 });
 
-// 유효성 검사 규칙 정의
-const rules = {
+const rules = computed(() => ({
   username: { required, maxLength: maxLength(20) },
   nickname: { required, maxLength: maxLength(20) },
-  password1: { required, maxLength: maxLength(128) },
-  password2: { required, maxLength: maxLength(128) },
-  age: { required },
-  salary: { required },
-  wealth: { required },
-  tendency: { required },
-  desirePeriod: { required },
-};
+  password1: { required, minLength: minLength(10), maxLength: maxLength(128) },
+  password2: { required, sameAs: sameAs(computed(() => state.value.password1)) },
+  age: { required, minValue: minValue(0), maxValue: maxValue(100) },
+  salary: { required, minValue: minValue(0) },
+  wealth: { required, minValue: minValue(0) },
+  tendency: { required, minValue: minValue(0), maxValue: maxValue(10) },
+  desirePeriod: { required, minValue: minValue(0), maxValue: maxValue(36) },
+}));
 
-// Vuelidate 훅 사용
 const v$ = useVuelidate(rules, state);
 
-function submitForm() {
+const submitForm = () => {
   v$.value.$validate();
-  if (!v$.value.$error) {
-    // 유효성 검사를 통과한 경우 처리 로직
-    console.log("Form is valid", state.value);
+  console.log(selected);
+  if (selected.value.length !== 2) {
+    window.alert("모든 약관에 동의 해주셔야 합니다.");
+    return router.push({ name: "SignupView" });
+  } else if (!v$.value.$error) {
     const payload = {
       username: state.value.username,
       nickname: state.value.nickname,
@@ -101,11 +135,12 @@ function submitForm() {
       tendency: state.value.tendency,
       desirePeriod: state.value.desirePeriod,
     };
-    console.log(payload);
     userStore.createUser(payload);
   } else {
-    // 유효성 검사를 통과하지 못한 경우 처리 로직
     console.log("Form is invalid");
   }
-}
+};
 </script>
+
+<style>
+</style>
