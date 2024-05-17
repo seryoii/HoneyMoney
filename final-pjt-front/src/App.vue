@@ -6,27 +6,15 @@
       <RouterLink :to="{ name: 'SignupView' }">Signup</RouterLink>
       |
       <RouterLink :to="{ name: 'LoginView' }">Login</RouterLink>
-
+      |
+      <a @click="userStore.logoutUser">Logout</a>
       <RouterView />
     </v-main>
   </v-app>
 </template>
 
-<script>
-import MapView from "@/views/MapView.vue";
-import MainView from "@/views/MainView.vue";
-import SignupView from "@/views/SignupView.vue";
-import LoginView from "@/views/LoginView.vue";
+<script setup>
+import { useUserStore } from "./stores/user";
 import { RouterLink, RouterView } from "vue-router";
-
-export default {
-  name: "App",
-
-  components: {
-    MainView,
-    MapView,
-    SignupView,
-    LoginView,
-  },
-};
+const userStore = useUserStore();
 </script>

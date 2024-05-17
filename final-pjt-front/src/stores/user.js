@@ -18,24 +18,6 @@ export const useUserStore = defineStore(
       }
     });
 
-    // 로그인 유저 정보 받는 부분 (watch ? or 로그인 시 함수 실행?)
-    const getUserInfo = function (getToken) {
-      axios({
-        method: "get",
-        url: "http://127.0.0.1:8000/dj-rest-auth/user/",
-        headers: {
-          Authorization: `Token ${getToken}`,
-        },
-      })
-        .then((res) => {
-          console.log(res);
-          userInfo.value = res.data;
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    };
-
     // 회원가입 부분
     const createUser = function (payload) {
       const { username, nickname, password1, password2, age, salary, wealth, tendency, desirePeriod } = payload;
@@ -55,8 +37,12 @@ export const useUserStore = defineStore(
         },
       })
         .then((res) => {
-          console.log(res);
-          router.push({ name: "MainView" });
+          const password = password1;
+          const payload = {
+            username,
+            password,
+          };
+          loginUser(payload);
         })
         .catch((err) => {
           console.log(err);
@@ -75,9 +61,8 @@ export const useUserStore = defineStore(
         },
       })
         .then((res) => {
-          console.log(res);
           token.value = res.data.key;
-          getUserInfo(token);
+          userInfo.value = res.data.user;
           router.push({ name: "MainView" });
         })
         .catch((err) => {
@@ -94,14 +79,14 @@ export const useUserStore = defineStore(
         .then((res) => {
           console.log(res);
           token.value = null;
-          userInfo.value = [];
-          router.push({ name: "home" });
+          userInfo.value = null;
+          router.push({ name: "MainView" });
         })
         .catch((err) => {
           console.log(err);
         });
     };
-    return { createUser, loginUser, logoutUser, token, isLogin };
+    return { createUser, loginUser, logoutUser, token, isLogin, userInfo };
   },
   { persist: true }
 );
