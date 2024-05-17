@@ -1,11 +1,13 @@
 from django.shortcuts import render
+from django.shortcuts import get_object_or_404
+
 from rest_framework.decorators import api_view
 from django.conf import settings
 from rest_framework.response import Response
 from django.http import HttpResponse
-from .serializers import DepositSerializer, DepositOptionSerializer, SavingSerializer, SavingOptionSerializer
+from .serializers import DepositSerializer, DepositOptionSerializer, DepositListSerializer, SavingSerializer, SavingOptionSerializer, SavingListSerializer
 import requests
-from .models import DepositProduct, SavingProduct
+from .models import DepositProduct, SavingProduct, DepositOption, SavingOption
 API_KEY = settings.FIN_API_KEY
 # API_KEY='075aba31f295dc17f85b416dfabc2969'
 # Create your views here.
@@ -20,9 +22,10 @@ def get_deposit_products(request):
     # return Response(deposit_baselist)   
 
     for base in deposit_baselist:
-        # if DepositProduct.objects.filter(fin_prdt_cd=base.get('fin_prdt_cd')):
-        #     continue
+        if DepositProduct.objects.filter(fin_prdt_cd=base.get('fin_prdt_cd')):
+            continue
         deposit_product = {
+            'dcls_month' : base.get('dcls_month'),
             'fin_prdt_cd': base.get('fin_prdt_cd'),
             'fin_co_no': base.get('fin_co_no'),
             'kor_co_nm': base.get('kor_co_nm'),
@@ -38,11 +41,10 @@ def get_deposit_products(request):
         serializer = DepositSerializer(data=deposit_product)
         if serializer.is_valid(raise_exception=True):
             serializer.save()
-
+    # return Response(deposit_baselist)
     for option in deposit_optionlist:
         prdt_cd = option.get('fin_prdt_cd')
         products = DepositProduct.objects.filter(fin_prdt_cd=prdt_cd)
-        print(product)
         for product in products:
             deposit_option = {
                 'intr_rate_type': option.get('intr_rate_type'),
@@ -55,7 +57,7 @@ def get_deposit_products(request):
             if serializer.is_valid(raise_exception=True):
                 serializer.save(deposit_product=product)
                 # return Response(deposit_option)
-        
+    return Response('Deposit 데이터 가져오기 성공')
 @api_view(['GET'])
 def get_saving_products(request):
     saving_API_URL = f'http://finlife.fss.or.kr/finlifeapi/savingProductsSearch.json?auth={API_KEY}&topFinGrpNo=020000&pageNo=1'
@@ -63,7 +65,10 @@ def get_saving_products(request):
     saving_optionlist = requests.get(saving_API_URL).json()['result']['optionList']
 
     for base in saving_baselist:
+        if SavingProduct.objects.filter(fin_prdt_cd=base.get('fin_prdt_cd')):
+            continue
         saving_product = {
+            'dcls_month' : base.get('dcls_month'),
             'fin_prdt_cd': base.get('fin_prdt_cd'),
             'fin_co_no': base.get('fin_co_no'),
             'kor_co_nm': base.get('kor_co_nm'),
@@ -83,7 +88,6 @@ def get_saving_products(request):
     for option in saving_optionlist:
         prdt_cd = option.get('fin_prdt_cd')
         products = SavingProduct.objects.filter(fin_prdt_cd=prdt_cd)
-        print(product)
         for product in products:
             saving_option = {
                 'intr_rate_type': option.get('intr_rate_type'),
@@ -97,17 +101,67 @@ def get_saving_products(request):
             serializer = SavingOptionSerializer(data=saving_option)
             if serializer.is_valid(raise_exception=True):
                 serializer.save(saving_product=product)
+    return Response('Saving 데이터 가져오기 성공')
 
 @api_view(['GET'])
 def deposit_product_list(request):
     if request.method == 'GET':
         deposit_products = DepositProduct.objects.all()
-        serializer = DepositSerializer(deposit_products, many=True)
+        serializer = DepositListSerializer(deposit_products, many=True)
         return Response(serializer.data)
 
 @api_view(['GET'])
 def saving_product_list(request):
     if request.method == 'GET':
         saving_products = SavingProduct.objects.all()
-        serializer = DepositSerializer(saving_products, many=True)
+        serializer = SavingSerializer(saving_products, many=True)
+        return Response(serializer.data)
+
+@api_view(['GET'])
+def deposit_detail(request, deposit_code):
+    deposit = get_object_or_404(DepositProduct, fin_prdt_cd=deposit_code)
+    if request.method == 'GET':
+        serializer = DepositSerializer(deposit)
+        return Response(serializer.data)
+    
+@api_view(['GET'])
+def saving_detail(request, saving_code):
+    saving = get_object_or_404(SavingProduct, fin_prdt_cd=saving_code)
+    if request.method == 'GET':
+        serializer = SavingSerializer(saving)
+        return Response(serializer.data)
+    
+@api_view(['GET'])
+def deposit_option_list(request, deposit_code):
+    deposit = get_object_or_404(DepositProduct, fin_prdt_cd=deposit_code)
+    deposit_options = DepositOption.objects.filter(deposit_product=deposit)
+
+    if request.method == 'GET':
+        serializer = DepositOptionSerializer(deposit_options, many=True)
+        return Response(serializer.data)
+    
+@api_view(['GET'])
+def deposit_option_detail(request, deposit_code, option_id):
+    deposit = get_object_or_404(DepositProduct, fin_prdt_cd=deposit_code)
+    option = DepositOption.objects.get(deposit_product=deposit, id=option_id)
+    if request.method == 'GET':
+        serializer = DepositOptionSerializer(option)
+        return Response(serializer.data)
+
+    
+@api_view(['GET'])
+def saving_option_list(request, saving_code):
+    saving = get_object_or_404(SavingProduct, fin_prdt_cd=saving_code)
+    saving_options = SavingOption.objects.filter(saving_product=saving)
+
+    if request.method == 'GET':
+        serializer = SavingOptionSerializer(saving_options, many=True)
+        return Response(serializer.data)
+
+@api_view(['GET'])
+def saving_option_detail(request, saving_code, option_id):
+    saving = get_object_or_404(SavingProduct, fin_prdt_cd=saving_code)
+    option = SavingOption.objects.get(saving_product=saving, id=option_id)
+    if request.method == 'GET':
+        serializer = SavingOptionSerializer(option)
         return Response(serializer.data)

@@ -4,6 +4,7 @@ from django.conf import settings
 
 class DepositProduct(models.Model):
     interest_user = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='interest_deposit')
+    dcls_month = models.TextField()
     fin_prdt_cd = models.TextField()
     fin_co_no = models.TextField()
     kor_co_nm = models.TextField()
@@ -18,6 +19,7 @@ class DepositProduct(models.Model):
 
 class SavingProduct(models.Model):
     interest_user = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='interest_saving')
+    dcls_month = models.TextField()
     fin_prdt_cd = models.TextField()
     fin_co_no = models.TextField()
     kor_co_nm = models.TextField()
