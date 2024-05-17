@@ -51,13 +51,14 @@ def get_deposit_products(request):
                 'intr_rate_type_nm': option.get('intr_rate_type_nm'),
                 'save_trm': option.get('save_trm'),
                 'intr_rate': option.get('intr_rate'),
-                'intr_rate2': option.get('intr_rate2'),  
+                'intr_rate2': option.get('intr_rate2'),
             }
             serializer = DepositOptionSerializer(data=deposit_option)
             if serializer.is_valid(raise_exception=True):
                 serializer.save(deposit_product=product)
                 # return Response(deposit_option)
     return Response('Deposit 데이터 가져오기 성공')
+
 @api_view(['GET'])
 def get_saving_products(request):
     saving_API_URL = f'http://finlife.fss.or.kr/finlifeapi/savingProductsSearch.json?auth={API_KEY}&topFinGrpNo=020000&pageNo=1'
@@ -114,7 +115,7 @@ def deposit_product_list(request):
 def saving_product_list(request):
     if request.method == 'GET':
         saving_products = SavingProduct.objects.all()
-        serializer = SavingSerializer(saving_products, many=True)
+        serializer = SavingListSerializer(saving_products, many=True)
         return Response(serializer.data)
 
 @api_view(['GET'])
