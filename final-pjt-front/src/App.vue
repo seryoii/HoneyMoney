@@ -1,10 +1,24 @@
 <template>
-  <div>
-    <RouterLink :to="{ name: 'MapView' }">지도 확인하기</RouterLink>
-  </div>
-  <RouterView />
+  <v-app>
+    <v-main>
+      <RouterLink :to="{ name: 'About' }">About</RouterLink>
+      <RouterLink :to="{ name: 'MapView' }">MapView</RouterLink>
+      <RouterView />
+    </v-main>
+  </v-app>
 </template>
 
-<script setup></script>
+<script>
+import About from "@/views/About.vue";
+import MapView from "@/views/MapView.vue";
+import { RouterLink, RouterView } from "vue-router";
 
-<style scoped></style>
+export default {
+  name: "App",
+
+  components: {
+    About,
+    MapView,
+  },
+};
+</script>
