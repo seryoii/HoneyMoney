@@ -16,12 +16,12 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # 환경 변수 설정
-# import os
-# import environ
+import os
+import environ
 
-# env = environ.Env(DEBUG=(bool, True))
-# environ.Env.read_env(env_file=os.path.join(BASE_DIR, '.env'))
-# API_KEY = env('API_KEY')
+env = environ.Env(DEBUG=(bool, True))
+environ.Env.read_env(env_file=os.path.join(BASE_DIR, '.env'))
+API_KEY = env('API_KEY')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
@@ -83,7 +83,10 @@ REST_FRAMEWORK = {
 }
 
 REST_AUTH = {
- 'REGISTER_SERIALIZER': 'accounts.serializers.CustomRegisterSerializer',
+    'REGISTER_SERIALIZER': 'accounts.serializers.CustomRegisterSerializer',
+    'LOGIN_SERIALIZER': 'accounts.serializers.CustomLoginSerializer',
+    'TOKEN_SERIALIZER': 'accounts.serializers.CustomTokenSerializer',
+    'USER_DETAILS_SERIALIZER': 'accounts.serializers.CustomUserDetailSerializer',
 }
 
 ROOT_URLCONF = 'final_pjt_back.urls'

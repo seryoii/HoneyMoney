@@ -1,7 +1,8 @@
 from rest_framework import serializers
 from dj_rest_auth.registration.serializers import RegisterSerializer
+from dj_rest_auth.serializers import LoginSerializer, TokenSerializer, TokenModel, UserDetailsSerializer
 from .models import User
-
+from django.contrib.auth import get_user_model
 class CustomRegisterSerializer(RegisterSerializer):
  # 필요한 필드들을 추가합니다.
     name = serializers.CharField(max_length=10, required=True, allow_blank=False)
@@ -24,3 +25,20 @@ class CustomRegisterSerializer(RegisterSerializer):
         'tendency': self.validated_data.get('tendency', ''), 
         'desirePeriod': self.validated_data.get('desirePeriod', ''), 
         }
+    
+class CustomLoginSerializer(LoginSerializer):
+    email = None
+
+
+
+class CustomUserDetailSerializer(UserDetailsSerializer):
+    class Meta:
+         model = get_user_model()
+         fields = ('pk', 'username', 'email',)
+         read_only_fields = ('email',)
+
+class CustomTokenSerializer(TokenSerializer):
+    user = CustomUserDetailSerializer(read_only=True)
+    class Meta:
+        model = TokenModel
+        fields = ('key', 'user')

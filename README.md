@@ -14,6 +14,9 @@
 - Django model 작성 (User, exchange 빼고 다 함)
 	- foriegn key 설정, ManyToMany Field 설정하는게 헷갈려서 PK, FK 계속 수정함
 - Mockup 작성
+- 환경 변수 설정
+- final-pjt-front 프로젝트 생성
+	- 지도 불러오기
 ---
 ### TODO
 - url?
