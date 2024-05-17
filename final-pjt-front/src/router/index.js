@@ -7,6 +7,8 @@ import CommunityView from "@/views/CommunityView.vue";
 import ExchangeView from "@/views/ExchangeView.vue";
 import UserProfileView from "@/views/UserProfileView.vue";
 import ProductsView from "@/views/ProductsView.vue";
+import ArticleDetailView from "@/views/ArticleDetailView.vue";
+import CreateArticleView from "@/views/CreateArticleView.vue";
 
 const routes = [
   {
@@ -33,6 +35,16 @@ const routes = [
     path: "/community",
     name: "CommunityView",
     component: CommunityView,
+  },
+  {
+    path: "/article",
+    name: "CreateArticleView",
+    component: CreateArticleView,
+  },
+  {
+    path: "/article/:id",
+    name: "ArticleDetailView",
+    component: ArticleDetailView,
   },
   {
     path: "/exchange",
