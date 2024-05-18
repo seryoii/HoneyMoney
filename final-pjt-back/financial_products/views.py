@@ -9,6 +9,8 @@ from .serializers import DepositSerializer, DepositOptionSerializer, DepositList
 from .serializers import SavingSerializer, SavingOptionSerializer, SavingListSerializer, InterestSavingSerializer
 import requests
 from .models import DepositProduct, SavingProduct, DepositOption, SavingOption
+from urllib.parse import unquote
+
 API_KEY = settings.FIN_API_KEY
 # API_KEY='075aba31f295dc17f85b416dfabc2969'
 # Create your views here.
@@ -217,3 +219,24 @@ def saving_interest(request, saving_code):
             return Response({ "detail": "삭제되었습니다." }, status=status.HTTP_204_NO_CONTENT)
         else:
             return Response({ "detail": "삭제할 항목이 없습니다." }, status=status.HTTP_404_NOT_FOUND)
+        
+@api_view(['GET'])
+def bank_deposit(request, bank_name):
+    if request.method == 'GET':
+        if DepositProduct.objects.filter(kor_co_nm=bank_name).exists():
+            deposits = DepositProduct.objects.filter(kor_co_nm=bank_name)
+            serializer = DepositListSerializer(deposits, many=True)
+            return Response(serializer.data)
+        else:
+            return Response({'detail': '해당 은행의 상품이 없습니다.'}, status=status.HTTP_204_NO_CONTENT)
+        
+@api_view(['GET'])
+def bank_saving(request, bank_name):
+    if request.method == 'GET':
+        if SavingProduct.objects.filter(kor_co_nm=bank_name).exists():
+            savings = SavingProduct.objects.filter(kor_co_nm=bank_name)
+            serializer = SavingListSerializer(savings, many=True)
+            return Response(serializer.data)
+        else:
+            return Response({'detail': '해당 은행의 상품이 없습니다.'}, status=status.HTTP_204_NO_CONTENT)
+    
