@@ -11,7 +11,7 @@ class ArticleListSerializer(serializers.ModelSerializer):
     user = UserSerializer(read_only=True)
     class Meta:
         model = Article
-        fields = ('id', 'user', 'title',)
+        fields = ('id', 'user', 'title', 'created_at',)
 
 class ArticleSerializer(serializers.ModelSerializer):
     user = UserSerializer(read_only=True)
