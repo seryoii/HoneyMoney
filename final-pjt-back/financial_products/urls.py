@@ -12,9 +12,6 @@ urlpatterns = [
   path('deposit/<str:deposit_code>/interest/', views.deposit_interest),
   path('bank/deposit/<str:bank_name>/', views.bank_deposit),
   path('deposit/month/<int:month>/', views.deposit_month),
-  path('deposit/12month/', views.deposit_month, { 'save_trm': 12 }),
-  path('deposit/24month/', views.deposit_month, { 'save_trm': 24 }),
-  path('deposit/36month/', views.deposit_month, { 'save_trm': 36 }),
 
   path('saving/', views.saving_product_list),
   path('saving/<str:saving_code>/', views.saving_detail),
@@ -22,10 +19,9 @@ urlpatterns = [
   path('saving/<str:saving_code>/option/<str:option_id>/', views.saving_option_detail),
   path('saving/<str:saving_code>/interest/', views.saving_interest),
   path('bank/saving/<str:bank_name>/', views.bank_saving),
-  path('saving/6month/', views.saving_month, { 'save_trm': 6 }),
-  path('saving/12month/', views.saving_month, { 'save_trm': 12 }),
-  path('saving/24month/', views.saving_month, { 'save_trm': 24 }),
-  path('saving/36month/', views.saving_month, { 'save_trm': 36 }),
+  path('saving/month/<int:month>/', views.saving_month),
+
+
 
 
 
