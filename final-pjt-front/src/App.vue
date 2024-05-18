@@ -18,7 +18,7 @@
 <script setup>
 import { useUserStore } from "./stores/user";
 import { RouterLink, RouterView } from "vue-router";
-import logo from "@/assets/logo.png";
+import logo from "@/assets/logo_dev.png";
 const userStore = useUserStore();
 </script>
 
@@ -30,6 +30,6 @@ const userStore = useUserStore();
 }
 .app-background {
   background-color: rgba(253, 248, 222, 0.658);
-  min-height: 100vh;
+  height: 100%;
 }
 </style>
