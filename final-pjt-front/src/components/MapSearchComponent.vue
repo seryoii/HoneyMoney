@@ -1,9 +1,9 @@
 <template>
-  <div class="map-component-under">
-    <button @click="searchOnMap">검색하기</button>
+  <v-container class="map-component-under">
+    <v-btn class="button-custom" @click="searchOnMap">검색하기</v-btn>
     <!-- 지도를 표시할 컨테이너 -->
     <div id="mapContainer" class="map-container"></div>
-  </div>
+  </v-container>
 </template>
 
 <script setup>
@@ -156,5 +156,9 @@ const removeAllMarkers = function () {
   margin-left: auto;
   margin-right: auto;
   height: 500px;
+}
+.button-custom {
+  color: #805f26;
+  background-color: #fef5e7;
 }
 </style>

@@ -1,13 +1,44 @@
 <template>
   <RouterLink :to="{ name: 'CreateArticleView' }">게시글 생성하기</RouterLink>
-  <v-card class="mx-auto" max-width="300">
+  <v-card class="mx-auto" max-width="80%">
+    <v-container>
+      <h1>자유 게시판</h1>
+    </v-container>
     <v-list>
-      <v-list-item v-for="(item, index) in paginatedItems" :key="index">
+      <v-container class="py-0">
+        <v-card class="border card-style mx-4">
+          <v-row>
+            <v-col cols="6">
+              <p class="title-style ps-4">Title</p>
+            </v-col>
+            <v-col cols="3" class="ps-16">
+              <p class="nick-style">Nickname</p>
+            </v-col>
+            <v-col cols="3">
+              <p class="date-style">Date</p>
+            </v-col>
+          </v-row>
+        </v-card>
+      </v-container>
+      <v-list-item class="py-0" v-for="(item, index) in paginatedItems" :key="index">
         <v-list-item-content>
-          <RouterLink :to="{ name: 'ArticleDetailView', params: { id: item.id } }">
-            {{ item.id }}번 게시글 | {{ item.user.nickname }} |
-            {{ item.title }}
-          </RouterLink>
+          <v-layout>
+            <v-container fluid class="py-0">
+              <v-card @click="detailView(item.id)" class="py-5 border card-hover card-style" density="compact">
+                <v-row>
+                  <v-col cols="6">
+                    <p class="link-style ps-4">{{ item.title }}</p>
+                  </v-col>
+                  <v-col cols="3" class="ps-16">
+                    <p class="nick-color">{{ item.user.nickname }}</p>
+                  </v-col>
+                  <v-col cols="3">
+                    <p class="date-color">{{ formatDate(item.created_at) }}</p>
+                  </v-col>
+                </v-row>
+              </v-card>
+            </v-container>
+          </v-layout>
         </v-list-item-content>
       </v-list-item>
     </v-list>
@@ -18,9 +49,14 @@
 <script setup>
 import { ref, computed, onMounted, watch } from "vue";
 import { useArticleStore } from "@/stores/article";
-import { RouterLink } from "vue-router";
-const articleStore = useArticleStore();
+import { RouterLink, useRouter } from "vue-router";
+import { format } from "date-fns";
 
+// 날짜 변환 함수
+const formatDate = function (date) {
+  return format(new Date(date), "yyyy-MM-dd");
+};
+const articleStore = useArticleStore();
 onMounted(() => {
   articleStore.getArticleList();
 });
@@ -52,6 +88,58 @@ const paginatedItems = computed(() => {
 const updatePagination = (page) => {
   currentPage.value = page;
 };
+
+const router = useRouter();
+const detailView = function (articleId) {
+  router.push({ name: "ArticleDetailView", params: { id: articleId } });
+};
 </script>
 
-<style></style>
+<style>
+.card-style {
+  border-top: none !important;
+  border-left: none !important;
+  border-right: none !important;
+  box-shadow: none !important;
+  border-bottom: 1px solid black;
+  border-radius: 0px !important;
+}
+
+.link-style {
+  text-decoration: none;
+  color: black;
+  font-weight: 500;
+}
+
+.title-style {
+  font-weight: 500;
+  color: #f8a923;
+}
+.card-hover {
+  transition: background-color 0s;
+}
+
+.card-hover:hover {
+  background-color: #ffeed4; /* 원하는 배경색으로 변경 */
+}
+
+.nick-color {
+  color: rgb(143, 143, 143);
+}
+.date-color {
+  color: rgb(143, 143, 143);
+  text-align: right;
+  margin-right: 10px;
+}
+
+.nick-style {
+  color: #f8a923;
+  font-weight: 300;
+}
+.date-style {
+  color: #f8a923;
+  text-align: right;
+  margin-right: 35px;
+  font-weight: 300;
+}
+</style>
