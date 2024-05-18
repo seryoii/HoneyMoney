@@ -217,3 +217,18 @@ def saving_interest(request, saving_code):
             return Response({ "detail": "삭제되었습니다." }, status=status.HTTP_204_NO_CONTENT)
         else:
             return Response({ "detail": "삭제할 항목이 없습니다." }, status=status.HTTP_404_NOT_FOUND)
+        
+@api_view(['GET'])
+def bank_deposit(request, bank_name):
+    deposit = get_object_or_404(DepositProduct, kor_co_nm=bank_name)
+    if request.method == 'GET':
+        serializer = DepositListSerializer(deposit)
+        return Response(serializer.data)
+
+
+@api_view(['GET'])
+def bank_saving(request, bank_name):
+    saving = get_object_or_404(SavingProduct, kor_co_nm=bank_name)
+    if request.method == 'GET':
+        serializer = SavingListSerializer(saving)
+        return Response(serializer.data)
