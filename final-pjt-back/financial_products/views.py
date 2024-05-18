@@ -1,11 +1,12 @@
 from django.shortcuts import render
 from django.shortcuts import get_object_or_404
-
+from rest_framework import status
 from rest_framework.decorators import api_view
 from django.conf import settings
 from rest_framework.response import Response
 from django.http import HttpResponse
-from .serializers import DepositSerializer, DepositOptionSerializer, DepositListSerializer, SavingSerializer, SavingOptionSerializer, SavingListSerializer
+from .serializers import DepositSerializer, DepositOptionSerializer, DepositListSerializer, InterestDepositSerializer
+from .serializers import SavingSerializer, SavingOptionSerializer, SavingListSerializer, InterestSavingSerializer
 import requests
 from .models import DepositProduct, SavingProduct, DepositOption, SavingOption
 API_KEY = settings.FIN_API_KEY
@@ -166,3 +167,53 @@ def saving_option_detail(request, saving_code, option_id):
     if request.method == 'GET':
         serializer = SavingOptionSerializer(option)
         return Response(serializer.data)
+
+@api_view(['GET', 'POST', 'DELETE'])
+def deposit_interest(request, deposit_code):
+    deposit = get_object_or_404(DepositProduct, fin_prdt_cd=deposit_code)
+    if request.method == 'GET':
+        serializer = InterestDepositSerializer(deposit)
+        return Response(serializer.data)
+    
+    elif request.method == 'POST':
+        if request.user not in deposit.interest_user.all():
+            deposit.interest_user.add(request.user)
+            serializer = InterestDepositSerializer(deposit, data=request.data, partial=True)
+
+            if serializer.is_valid(raise_exception=True):
+                serializer.save()
+                return Response({ "detail": "상품이 추가되었습니다." }, status=status.HTTP_200_OK)
+        else:
+            return Response({ "detail": "이미 상품이 존재합니다." }, status=status.HTTP_400_BAD_REQUEST)
+        
+    elif request.method == 'DELETE':
+        if request.user in deposit.interest_user.all():
+            deposit.interest_user.remove(request.user)
+            return Response({ "detail": "삭제되었습니다." }, status=status.HTTP_204_NO_CONTENT)
+        else:
+            return Response({ "detail": "삭제할 항목이 없습니다." }, status=status.HTTP_404_NOT_FOUND)
+
+@api_view(['GET', 'POST', 'DELETE'])
+def saving_interest(request, saving_code):
+    saving = get_object_or_404(DepositProduct, fin_prdt_cd=saving_code)
+    if request.method == 'GET':
+        serializer = InterestSavingSerializer(saving)
+        return Response(serializer.data)
+    
+    elif request.method == 'POST':
+        if request.user not in saving.interest_user.all():
+            saving.interest_user.add(request.user)
+            serializer = InterestSavingSerializer(saving, data=request.data, partial=True)
+
+            if serializer.is_valid(raise_exception=True):
+                serializer.save()
+                return Response({ "detail": "상품이 추가되었습니다." }, status=status.HTTP_200_OK)
+        else:
+            return Response({ "detail": "이미 상품이 존재합니다." }, status=status.HTTP_400_BAD_REQUEST)
+        
+    elif request.method == 'DELETE':
+        if request.user in saving.interest_user.all():
+            saving.interest_user.remove(request.user)
+            return Response({ "detail": "삭제되었습니다." }, status=status.HTTP_204_NO_CONTENT)
+        else:
+            return Response({ "detail": "삭제할 항목이 없습니다." }, status=status.HTTP_404_NOT_FOUND)
