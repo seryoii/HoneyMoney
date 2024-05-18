@@ -5,8 +5,8 @@ from rest_framework.decorators import api_view
 from django.conf import settings
 from rest_framework.response import Response
 from django.http import HttpResponse
-from .serializers import DepositSerializer, DepositOptionSerializer, DepositListSerializer, InterestDepositSerializer
-from .serializers import SavingSerializer, SavingOptionSerializer, SavingListSerializer, InterestSavingSerializer
+from .serializers import DepositSerializer, DepositOptionSerializer, DepositListSerializer, InterestDepositSerializer, DepositMonthSerializer
+from .serializers import SavingSerializer, SavingOptionSerializer, SavingListSerializer, InterestSavingSerializer, SavingMonthSerializer
 import requests
 from .models import DepositProduct, SavingProduct, DepositOption, SavingOption
 from urllib.parse import unquote
@@ -239,4 +239,19 @@ def bank_saving(request, bank_name):
             return Response(serializer.data)
         else:
             return Response({'detail': '해당 은행의 상품이 없습니다.'}, status=status.HTTP_204_NO_CONTENT)
-    
+
+# 개월 수에 해당하는 상품 + 원하는 기간의 옵션들 출력
+@api_view(['GET'])
+def deposit_month(request, month):
+    if request.method == 'GET':
+        deposits = DepositProduct.objects.filter(depositoption__save_trm=month).order_by('depositoption__intr_rate')
+        serializer = DepositMonthSerializer(deposits, many=True, save_trm=month)
+        return Response(serializer.data)
+
+
+@api_view(['GET'])
+def saving_month(request, month):
+    if request.method == 'GET':
+        savings = SavingProduct.objects.filter(savingoption__save_trm=month).order_by('savingoption__intr_rate')
+        serializer = SavingMonthSerializer(savings, many=True, save_trm=month)
+        return Response(serializer.data)
