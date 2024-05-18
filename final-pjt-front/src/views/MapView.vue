@@ -1,28 +1,26 @@
 <template>
-  <div>
-    <h1>내 주변 은행 찾기</h1>
-    <!-- select - option을 통해 검색 -->
-    <select v-model="province" @change="updateCities">
-      <option value="">도/시</option>
-      <option v-for="info in infos" :key="info.id">
-        {{ info.prov }}
-      </option>
-    </select>
-    <select v-model="city">
-      <option value="">시/군/구</option>
-      <option v-for="c in cities" :key="c">{{ c }}</option>
-    </select>
-    <select v-model="bank">
-      <option value="">은행</option>
-      <option v-for="b in banks" :key="b">{{ b }}</option>
-    </select>
-    <!-- 지도 출력 Component 연결, 선택된 데이터 전달 -->
+  <v-container>
+    <v-row>
+      <!-- 도/시 선택 -->
+      <v-col cols="4">
+        <v-select class="custom-select" v-model="province" :items="provinces" label="도/시" @change="updateCities"></v-select>
+      </v-col>
+      <!-- 시/군/구 선택 -->
+      <v-col cols="4">
+        <v-select class="custom-select" v-model="city" :items="cities" label="시/군/구"></v-select>
+      </v-col>
+      <!-- 은행 선택 -->
+      <v-col cols="4">
+        <v-select class="custom-select" v-model="bank" :items="banks" label="은행"></v-select>
+      </v-col>
+      <!-- 지도 출력 Component 연결, 선택된 데이터 전달 -->
+    </v-row>
     <MapSearchComponent :province="province" :city="city" :bank="bank" />
-  </div>
+  </v-container>
 </template>
 
 <script setup>
-import { ref, watch } from "vue";
+import { ref, watch, computed } from "vue";
 import MapSearchComponent from "@/components/MapSearchComponent.vue";
 import { useMapStore } from "@/stores/map";
 
@@ -32,12 +30,15 @@ const infos = store.infos;
 const banks = store.banks;
 const cities = ref([]);
 
-// 도
-const province = ref("");
-// 시
-const city = ref("");
+// 도/시 목록
+const provinces = computed(() => infos.map((info) => info.prov));
+
+// 도/시
+const province = ref("선택해주세요");
+// 시/군/구
+const city = ref("선택해주세요");
 // 은행
-const bank = ref("");
+const bank = ref("선택해주세요");
 
 // 조건에 맞는 데이터 호출 -> cities에 할당
 const updateCities = () => {
@@ -51,4 +52,13 @@ watch(province, () => {
 });
 </script>
 
-<style scoped></style>
+<style scoped>
+.custom-select {
+  background-color: #fef5e771; /* 원하는 배경 색상 */
+  /* 테스트 색상 */
+  color: #805f26;
+  box-shadow: 2px 2px 1px rgba(0, 0, 0, 0.1); /* 그림자 */
+  border-radius: 8px;
+}
+
+</style>

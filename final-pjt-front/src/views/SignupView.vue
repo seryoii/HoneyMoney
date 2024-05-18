@@ -30,7 +30,6 @@
             <v-text-field
               width="auto"
               class="ms-5"
-
               hint="특수문자를 제외한 10자리 이상을 입력해주세요"
               label="Password"
               variant="outlined"
@@ -53,40 +52,13 @@
             ></v-text-field>
           </v-col>
           <v-col cols="6">
-            <v-text-field
-              hint="나이를 입력해주세요"
-              class="ms-5"
-              label="Age"
-              variant="outlined"
-              type="number"
-              v-model="state.age"
-              @blur="v$.age.$touch"
-              :error-messages="v$.age.$error ? ['나이는 최소 0살, 최대 100살 입니다.'] : []"
-            ></v-text-field>
+            <v-text-field hint="나이를 입력해주세요" class="ms-5" label="Age" variant="outlined" type="number" v-model="state.age" @blur="v$.age.$touch" :error-messages="v$.age.$error ? ['나이는 최소 0살, 최대 100살 입니다.'] : []"></v-text-field>
           </v-col>
           <v-col cols="6">
-            <v-text-field
-              hint="연봉을 입력해주세요"
-              class="me-5"
-              label="Salary"
-              variant="outlined"
-              type="number"
-              v-model="state.salary"
-              @blur="v$.salary.$touch"
-              :error-messages="v$.salary.$error ? ['연봉은 최소 0원 입니다.'] : []"
-            ></v-text-field>
+            <v-text-field hint="연봉을 입력해주세요" class="me-5" label="Salary" variant="outlined" type="number" v-model="state.salary" @blur="v$.salary.$touch" :error-messages="v$.salary.$error ? ['연봉은 최소 0원 입니다.'] : []"></v-text-field>
           </v-col>
           <v-col cols="4">
-            <v-text-field
-              hint="자산을 입력해주세요"
-              class="ms-5"
-              label="Wealth"
-              variant="outlined"
-              type="number"
-              v-model="state.wealth"
-              @blur="v$.wealth.$touch"
-              :error-messages="v$.wealth.$error ? ['자산은 최소 0원 입니다.'] : []"
-            ></v-text-field>
+            <v-text-field hint="자산을 입력해주세요" class="ms-5" label="Wealth" variant="outlined" type="number" v-model="state.wealth" @blur="v$.wealth.$touch" :error-messages="v$.wealth.$error ? ['자산은 최소 0원 입니다.'] : []"></v-text-field>
           </v-col>
           <v-col cols="4">
             <v-text-field
@@ -120,7 +92,7 @@
           </v-col>
           <v-row justify="center">
             <v-col cols="auto">
-              <v-btn color="#F9A825" class="mb-5" type="submit">Submit</v-btn>
+              <v-btn class="mb-5 button-custom" type="submit">Submit</v-btn>
             </v-col>
           </v-row>
         </v-row>
@@ -189,4 +161,9 @@ const submitForm = () => {
 };
 </script>
 
-<style></style>
+<style>
+.button-custom {
+  color: #f8a923;
+  background-color: #fef5e7;
+}
+</style>

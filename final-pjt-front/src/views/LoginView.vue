@@ -1,6 +1,5 @@
 <template>
-  <div>
-    
+  <v-container>
     <v-card class="mx-auto pa-8 pt-2 pb-4" elevation="8" max-width="448" rounded="lg">
       <v-img class="mx-auto my-6" max-width="228" :src="logo"></v-img>
       <v-form @submit.prevent="submitForm">
@@ -35,7 +34,7 @@
         </a>
       </v-card-text>
     </v-card>
-  </div>
+  </v-container>
 </template>
 
 <script setup>
@@ -43,7 +42,7 @@ import { ref } from "vue";
 import useVuelidate from "@vuelidate/core";
 import { required, minLength, maxLength, minValue } from "@vuelidate/validators";
 import { useUserStore } from "@/stores/user";
-import logo from "@/assets/logo_dev.png"
+import logo from "@/assets/logo_dev.png";
 const visible = ref(false);
 
 const userStore = useUserStore();
@@ -77,5 +76,3 @@ function submitForm() {
   }
 }
 </script>
-
-
