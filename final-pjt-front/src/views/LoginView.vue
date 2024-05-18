@@ -66,17 +66,14 @@ function submitForm() {
   v$.value.$validate();
   if (!v$.value.$error) {
     // 유효성 검사를 통과한 경우 처리 로직
-    console.log("Form is valid", state.value);
     const payload = {
       username: state.value.username,
       password: state.value.password,
     };
-    console.log(payload);
     userStore.loginUser(payload);
   } else {
     // 유효성 검사를 통과하지 못한 경우 처리 로직
     console.log("Form is invalid");
-    window.alert("아이디 혹은 비밀번호가 틀립니다.");
   }
 }
 </script>

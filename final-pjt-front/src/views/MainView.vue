@@ -15,7 +15,6 @@ const tab = ref(1);
 </style>
 
 <template>
-  <v-card>
     <v-tabs v-model="tab" color="#424242" align-tabs="center">
       <v-tab value="one">Product</v-tab>
       <v-tab value="two">Find Bank</v-tab>
@@ -46,5 +45,4 @@ const tab = ref(1);
         </v-tabs-window-item>
       </v-tabs-window>
     </v-card-text>
-  </v-card>
 </template>

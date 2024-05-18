@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-main>
+    <v-main class="app-background">
       <RouterLink class="navbar-text" :to="{ name: 'MainView' }">Main</RouterLink>
       <RouterLink class="navbar-text" :to="{ name: 'ProductsView' }">| Products</RouterLink>
       <RouterLink class="navbar-text" :to="{ name: 'CommunityView' }">| Community</RouterLink>
@@ -27,5 +27,9 @@ const userStore = useUserStore();
   text-decoration: none;
   color: black;
   font-weight: bold;
+}
+.app-background {
+  background-color: rgba(253, 248, 222, 0.658);
+  min-height: 100vh;
 }
 </style>

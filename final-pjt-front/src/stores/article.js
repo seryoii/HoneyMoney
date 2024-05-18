@@ -3,6 +3,7 @@ import { ref } from "vue";
 import axios from "axios";
 import { useUserStore } from "@/stores/user";
 import { useRouter } from "vue-router";
+import swal from 'sweetalert';
 
 export const useArticleStore = defineStore("article", () => {
   // 유저 토큰 확보용
@@ -61,8 +62,34 @@ export const useArticleStore = defineStore("article", () => {
       },
     })
       .then((res) => {
+        swal({
+          title: `게시글이 생성되었습니다.`,
+          icon: "success",
+          button: "확인!",
+        });
+        router.push({ name: "ArticleDetailView", params: { id: res.data.id } });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  // 게시글 수정 PUT
+  const updateArticle = function (databox) {
+    const { title, content, articleId } = databox;
+    axios({
+      method: "put",
+      url: `${API_URL}/articles/${articleId}/`,
+      data: {
+        title,
+        content,
+      },
+      headers: {
+        Authorization: `Token ${userStore.token}`,
+      },
+    })
+      .then((res) => {
         console.log(res);
-        window.alert("게시글이 생성되었습니다.");
+        window.alert("게시글이 수정되었습니다.");
         router.push({ name: "ArticleDetailView", params: { id: res.data.id } });
       })
       .catch((err) => {
@@ -106,5 +133,5 @@ export const useArticleStore = defineStore("article", () => {
       router.push({ name: "ArticleDetailView", params: { id: articleId } });
     });
   };
-  return { articlesList, articleDetail, getArticleList, getArticleDetail, createArticle, deleteArticle, putArticle };
+  return { articlesList, articleDetail, getArticleList, getArticleDetail, createArticle, updateArticle, deleteArticle, putArticle };
 });

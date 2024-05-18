@@ -12,15 +12,21 @@
 <script setup>
 import { ref } from "vue";
 import { useArticleStore } from "@/stores/article.js";
+import swal from "sweetalert";
 const articleStore = useArticleStore();
 const newtitle = ref("");
 const newcontent = ref("");
 const newArticle = function () {
-  const databox = {
-    title: newtitle.value,
-    content: newcontent.value,
-  };
-  articleStore.createArticle(databox);
+  if (window.confirm("게시글을 생성하시겠습니까?")) {
+    const databox = {
+      title: newtitle.value,
+      content: newcontent.value,
+    };
+    articleStore.createArticle(databox);
+  } else {
+    window.alert("취소되었습니다.");
+    swal("Hello world!");
+  }
 };
 </script>
 

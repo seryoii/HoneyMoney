@@ -1,86 +1,86 @@
 <template>
-  <v-app>
-    <v-sheet class="mx-auto" width="80%" elevation="4" height="auto" rounded color="">
-      <v-form ref="form" @submit.prevent="submitForm">
-        <v-text-field
-          class="mx-10 my-5"
-          hint="사용할 아이디를 입력 해주세요"
-          label="Username"
-          variant="outlined"
-          v-model="state.username"
-          @blur="v$.username.$touch"
-          :error-messages="v$.username.$error ? ['아이디는 최대 20자리 입니다.'] : []"
-        ></v-text-field>
+  <v-sheet class="mx-auto" width="50%" elevation="4" height="auto" rounded color="">
+    <v-img class="mx-auto my-6" max-width="228" :src="logo"></v-img>
 
-        <v-text-field
-          class="mx-10 my-5"
-          label="Nickname"
-          variant="outlined"
-          hint="사용할 닉네임을 입력해주세요"
-          v-model="state.nickname"
-          @blur="v$.nickname.$touch"
-          :error-messages="v$.nickname.$error ? ['닉네임은 최대 20자리 입니다.'] : []"
-        ></v-text-field>
+    <v-form class="my-6" ref="form" @submit.prevent="submitForm">
+      <v-text-field
+        class="mx-10 my-5"
+        hint="사용할 아이디를 입력 해주세요"
+        label="Username"
+        variant="outlined"
+        v-model="state.username"
+        @blur="v$.username.$touch"
+        :error-messages="v$.username.$error ? ['아이디는 최대 20자리 입니다.'] : []"
+      ></v-text-field>
 
-        <v-text-field
-          class="mx-10 my-5"
-          hint="특수문자를 제외한 10자리 이상을 입력해주세요"
-          label="Password"
-          variant="outlined"
-          type="password"
-          v-model="state.password1"
-          @blur="v$.password1.$touch"
-          :error-messages="v$.password1.$error ? ['비밀번호는 최소 10자리 이상입니다.'] : []"
-        ></v-text-field>
+      <v-text-field
+        class="mx-10 my-5"
+        label="Nickname"
+        variant="outlined"
+        hint="사용할 닉네임을 입력해주세요"
+        v-model="state.nickname"
+        @blur="v$.nickname.$touch"
+        :error-messages="v$.nickname.$error ? ['닉네임은 최대 20자리 입니다.'] : []"
+      ></v-text-field>
 
-        <v-text-field
-          hint="동일한 비밀번호를 입력해주세요"
-          class="mx-10 my-5"
-          label="Check Password"
-          variant="outlined"
-          type="password"
-          v-model="state.password2"
-          @blur="v$.password2.$touch"
-          :error-messages="v$.password2.$error ? ['비밀번호가 일치하지 않습니다.'] : []"
-        ></v-text-field>
+      <v-text-field
+        class="mx-10 my-5"
+        hint="특수문자를 제외한 10자리 이상을 입력해주세요"
+        label="Password"
+        variant="outlined"
+        type="password"
+        v-model="state.password1"
+        @blur="v$.password1.$touch"
+        :error-messages="v$.password1.$error ? ['비밀번호는 최소 10자리 이상입니다.'] : []"
+      ></v-text-field>
 
-        <v-text-field hint="나이를 입력해주세요" class="mx-10 my-5" label="Age" variant="outlined" type="number" v-model="state.age" @blur="v$.age.$touch" :error-messages="v$.age.$error ? ['나이는 최소 0살, 최대 100살 입니다.'] : []"></v-text-field>
+      <v-text-field
+        hint="동일한 비밀번호를 입력해주세요"
+        class="mx-10 my-5"
+        label="Check Password"
+        variant="outlined"
+        type="password"
+        v-model="state.password2"
+        @blur="v$.password2.$touch"
+        :error-messages="v$.password2.$error ? ['비밀번호가 일치하지 않습니다.'] : []"
+      ></v-text-field>
 
-        <v-text-field hint="연봉을 입력해주세요" class="mx-10 my-5" label="Salary" variant="outlined" type="number" v-model="state.salary" @blur="v$.salary.$touch" :error-messages="v$.salary.$error ? ['연봉은 최소 0원 입니다.'] : []"></v-text-field>
+      <v-text-field hint="나이를 입력해주세요" class="mx-10 my-5" label="Age" variant="outlined" type="number" v-model="state.age" @blur="v$.age.$touch" :error-messages="v$.age.$error ? ['나이는 최소 0살, 최대 100살 입니다.'] : []"></v-text-field>
 
-        <v-text-field hint="자산을 입력해주세요" class="mx-10 my-5" label="Wealth" variant="outlined" type="number" v-model="state.wealth" @blur="v$.wealth.$touch" :error-messages="v$.wealth.$error ? ['자산은 최소 0원 입니다.'] : []"></v-text-field>
+      <v-text-field hint="연봉을 입력해주세요" class="mx-10 my-5" label="Salary" variant="outlined" type="number" v-model="state.salary" @blur="v$.salary.$touch" :error-messages="v$.salary.$error ? ['연봉은 최소 0원 입니다.'] : []"></v-text-field>
 
-        <v-text-field
-          hint="0에 가까울 수록 안정성, 10에 가까울 수록 적극성을 의미합니다"
-          class="mx-10 my-5"
-          label="Tendency"
-          variant="outlined"
-          type="number"
-          v-model="state.tendency"
-          @blur="v$.tendency.$touch"
-          :error-messages="v$.tendency.$error ? ['투자 성향은 최소 0, 최대 10입니다.'] : []"
-        ></v-text-field>
+      <v-text-field hint="자산을 입력해주세요" class="mx-10 my-5" label="Wealth" variant="outlined" type="number" v-model="state.wealth" @blur="v$.wealth.$touch" :error-messages="v$.wealth.$error ? ['자산은 최소 0원 입니다.'] : []"></v-text-field>
 
-        <v-text-field
-          hint="원하는 투자 기간을 기입해주세요"
-          class="mx-10 my-5"
-          label="Desire Period"
-          variant="outlined"
-          type="number"
-          v-model="state.desirePeriod"
-          @blur="v$.desirePeriod.$touch"
-          :error-messages="v$.desirePeriod.$error ? ['기간은 최소 0개월, 최대 36개월입니다.'] : []"
-        ></v-text-field>
-        <v-checkbox class="mx-10" color="#F9A825" label="(필수) 서비스 이용약관 동의" value="service" v-model="selected"></v-checkbox>
-        <v-checkbox class="mx-10" color="#F9A825" label="(필수) 개인정보 처리 동의" value="info" v-model="selected"></v-checkbox>
-        <v-row justify="center">
-          <v-col cols="auto">
-            <v-btn color="#F9A825" class="mb-5" type="submit">Submit</v-btn>
-          </v-col>
-        </v-row>
-      </v-form>
-    </v-sheet>
-  </v-app>
+      <v-text-field
+        hint="0에 가까울 수록 안정성, 10에 가까울 수록 적극성을 의미합니다"
+        class="mx-10 my-5"
+        label="Tendency"
+        variant="outlined"
+        type="number"
+        v-model="state.tendency"
+        @blur="v$.tendency.$touch"
+        :error-messages="v$.tendency.$error ? ['투자 성향은 최소 0, 최대 10입니다.'] : []"
+      ></v-text-field>
+
+      <v-text-field
+        hint="원하는 투자 기간을 기입해주세요"
+        class="mx-10 my-5"
+        label="Desire Period"
+        variant="outlined"
+        type="number"
+        v-model="state.desirePeriod"
+        @blur="v$.desirePeriod.$touch"
+        :error-messages="v$.desirePeriod.$error ? ['기간은 최소 0개월, 최대 36개월입니다.'] : []"
+      ></v-text-field>
+      <v-checkbox class="mx-10" color="#F9A825" label="(필수) 서비스 이용약관 동의" value="service" v-model="selected"></v-checkbox>
+      <v-checkbox class="mx-10" color="#F9A825" label="(필수) 개인정보 처리 동의" value="info" v-model="selected"></v-checkbox>
+      <v-row justify="center">
+        <v-col cols="auto">
+          <v-btn color="#F9A825" class="mb-5" type="submit">Submit</v-btn>
+        </v-col>
+      </v-row>
+    </v-form>
+  </v-sheet>
 </template>
 
 <script setup>
@@ -88,6 +88,7 @@ import { ref, computed } from "vue";
 import useVuelidate from "@vuelidate/core";
 import { required, minLength, maxLength, minValue, maxValue, sameAs } from "@vuelidate/validators";
 import { useUserStore } from "@/stores/user";
+import logo from "@/assets/logo.png";
 
 const selected = ref([]);
 const userStore = useUserStore();
@@ -121,7 +122,7 @@ const submitForm = () => {
   v$.value.$validate();
   console.log(selected);
   if (selected.value.length !== 2) {
-    window.alert("모든 약관에 동의 해주셔야 합니다.");
+    swal("Oops", "모든 약관에 동의 해주셔야 합니다.", "error");
     return router.push({ name: "SignupView" });
   } else if (!v$.value.$error) {
     const payload = {
@@ -142,5 +143,4 @@ const submitForm = () => {
 };
 </script>
 
-<style>
-</style>
+<style></style>

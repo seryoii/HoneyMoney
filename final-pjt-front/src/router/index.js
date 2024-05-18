@@ -9,6 +9,7 @@ import UserProfileView from "@/views/UserProfileView.vue";
 import ProductsView from "@/views/ProductsView.vue";
 import ArticleDetailView from "@/views/ArticleDetailView.vue";
 import CreateArticleView from "@/views/CreateArticleView.vue";
+import UpdateArticleView from "@/views/UpdateArticleView.vue"
 
 const routes = [
   {
@@ -45,6 +46,11 @@ const routes = [
     path: "/article/:id",
     name: "ArticleDetailView",
     component: ArticleDetailView,
+  },
+  {
+    path: "/updateArticle/:id",
+    name: "UpdateArticleView",
+    component: UpdateArticleView,
   },
   {
     path: "/exchange",

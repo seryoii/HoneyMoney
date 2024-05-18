@@ -2,6 +2,7 @@ import { defineStore } from "pinia";
 import { ref, computed } from "vue";
 import { useRouter } from "vue-router";
 import axios from "axios";
+import swal from "sweetalert";
 
 export const useUserStore = defineStore(
   "user",
@@ -45,6 +46,7 @@ export const useUserStore = defineStore(
           loginUser(payload);
         })
         .catch((err) => {
+          // 회원가입 오류 메세지 출력.
           console.log(err);
         });
     };
@@ -64,10 +66,13 @@ export const useUserStore = defineStore(
           token.value = res.data.key;
           userInfo.value = res.data.user;
           router.push({ name: "MainView" });
+          swal(`${res.data.user.nickname}님 HoneyMoney에 오신 것을 환영합니다!`, {
+            buttons: false,
+            timer: 2000,
+          });
         })
         .catch((err) => {
-          window.alert("아이디 혹은 비밀번호가 틀립니다.");
-          // location.reload();
+          swal("Oops", "아이디 혹은 비밀번호가 다릅니다", "error");
           console.log(err);
         });
     };
