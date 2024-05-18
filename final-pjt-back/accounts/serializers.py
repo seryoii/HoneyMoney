@@ -5,7 +5,7 @@ from .models import User
 from django.contrib.auth import get_user_model
 from allauth.account.adapter import get_adapter
 from allauth.account.utils import setup_user_email
-
+from financial_products.serializers import InterestDepositSerializer, InterestSavingSerializer
 # 유저 생성
 class CustomRegisterSerializer(RegisterSerializer):
     nickname = serializers.CharField(max_length=20, required=True, allow_blank=False)
@@ -59,3 +59,17 @@ class CustomTokenSerializer(TokenSerializer):
     class Meta:
         model = TokenModel
         fields = ('key', 'user')
+
+class UserPageSerializer(serializers.ModelSerializer):
+        # profile_img = serializers.ImageField(use_url=True)
+        interest_deposit = InterestDepositSerializer(many=True)
+        interest_saving = InterestSavingSerializer(many=True)
+        class Meta:
+            model = User
+            fields = '__all__'
+            read_only_fields = ('id','username', 'email')
+
+class UserInfoChangeSerializer(serializers.ModelSerializer):
+     class Meta:
+          model = User
+          fields = ('nickname', 'age', 'profile_img', 'salary', 'wealth', 'tendency', 'desirePeriod')
