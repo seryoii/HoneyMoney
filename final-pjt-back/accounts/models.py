@@ -11,7 +11,7 @@ class User(AbstractUser):
     nickname = models.CharField(max_length=20)
     email = models.EmailField(max_length=30, blank=True, null=True)
     age = models.IntegerField(default=0)
-    profile_img = models.ImageField(upload_to='image/', default='image/default_profile.png')
+    profile_img = models.ImageField(upload_to='images/', default='images/default_profile.jpg')
     salary = models.IntegerField(default=0)
     wealth = models.IntegerField(default=0)
     tendency = models.IntegerField(default=0)
