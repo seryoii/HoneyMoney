@@ -18,5 +18,27 @@ export const useSavingStore = defineStore("saving", () => {
         console.log(err);
       });
   };
-  return { savingProductsData, loadSavingData };
+
+  const allSaving = ref([])
+  const bankList = ref([])
+
+  const getAllSaving = function () {
+    axios({
+      method: "get",
+      url: `${API_URL}/saving/`,
+    })
+      .then((res) => {
+        console.log(res.data);
+        allSaving.value = res.data;
+        allSaving.value.forEach((item) => {
+          if (!bankList.value.includes(item.kor_co_nm)) {
+            bankList.value.push(item.kor_co_nm)
+          }
+        })
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  return { savingProductsData, loadSavingData, allSaving, getAllSaving, bankList };
 });
