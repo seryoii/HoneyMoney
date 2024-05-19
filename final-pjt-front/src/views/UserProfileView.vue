@@ -18,7 +18,7 @@
 <script setup>
 import { ref, computed, onMounted } from "vue";
 import { useUserStore } from "@/stores/user";
-import usersPicture from "@/assets/users.jpg"
+import usersPicture from "@/assets/users.jpg";
 const userStore = useUserStore();
 onMounted(() => {
   userStore.getProfile();

@@ -6,11 +6,13 @@ import LoginView from "@/views/LoginView.vue";
 import CommunityView from "@/views/CommunityView.vue";
 import ExchangeView from "@/views/ExchangeView.vue";
 import UserProfileView from "@/views/UserProfileView.vue";
-import ProductsView from "@/views/ProductsView.vue";
+import ProductsPreView from "@/views/ProductsPreView.vue";
 import ArticleDetailView from "@/views/ArticleDetailView.vue";
 import CreateArticleView from "@/views/CreateArticleView.vue";
 import UpdateArticleView from "@/views/UpdateArticleView.vue";
 import RecommendView from "@/views/RecommendView.vue";
+import SavingProductsView from "@/views/SavingProductsView.vue";
+import DepositProductsView from "@/views/DepositProductsView.vue";
 
 const routes = [
   {
@@ -65,13 +67,28 @@ const routes = [
   },
   {
     path: "/products",
-    name: "ProductsView",
-    component: ProductsView,
+    name: "ProductsPreView",
+    component: ProductsPreView,
   },
   {
     path: "/recommend",
     name: "RecommendView",
     component: RecommendView,
+  },
+  {
+    path: "/preView",
+    name: "ProductsPreView",
+    component: ProductsPreView,
+  },
+  {
+    path: "/savings",
+    name: "SavingProductsView",
+    component: SavingProductsView,
+  },
+  {
+    path: "/deposits",
+    name: "DepositProductsView",
+    component: DepositProductsView,
   },
 ];
 

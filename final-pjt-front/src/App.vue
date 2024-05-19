@@ -59,7 +59,7 @@ const isMainView = computed(() => route.name === "MainView");
 const isLoggedIn = computed(() => userStore.isLogin);
 
 const moveProducts = () => {
-  router.push({ name: "ProductsView" });
+  router.push({ name: "ProductsPreView" });
 };
 const moveFindBank = () => {
   router.push({ name: "MapView" });

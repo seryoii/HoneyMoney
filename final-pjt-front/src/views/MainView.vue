@@ -98,7 +98,7 @@ const tab = ref("one");
 const router = useRouter();
 
 const moveProducts = () => {
-  router.push({ name: "ProductsView" });
+  router.push({ name: "ProductsPreView" });
 };
 const moveFindBank = () => {
   router.push({ name: "MapView" });
