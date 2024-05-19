@@ -64,5 +64,25 @@ export const useCommentStore = defineStore("comment", () => {
         console.log(err);
       });
   };
-  return { comments, getCommentList, createComment, deleteComment };
+  // 댓글 수정
+  const updateComment = function (articleId, commentId, content) {
+    axios({
+      method: "put",
+      url: `${API_URL}/${articleId}/comments/${commentId}/`,
+      data: {
+        content,
+      },
+      headers: {
+        Authorization: `Token ${userStore.token}`,
+      },
+    })
+      .then((res) => {
+        console.log(res);
+        getCommentList(articleId);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  return { comments, getCommentList, createComment, deleteComment, updateComment };
 });

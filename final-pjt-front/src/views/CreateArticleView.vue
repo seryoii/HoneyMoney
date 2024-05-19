@@ -1,12 +1,20 @@
 <template>
-  <div>
-    <h1>게시글 생성 페이지</h1>
-    <form @submit.prevent="newArticle">
-      <input type="text" v-model="newtitle" />
-      <input type="text" v-model="newcontent" />
-      <button type="submit">게시글 생성</button>
-    </form>
-  </div>
+  <v-container>
+    <v-container class="text-center main-title pb-5">
+      <h1>New Post</h1>
+    </v-container>
+    <v-row>
+      <v-col align="center">
+        <v-card class="py-8" width="80%">
+          <v-form @submit.prevent="newArticle" ref="form">
+            <v-text-field width="90%" v-model="newtitle" :counter="40" :rules="nameRules" label="Title" required></v-text-field>
+            <v-textarea width="90%" label="Content" v-model="newcontent" name="input-7-1" variant="filled" auto-grow required></v-textarea>
+            <v-btn color="yellow-darken-3" size="large" variant="tonal" width="90%" type="submit">SAVE</v-btn>
+          </v-form>
+        </v-card>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script setup>
@@ -30,4 +38,8 @@ const newArticle = function () {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.main-title {
+  color: #9b7026;
+}
+</style>

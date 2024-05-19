@@ -1,12 +1,10 @@
 <template>
   <RouterLink :to="{ name: 'CreateArticleView' }"></RouterLink>
-  <v-container class="text-center main-title">
+  <v-container class="text-center main-title pb-0">
     <h1>Financial Freedom Forum</h1>
   </v-container>
   <v-card class="my-5 mx-auto" max-width="80%">
-    <v-container>
       <v-btn @click="createArticle" type="submit" class="mt-5 ml-5" color="yellow-darken-3" size="large" variant="tonal">New POST</v-btn>
-    </v-container>
     <v-list>
       <v-container class="py-6">
         <v-card class="border card-style mx-4">

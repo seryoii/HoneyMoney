@@ -22,8 +22,14 @@
       </v-col>
     </v-row>
     <v-card-text>
-      <v-tabs-window v-model="tab">
-        <v-tabs-window-item value="one">
+      <v-carousel v-model="tab" hide-delimiters>
+        <template v-slot:prev="{ props }">
+          <v-btn class="invisible" color="" variant="elevated" @click="props.onClick"><</v-btn>
+        </template>
+        <template v-slot:next="{ props }">
+          <v-btn class="invisible" color="" variant="elevated" @click="props.onClick">></v-btn>
+        </template>
+        <v-carousel-item value="one">
           <v-sheet class="ps-10 py-10 sheet-background-color-1 full-screen">
             <h1 class="text-white">세상엔 어떤 상품이 있을까?</h1>
             <h1 class="text-white">예금 적금 상품 알아보기</h1>
@@ -34,8 +40,8 @@
             </v-row>
             <v-btn class="btn-1" @click="moveProducts" variant="tonal">상품 검색하러 가기</v-btn>
           </v-sheet>
-        </v-tabs-window-item>
-        <v-tabs-window-item value="two">
+        </v-carousel-item>
+        <v-carousel-item value="two">
           <v-sheet class="ps-10 py-10 sheet-background-color-2 full-screen">
             <v-row justify="end">
               <v-col cols="6">
@@ -43,7 +49,6 @@
                 <h1 class="text-white">내 주변 은행은 어디에?</h1>
               </v-col>
             </v-row>
-
             <v-img class="click-event" @click="moveFindBank" max-width="200" :src="mapPhoto"></v-img>
             <v-row justify="end">
               <v-col cols="3">
@@ -51,8 +56,8 @@
               </v-col>
             </v-row>
           </v-sheet>
-        </v-tabs-window-item>
-        <v-tabs-window-item value="three">
+        </v-carousel-item>
+        <v-carousel-item value="three">
           <v-sheet class="ps-10 py-10 sheet-background-color-3 full-screen">
             <h1 class="text-white">환율이 싸다고?</h1>
             <h1 class="text-white">당장 여행 계획을 세워보자</h1>
@@ -61,19 +66,18 @@
                 <v-img class="click-event" @click="moveExchange" max-width="200" :src="exchangePhoto"></v-img>
               </v-col>
             </v-row>
-
             <v-btn class="btn-3" @click="moveExchange" variant="tonal">환율 알아 보기</v-btn>
           </v-sheet>
-        </v-tabs-window-item>
-        <v-tabs-window-item value="four">
+        </v-carousel-item>
+        <v-carousel-item value="four">
           <v-sheet class="ps-10 py-10 sheet-background-color-4 full-screen">
             <h1 class="text-white">어떤 상품을 가입해야하는지 모르겠다고?</h1>
             <h1 class="text-white">내 성향과 비슷한 금융 상품 추천!</h1>
             <v-img class="click-event" @click="moveRecommend" max-width="200" :src="recommendPhoto"></v-img>
             <v-btn class="btn-4" @click="moveRecommend" variant="tonal">금융 상품 추천 받기</v-btn>
           </v-sheet>
-        </v-tabs-window-item>
-      </v-tabs-window>
+        </v-carousel-item>
+      </v-carousel>
     </v-card-text>
   </v-container>
 </template>
@@ -90,7 +94,7 @@ import exchangePhoto from "@/assets/exchange.png";
 const userStore = useUserStore();
 const isLoggedIn = computed(() => userStore.isLogin);
 
-const tab = ref(1);
+const tab = ref("one");
 const router = useRouter();
 
 const moveProducts = () => {
@@ -191,6 +195,17 @@ const handleMoreClick = (item) => {
   margin: 0;
 }
 .click-event {
+  cursor: pointer;
+}
+.invisible {
+  background-color: rgba(0, 0, 0, 0); /* 완전히 투명 */
+  box-shadow: none;
+  width: 70px !important;
+  height: 70px !important;
+  border-radius: 100%;
+  color: rgba(0, 0, 0, 0.154); /* 버튼 텍스트 색상 */
+  padding: 10px 20px;
+  font-size: 16px;
   cursor: pointer;
 }
 </style>

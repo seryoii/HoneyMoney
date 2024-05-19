@@ -1,12 +1,20 @@
 <template>
-  <div>
-    <h1>게시글 수정 페이지</h1>
-    <form @submit.prevent="updateArticle">
-      <input type="text" v-model="updatetitle" />
-      <input type="text" v-model="updatecontent" />
-      <button type="submit">게시글 수정</button>
-    </form>
-  </div>
+  <v-container class="py-0">
+    <v-container class="text-center main-title pb-5">
+      <h1>Update Post</h1>
+    </v-container>
+    <v-row>
+      <v-col align="center">
+        <v-card class="py-8" width="80%">
+          <v-form @submit.prevent="updateArticle" ref="form">
+            <v-text-field width="90%" v-model="updatetitle" :counter="40" :rules="nameRules" label="Title" required></v-text-field>
+            <v-textarea width="90%" label="Content" v-model="updatecontent" name="input-7-1" variant="filled" auto-grow required></v-textarea>
+            <v-btn color="yellow-darken-3" size="large" variant="tonal" width="90%" type="submit">SAVE</v-btn>
+          </v-form>
+        </v-card>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script setup>
