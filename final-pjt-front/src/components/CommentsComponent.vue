@@ -2,18 +2,22 @@
   <v-container class="comment-section">
     <v-row v-if="commentList.length">
       <v-col v-for="comment in commentList" :key="comment.id" cols="12">
-        <v-card class="comment">
-          <v-row>
-            <v-col>
-              <v-card-text class="comment-content">{{ comment.content }}</v-card-text>
-            </v-col>
-            <v-card-actions>
-              <v-btn @click="editComment(comment)" class="edit-button" color="primary">
-                <v-icon>mdi-pencil</v-icon>
-              </v-btn>
-              <v-btn @click="removeComment" :value="comment.id" class="remove-button" color="error">X</v-btn>
-            </v-card-actions>
-          </v-row>
+        <v-card class="mx-auto" prepend-icon="$vuetify" :subtitle="comment.user.nickname" width="80%">
+          <template v-slot:title>
+            <v-row justify="center">
+              <v-col>
+                <span class="font-weight-black">{{ comment.content }}</span>
+              </v-col>
+              <v-col cols="" class="text-right">
+                <v-card-actions>
+                  <v-btn @click="editComment(comment)" class="edit-button" color="primary">
+                    <v-icon>mdi-pencil</v-icon>
+                  </v-btn>
+                  <v-btn @click="removeComment" :value="comment.id" class="remove-button" color="error">X</v-btn>
+                </v-card-actions>
+              </v-col>
+            </v-row>
+          </template>
         </v-card>
       </v-col>
     </v-row>
@@ -43,7 +47,7 @@ const route = useRoute();
 const comment = ref("");
 const commentStore = useCommentStore();
 const commentList = ref([]);
-const editingCommentId = ref(null); // 수정 모드에 필요한 상태 변수
+const editingCommentId = ref(null); // 수정 모드
 
 const checkCommentList = function () {
   commentStore.getCommentList(route.params.id);

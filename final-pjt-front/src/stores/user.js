@@ -3,6 +3,7 @@ import { ref, computed } from "vue";
 import { useRouter } from "vue-router";
 import axios from "axios";
 import swal from "sweetalert";
+import { lightFormatters } from "date-fns";
 
 export const useUserStore = defineStore(
   "user",
@@ -11,6 +12,7 @@ export const useUserStore = defineStore(
     const router = useRouter();
     const token = ref(null);
     const userInfo = ref(null);
+    const userProfile = ref(null);
     const isLogin = computed(() => {
       if (token.value === null) {
         return false;
@@ -93,7 +95,21 @@ export const useUserStore = defineStore(
           console.log(err);
         });
     };
-    return { createUser, loginUser, logoutUser, token, isLogin, userInfo };
+    // UserProfile 부분
+    const getProfile = function () {
+      console.log(userInfo.value.username);
+      axios({
+        method: "get",
+        url: `${API_URL}/accounts/profile/${userInfo.value.username}/`,
+        headers: {
+          Authorization: `Token ${token.value}`,
+        },
+      }).then((res) => {
+        console.log(res.data);
+        userProfile.value = res.data;
+      });
+    };
+    return { createUser, loginUser, logoutUser, getProfile, token, isLogin, userInfo, userProfile };
   },
   { persist: true }
 );

@@ -18,6 +18,7 @@ export const useCommentStore = defineStore("comment", () => {
       },
     })
       .then((res) => {
+        console.log(res.data);
         comments.value = res.data;
       })
       .catch((err) => {

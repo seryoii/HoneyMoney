@@ -1,4 +1,5 @@
 <template>
+  <MapSearchComponent :province="province" :city="city" :bank="bank" class="py-0 map-component"/>
   <v-container>
     <v-row>
       <!-- 도/시 선택 -->
@@ -15,7 +16,6 @@
       </v-col>
       <!-- 지도 출력 Component 연결, 선택된 데이터 전달 -->
     </v-row>
-    <MapSearchComponent :province="province" :city="city" :bank="bank" />
   </v-container>
 </template>
 

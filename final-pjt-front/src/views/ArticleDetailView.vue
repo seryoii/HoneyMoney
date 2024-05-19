@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <v-btn class="returnBtn" @click="returnArticleList"><- Back</v-btn>
-    <v-card class="mx-auto" prepend-icon="$vuetify" :subtitle="`${articleStore.articleDetail.user}`" width="80%">
+    <v-card class="mx-auto" prepend-icon="$vuetify" :subtitle="userNickname" width="80%">
       <template v-slot:title>
         <v-row justify="center">
           <v-col>
@@ -16,41 +16,66 @@
       <v-card-text class="pt-4">
         {{ articleStore.articleDetail.content }}
       </v-card-text>
+      <v-container>
+        Created Date:
+        <span v-if="articleStore.articleDetail.created_at">
+          {{ formatDate(articleStore.articleDetail.created_at) }}
+          {{ formatTime(articleStore.articleDetail.created_at) }}
+        </span>
+      </v-container>
+      <v-container>
+        Updated Date:
+        <span v-if="articleStore.articleDetail.updated_at">
+          {{ formatDate(articleStore.articleDetail.updated_at) }}
+          {{ formatTime(articleStore.articleDetail.updated_at) }}
+        </span>
+      </v-container>
       <hr />
       <CommentsComponent v-if="articleStore.articleDetail" />
     </v-card>
   </v-container>
 </template>
-
 <script setup>
 import { useArticleStore } from "@/stores/article";
-import { ref, onMounted, computed } from "vue";
-import { RouterLink, useRoute, useRouter } from "vue-router";
+import { ref, onMounted, computed, watch } from "vue";
+import { useRoute, useRouter } from "vue-router";
 import CommentsComponent from "@/components/CommentsComponent.vue";
+import { format, parseISO } from "date-fns";
 
 const articleStore = useArticleStore();
 const route = useRoute();
 const router = useRouter();
-const articleUpdate = function () {
+
+const articleUpdate = () => {
   router.push({
     name: "UpdateArticleView",
     params: { id: articleStore.articleDetail.id },
   });
 };
 
-const returnArticleList = function () {
+const returnArticleList = () => {
   router.push({
     name: "CommunityView",
   });
 };
 
-const articleDelete = function () {
+const articleDelete = () => {
   articleStore.deleteArticle(articleStore.articleDetail.id);
 };
 
 onMounted(() => {
   articleStore.getArticleDetail(route.params.id);
 });
+
+const userNickname = computed(() => articleStore.articleDetail.user?.nickname || "");
+
+const formatDate = (dateString) => {
+  return format(parseISO(dateString), "yyyy-MM-dd");
+};
+
+const formatTime = (dateString) => {
+  return format(parseISO(dateString), "HH:mm:ss");
+};
 </script>
 
 <style scoped>

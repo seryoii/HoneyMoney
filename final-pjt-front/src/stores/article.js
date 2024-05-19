@@ -3,7 +3,7 @@ import { ref } from "vue";
 import axios from "axios";
 import { useUserStore } from "@/stores/user";
 import { useRouter } from "vue-router";
-import swal from 'sweetalert';
+import swal from "sweetalert";
 
 export const useArticleStore = defineStore("article", () => {
   // 유저 토큰 확보용
@@ -39,8 +39,8 @@ export const useArticleStore = defineStore("article", () => {
       },
     })
       .then((res) => {
-        console.log(res.data.user);
-        articleDetail.value = res.data.user;
+        console.log(res.data);
+        articleDetail.value = res.data;
       })
       .catch((err) => {
         console.log(err);
