@@ -12,7 +12,6 @@ export const useArticleStore = defineStore("article", () => {
   const articlesList = ref([]);
   const articleDetail = ref({});
   const router = useRouter();
-
   // 게시글 리스트 GET
   const getArticleList = function () {
     axios({
@@ -40,8 +39,8 @@ export const useArticleStore = defineStore("article", () => {
       },
     })
       .then((res) => {
-        console.log(res);
-        articleDetail.value = res.data;
+        console.log(res.data.user);
+        articleDetail.value = res.data.user;
       })
       .catch((err) => {
         console.log(err);

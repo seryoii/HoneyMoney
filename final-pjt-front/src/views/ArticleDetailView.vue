@@ -31,7 +31,6 @@ import CommentsComponent from "@/components/CommentsComponent.vue";
 const articleStore = useArticleStore();
 const route = useRoute();
 const router = useRouter();
-
 const articleUpdate = function () {
   router.push({
     name: "UpdateArticleView",
