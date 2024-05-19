@@ -66,11 +66,11 @@ def article_comment_detail(request, article_id, comment_id):
         serializer = CommentSerializer(comment)
         return Response(serializer.data)
     
-    # if request.method == 'PUT':
-    #     serializer = CommentSerializer(instance=comment, data=request.data, partial=True)
-    #     if serializer.is_valid():
-    #         serializer.save()
-    #         return Response(serializer.data)
+    if request.method == 'PUT':
+        serializer = CommentSerializer(instance=comment, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
         
     if request.method == 'DELETE':
         comment.delete()
