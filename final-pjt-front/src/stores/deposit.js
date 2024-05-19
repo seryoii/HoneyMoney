@@ -20,6 +20,7 @@ export const useDepositStore = defineStore("deposit", () => {
   };
 
   const allDeposit = ref([]);
+  const bankList = ref([])
   // db 호출
   const getAllDeposit = function () {
     axios({
@@ -27,12 +28,18 @@ export const useDepositStore = defineStore("deposit", () => {
       url: `${API_URL}/deposit/`,
     })
       .then((res) => {
-        console.log(res);
+        console.log(res.data);
         allDeposit.value = res.data;
+        allDeposit.value.forEach((item) => {
+          if (!bankList.value.includes(item.kor_co_nm)) {
+            bankList.value.push(item.kor_co_nm)
+          }
+        })
       })
       .catch((err) => {
         console.log(err);
       });
   };
-  return { depositProductsData, loadDepositData, allDeposit, getAllDeposit };
+
+  return { depositProductsData, loadDepositData, allDeposit, getAllDeposit, bankList };
 });
