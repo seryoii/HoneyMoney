@@ -3,19 +3,19 @@
   <v-container class="text-center main-title pb-0">
     <h1>Financial Freedom Forum</h1>
   </v-container>
-  <v-card class="my-5 mx-auto" max-width="80%">
-      <v-btn @click="createArticle" type="submit" class="mt-5 ml-5" color="yellow-darken-3" size="large" variant="tonal">New POST</v-btn>
+  <v-card class="my-5 mx-auto" max-width="100%">
+    <v-btn @click="createArticle" type="submit" class="mt-5 ml-5" color="yellow-darken-3" size="large" variant="tonal">New POST</v-btn>
     <v-list>
-      <v-container class="py-6">
+      <v-container class="pt-6 pb-0">
         <v-card class="border card-style mx-4">
-          <v-row>
-            <v-col cols="6">
+          <v-row class="pb-0">
+            <v-col cols="8">
               <p class="title-style ps-4">Title</p>
             </v-col>
-            <v-col cols="3" class="ps-16">
+            <v-col cols="2" class="ps-auto">
               <p class="nick-style">Nickname</p>
             </v-col>
-            <v-col cols="3">
+            <v-col cols="2">
               <p class="date-style">Date</p>
             </v-col>
           </v-row>
@@ -30,10 +30,17 @@
                   <v-col cols="6">
                     <p class="link-style ps-4">{{ item.title }}</p>
                   </v-col>
-                  <v-col cols="3" class="ps-16">
-                    <p class="nick-color">{{ item.user.nickname }}</p>
+                  <v-col cols="4" class="ps-16">
+                    <v-row class="ms-16">
+                      <v-col cols="2">
+                        <v-avatar :image="profileImg" size="25" alt="User Profile Image"></v-avatar>
+                      </v-col>
+                      <v-col cols="10">
+                        <p class="nick-color">{{ item.user.nickname }}</p>
+                      </v-col>
+                    </v-row>
                   </v-col>
-                  <v-col cols="3">
+                  <v-col cols="2">
                     <p class="date-color">{{ formatDate(item.created_at) }}</p>
                   </v-col>
                 </v-row>
@@ -52,6 +59,15 @@ import { ref, computed, onMounted, watch } from "vue";
 import { useArticleStore } from "@/stores/article";
 import { RouterLink, useRouter } from "vue-router";
 import { format } from "date-fns";
+import { useUserStore } from "@/stores/user";
+const userStore = useUserStore();
+onMounted(() => {
+  userStore.getProfile();
+  console.log(userStore.userProfile.profile_img);
+});
+const profileImg = computed(() => {
+  return `http://localhost:8000${userStore.userProfile.profile_img}`;
+});
 const router = useRouter();
 
 const createArticle = function () {

@@ -1,10 +1,11 @@
 <template>
   <v-container>
     <v-btn class="returnBtn" @click="returnArticleList"><- Back</v-btn>
-    <v-card class="mx-auto" prepend-icon="$vuetify" :subtitle="userNickname" width="80%">
+    <v-card class="mx-auto" :subtitle="userNickname" width="80%">
       <template v-slot:title>
         <v-row justify="center">
           <v-col>
+            <v-avatar :image="profileImg" size="40" class="mr-2"></v-avatar>
             <span class="font-weight-black">{{ articleStore.articleDetail.title }}</span>
           </v-col>
           <v-col cols="4" class="text-right">
@@ -35,12 +36,23 @@
     </v-card>
   </v-container>
 </template>
+
 <script setup>
 import { useArticleStore } from "@/stores/article";
-import { ref, onMounted, computed, watch } from "vue";
+import { ref, onMounted, computed } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import CommentsComponent from "@/components/CommentsComponent.vue";
 import { format, parseISO } from "date-fns";
+import { useUserStore } from "@/stores/user";
+
+const userStore = useUserStore();
+onMounted(() => {
+  userStore.getProfile();
+  console.log(userStore.userProfile.profile_img);
+});
+const profileImg = computed(() => {
+  return `http://localhost:8000${userStore.userProfile.profile_img}`;
+});
 
 const articleStore = useArticleStore();
 const route = useRoute();
