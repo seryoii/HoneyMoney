@@ -66,7 +66,7 @@ class UserPageSerializer(serializers.ModelSerializer):
         interest_saving = InterestSavingSerializer(many=True)
         class Meta:
             model = User
-            fields = '__all__'
+            exclude = ('password',)
             read_only_fields = ('id','username', 'email')
 
 class UserInfoChangeSerializer(serializers.ModelSerializer):
