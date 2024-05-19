@@ -40,6 +40,7 @@ export const useUserStore = defineStore(
         },
       })
         .then((res) => {
+          console.log(res);
           const password = password1;
           const payload = {
             username,
@@ -67,10 +68,13 @@ export const useUserStore = defineStore(
         .then((res) => {
           token.value = res.data.key;
           userInfo.value = res.data.user;
+          console.log(res.data);
           router.push({ name: "MainView" });
           swal(`${res.data.user.nickname}님 HoneyMoney에 오신 것을 환영합니다!`, {
             buttons: false,
-            timer: 2000,
+            timer: 1000,
+          }).then((res) => {
+            getProfile();
           });
         })
         .catch((err) => {
@@ -89,6 +93,7 @@ export const useUserStore = defineStore(
           console.log(res);
           token.value = null;
           userInfo.value = null;
+          userProfile.value = null;
           router.push({ name: "MainView" });
         })
         .catch((err) => {

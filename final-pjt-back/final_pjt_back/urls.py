@@ -16,6 +16,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.conf import settings  # settings를 가져옵니다.
+from django.conf.urls.static import static  # static을 가져옵니다.
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -27,4 +29,4 @@ urlpatterns = [
     path('articles/', include('articles.urls')),
     path('exchange/', include('exchange.urls')),
     path('products/', include('financial_products.urls'))
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
