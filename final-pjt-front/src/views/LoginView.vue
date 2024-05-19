@@ -1,7 +1,6 @@
 <template>
   <v-container>
-    <v-card class="mx-auto pa-8 pt-2 pb-4" elevation="8" max-width="448" rounded="lg">
-      <v-img class="mx-auto my-6" max-width="228" :src="logo"></v-img>
+    <v-card class="mx-auto pa-8 pt-10 pb-4" elevation="8" max-width="448" rounded="lg">
       <v-form @submit.prevent="submitForm">
         <div class="text-subtitle-1 text-medium-emphasis">Username</div>
 

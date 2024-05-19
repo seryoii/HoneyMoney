@@ -1,11 +1,14 @@
 <template>
-  <RouterLink :to="{ name: 'CreateArticleView' }">게시글 생성하기</RouterLink>
-  <v-card class="mx-auto" max-width="80%">
+  <RouterLink :to="{ name: 'CreateArticleView' }"></RouterLink>
+  <v-container class="text-center main-title">
+    <h1>Financial Freedom Forum</h1>
+  </v-container>
+  <v-card class="my-5 mx-auto" max-width="80%">
     <v-container>
-      <h1>자유 게시판</h1>
+      <v-btn @click="createArticle" type="submit" class="mt-5 ml-5" color="yellow-darken-3" size="large" variant="tonal">New POST</v-btn>
     </v-container>
     <v-list>
-      <v-container class="py-0">
+      <v-container class="py-6">
         <v-card class="border card-style mx-4">
           <v-row>
             <v-col cols="6">
@@ -42,7 +45,7 @@
         </v-list-item-content>
       </v-list-item>
     </v-list>
-    <v-pagination v-model="currentPage" :length="totalPages" @input="updatePagination"></v-pagination>
+    <v-pagination class="" v-model="currentPage" :length="totalPages" @input="updatePagination"></v-pagination>
   </v-card>
 </template>
 
@@ -51,6 +54,11 @@ import { ref, computed, onMounted, watch } from "vue";
 import { useArticleStore } from "@/stores/article";
 import { RouterLink, useRouter } from "vue-router";
 import { format } from "date-fns";
+const router = useRouter();
+
+const createArticle = function () {
+  router.push({ name: "CreateArticleView" });
+};
 
 // 날짜 변환 함수
 const formatDate = function (date) {
@@ -89,7 +97,6 @@ const updatePagination = (page) => {
   currentPage.value = page;
 };
 
-const router = useRouter();
 const detailView = function (articleId) {
   router.push({ name: "ArticleDetailView", params: { id: articleId } });
 };
@@ -103,6 +110,9 @@ const detailView = function (articleId) {
   box-shadow: none !important;
   border-bottom: 1px solid black;
   border-radius: 0px !important;
+}
+.main-title {
+  color: #9b7026;
 }
 
 .link-style {

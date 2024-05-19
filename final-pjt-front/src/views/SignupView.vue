@@ -1,7 +1,6 @@
 <template>
   <v-sheet class="mx-auto" width="80%" elevation="4" height="auto" rounded color="">
-    <v-img class="mx-auto my-6 pt-10" max-width="228" :src="logo"></v-img>
-    <v-container class="px-0 py-0">
+    <v-container class="mt-5 px-0 pb-0 pt-10">
       <v-form class="my-0 px-2" ref="form" @submit.prevent="submitForm">
         <v-row>
           <v-col cols="6">
@@ -51,16 +50,16 @@
               :error-messages="v$.password2.$error ? ['비밀번호가 일치하지 않습니다.'] : []"
             ></v-text-field>
           </v-col>
-          <v-col cols="6">
+          <v-col class="pt-0" cols="6">
             <v-text-field hint="나이를 입력해주세요" class="ms-5" label="Age" variant="outlined" type="number" v-model="state.age" @blur="v$.age.$touch" :error-messages="v$.age.$error ? ['나이는 최소 0살, 최대 100살 입니다.'] : []"></v-text-field>
           </v-col>
-          <v-col cols="6">
+          <v-col class="pt-0" cols="6">
             <v-text-field hint="연봉을 입력해주세요" class="me-5" label="Salary" variant="outlined" type="number" v-model="state.salary" @blur="v$.salary.$touch" :error-messages="v$.salary.$error ? ['연봉은 최소 0원 입니다.'] : []"></v-text-field>
           </v-col>
-          <v-col cols="4">
+          <v-col class="py-0" cols="4">
             <v-text-field hint="자산을 입력해주세요" class="ms-5" label="Wealth" variant="outlined" type="number" v-model="state.wealth" @blur="v$.wealth.$touch" :error-messages="v$.wealth.$error ? ['자산은 최소 0원 입니다.'] : []"></v-text-field>
           </v-col>
-          <v-col cols="4">
+          <v-col class="py-0" cols="4">
             <v-text-field
               hint="0에 가까울 수록 안정성, 10에 가까울 수록 적극성을 의미합니다"
               class="mx-auto"
@@ -72,7 +71,7 @@
               :error-messages="v$.tendency.$error ? ['투자 성향은 최소 0, 최대 10입니다.'] : []"
             ></v-text-field>
           </v-col>
-          <v-col cols="4">
+          <v-col class="py-0" cols="4">
             <v-text-field
               hint="원하는 투자 기간을 기입해주세요"
               class="me-5"
@@ -84,10 +83,10 @@
               :error-messages="v$.desirePeriod.$error ? ['기간은 최소 0개월, 최대 36개월입니다.'] : []"
             ></v-text-field>
           </v-col>
-          <v-col cols="6">
+          <v-col class="py-0" cols="6">
             <v-checkbox class="mx-10" color="#F9A825" label="(필수) 서비스 이용약관 동의" value="service" v-model="selected"></v-checkbox>
           </v-col>
-          <v-col cols="6">
+          <v-col class="py-0" cols="6">
             <v-checkbox class="mx-10" color="#F9A825" label="(필수) 개인정보 처리 동의" value="info" v-model="selected"></v-checkbox>
           </v-col>
           <v-row justify="center">

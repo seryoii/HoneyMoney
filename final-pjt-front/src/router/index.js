@@ -9,7 +9,8 @@ import UserProfileView from "@/views/UserProfileView.vue";
 import ProductsView from "@/views/ProductsView.vue";
 import ArticleDetailView from "@/views/ArticleDetailView.vue";
 import CreateArticleView from "@/views/CreateArticleView.vue";
-import UpdateArticleView from "@/views/UpdateArticleView.vue"
+import UpdateArticleView from "@/views/UpdateArticleView.vue";
+import RecommendView from "@/views/RecommendView.vue";
 
 const routes = [
   {
@@ -66,6 +67,11 @@ const routes = [
     path: "/products",
     name: "ProductsView",
     component: ProductsView,
+  },
+  {
+    path: "/recommend",
+    name: "RecommendView",
+    component: RecommendView,
   },
 ];
 

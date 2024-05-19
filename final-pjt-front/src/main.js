@@ -5,7 +5,7 @@ import vuetify from './plugins/vuetify'
 import { loadFonts } from './plugins/webfontloader'
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 import router from './router'
-
+import '@/styles.css' // 스타일 파일 추가
 loadFonts()
 const pinia = createPinia()
 pinia.use(piniaPluginPersistedstate)
