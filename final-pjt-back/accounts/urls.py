@@ -6,4 +6,4 @@ from . import views
 urlpatterns = [
     path('<str:username>/', views.mypage),
     path('profile/<str:username>/', views.user_profile),
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+]
