@@ -12,7 +12,5 @@ def exchange(request):
     API_URL = f'https://www.koreaexim.go.kr/site/program/financial/exchangeJSON?authkey={EXCHANGE_API_KEY}&searchdate=20220516&data=AP01'
 
     result = requests.get(API_URL).json()
-    for nation in result:
-        print(nation)
-    # print(result)
+
     return Response(result)

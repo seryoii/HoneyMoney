@@ -22,6 +22,7 @@ class CustomRegisterSerializer(RegisterSerializer):
             'nickname': self.validated_data.get('nickname', ''),
             'age': self.validated_data.get('age', ''),
             'salary': self.validated_data.get('salary', ''),
+            'profile_img': self.validated_data.get('profile_img', ''),
             'wealth': self.validated_data.get('wealth', ''),
             'tendency': self.validated_data.get('tendency', ''),
             'desirePeriod': self.validated_data.get('desirePeriod', ''),
@@ -34,7 +35,7 @@ class CustomRegisterSerializer(RegisterSerializer):
         self.cleaned_data = self.get_cleaned_data()
         adapter.save_user(request, user, self)
         setup_user_email(request, user, [])
-        
+        user.profile_img = self.cleaned_data('profile_img')
         user.nickname = self.cleaned_data.get('nickname')
         user.age = self.cleaned_data.get('age')
         user.salary = self.cleaned_data.get('salary')
@@ -61,13 +62,13 @@ class CustomTokenSerializer(TokenSerializer):
         fields = ('key', 'user')
 
 class UserPageSerializer(serializers.ModelSerializer):
-        # profile_img = serializers.ImageField(use_url=True)
-        interest_deposit = InterestDepositSerializer(many=True)
-        interest_saving = InterestSavingSerializer(many=True)
-        class Meta:
-            model = User
-            exclude = ('password',)
-            read_only_fields = ('id','username', 'email')
+    # profile_img = serializers.ImageField(use_url=True)
+    interest_deposit = InterestDepositSerializer(many=True)
+    interest_saving = InterestSavingSerializer(many=True)
+    class Meta:
+        model = User
+        exclude = ('password',)
+        read_only_fields = ('id','username', 'email')
 
 class UserInfoChangeSerializer(serializers.ModelSerializer):
      class Meta:

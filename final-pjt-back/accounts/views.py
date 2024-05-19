@@ -21,6 +21,8 @@ def mypage(request, username):
     elif request.method == 'PUT':
         if request.user.username == username:
             user = get_object_or_404(get_user_model(), username=username)
+            # data = { 'profile_img': request.data['profile_img[]']}
+
             serializer = UserInfoChangeSerializer(instance=user, data=request.data, partial=True)
             if serializer.is_valid(raise_exception=True):
                 serializer.save(user=request.user)
@@ -33,5 +35,7 @@ def user_profile(request, username):
         return Response({"error": "You are not authorized to view this profile."}, status=status.HTTP_403_FORBIDDEN)
 
     user = get_object_or_404(get_user_model(), username=username)
+    # profile_img_url = request.build_absolute_uri(user.profile_img.url)
+
     serializer = UserPageSerializer(user)
     return Response(serializer.data, status=status.HTTP_200_OK)
