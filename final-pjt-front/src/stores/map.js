@@ -163,6 +163,9 @@ export const useMapStore = defineStore("map", () => {
     "대구은행",
     "신한은행",
     "부산은행",
+    "한국스탠다드차타드은행",
+    "중소기업은행",
+    "한국산업은행"
   ]);
 
   return { infos, banks };

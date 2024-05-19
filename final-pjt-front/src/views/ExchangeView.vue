@@ -6,7 +6,7 @@
             <v-select v-model="country" :items="store.curName" label="통화 선택"></v-select>
 
             <v-text-field v-model="exchangeBefore" :label=exchangeDetail.cur_unit></v-text-field>
-            <v-text-field v-model="exchangeAfter" label="KRW"></v-text-field>
+            <v-text-field v-model="exchangeAfter" prefix="₩" label="KRW"></v-text-field>
         </v-form>
     </div>
 </template>

@@ -50,9 +50,37 @@ const updateCities = () => {
 watch(province, () => {
   updateCities();
 });
+
+///////////////////////////////////////////////
+
+const productList = ref([])
+import { useDepositStore } from '@/stores/deposit'  
+import { useSavingStore } from '@/stores/saving'
+
+const depositStore = useDepositStore()
+const savingStore = useSavingStore()
+
+// watch(province, () => {depositStore.allDeposit.forEach((item) => {
+//   // if (item.kor_co_nm === bank.value) {
+//   //   productList.value.push(item)
+//   // }
+//   console.log(item)
+// })})
+// watch(bank, savingStore.allSaving.forEach((item)=> {
+//   if (item.kor_co_nm === bank.value) {
+//     productList.value.push(item)
+//   }
+// }))
+
+////////////////////////////////////////////////
 </script>
 
 <style scoped>
+
+const depositStore = useDepositStore()
+const savingStore = usesavingStore()
+
+
 .custom-select {
   background-color: #fef5e771; /* 원하는 배경 색상 */
   /* 테스트 색상 */
