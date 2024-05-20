@@ -6,5 +6,6 @@ from . import views
 urlpatterns = [
     path('<str:username>/', views.mypage),
     path('profile/<str:username>/', views.user_profile),
-    path('get/interest/', views.get_interest)
+    path('get/interest/', views.get_interest),
+    path('<int:user_id>/interest/', views.personal_interest)
 ]

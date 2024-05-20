@@ -4,21 +4,22 @@ from django.contrib.auth import get_user_model
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework import status
-from .serializers import UserPageSerializer, UserInfoChangeSerializer, UserGetInterestSerializer
+from .serializers import UserPageSerializer, UserInfoChangeSerializer, UserGetInterestSerializer, NewInfoChangeSerializer
 from .models import User
+from financial_products.models import DepositProduct, SavingProduct
 
 # Create your views here.
 
 @api_view(['GET', 'PUT'])
 def mypage(request, username):
-    if request.user.username != username:
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    # if request.user.username != username:
+    #     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    elif request.method == 'GET':
-        if request.user.username == username:
-            user = get_object_or_404(get_user_model(), username=username)
-            serializer = UserInfoChangeSerializer(user)
-            return Response(serializer.data)
+    if request.method == 'GET':
+        # if request.user.username == username:
+        user = get_object_or_404(get_user_model(), username=username)
+        serializer = NewInfoChangeSerializer(user)
+        return Response(serializer.data)
         
     elif request.method == 'PUT':
         if request.user.username == username:
@@ -44,31 +45,32 @@ def user_profile(request, username):
     serializer = UserPageSerializer(user)
     return Response(serializer.data, status=status.HTTP_200_OK)
 
-# def sync_deposit_interest_users(request):
-#     # 현재 로그인된 사용자
-#     user = request.user
-
-#     try:
-#         # 사용자 deposit 필드에서 모든 DepositProduct ID 가져오기
-#         deposit_ids = user.deposit.values_list('id', flat=True)
-
-#         # 각 DepositProduct의 interest_user에 사용자 추가
-#         for deposit_id in deposit_ids:
-#             deposit_product = get_object_or_404(DepositProduct, id=deposit_id)
-#             deposit_product.interest_user.add(user)
-
-#         # 사용자의 갱신된 정보 직렬화
-#         serializer = UserPageSerializer(user)
-
-#         return JsonResponse({'status': 'success', 'message': 'Deposit interest users synchronized successfully', 'data': serializer.data})
-#     except Exception as e:
-#         return JsonResponse({'status': 'error', 'message': str(e)})
+# 더미 데이터의 deposit, saving 기반으로 상품에 관심있는 테이블 생성
 @api_view(['GET'])
 def get_interest(request):
-    users = User.objects.all()
-    for user in users:
-        print(user.deposit)
-    serializer = UserGetInterestSerializer(users, many=True)
-    return Response(serializer.data)
-    # for user in users:
-    #     print(user.deposit)
+# 유저 객체 가져오기
+    for user_id in range(1, 10001):
+        user = get_object_or_404(User, id=user_id)
+
+        # 유저의 deposit 필드 값 가져오기
+        deposit_ids = user.deposit.all().values_list('id', flat=True)
+        saving_ids = user.saving.all().values_list('id', flat=True)
+
+        # deposit_ids와 매칭되는 DepositProduct 모델의 객체들의 interest_user 필드에 유저 id 할당하기
+        for deposit_id in deposit_ids:
+            deposit_product = get_object_or_404(DepositProduct, id=deposit_id)
+            deposit_product.interest_user.add(user)
+        for saving_id in saving_ids:
+            saving_product = get_object_or_404(SavingProduct, id=saving_id)
+            saving_product.interest_user.add(user)
+
+    return JsonResponse({'message': 'Successfully assigned interest users to deposit, saving products'})
+
+def personal_interest(request, user_id):
+    user = User.objects.get(id=user_id)
+    user_ids = user.interest_deposit.all()
+    for deposit_product in user_ids:
+        print(deposit_product.id)    
+    return JsonResponse({'message': 'success'})
+    # objects.filter(depositproduct_id=depositproduct_id).values_list('user_id', flat=True)
+
