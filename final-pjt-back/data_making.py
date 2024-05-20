@@ -103,6 +103,7 @@ with open(save_dir, 'w', encoding="utf-8") as f:
             'wealth': random.randrange(10, 1000000) * 1000, # 자산
             'tendency': random.randint(0, 10),  # 성향
             'password': "password12341234",
+            'desirePeriod': random.choice([6, 12, 24, 36]),
             'is_active': True,
             'is_staff': False,
             'is_superuser': False
