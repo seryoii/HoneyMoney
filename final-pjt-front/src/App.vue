@@ -3,7 +3,7 @@
     <v-main v-if="!isMainView" class="app-background">
       <v-row class="mt-6 d-flex justify-center align-center">
         <v-col cols="auto" class="py-0">
-          <v-img class="cursor" @click="mainMove" :src="logo" width="150"></v-img>
+          <v-img class="cursor" @click="mainMove" :src="logo" width="200"></v-img>
         </v-col>
       </v-row>
       <v-container class="mx-auto under-bar"></v-container>
@@ -33,7 +33,7 @@
     <v-main v-else class="app-background">
       <v-row class="mt-6 d-flex justify-center align-center">
         <v-col cols="auto" class="py-0">
-          <v-img class="cursor" @click="mainMove" :src="logo" width="150"></v-img>
+          <v-img class="cursor" @click="mainMove" :src="logo" width="200"></v-img>
         </v-col>
       </v-row>
       <v-container class="mx-auto under-bar"></v-container>

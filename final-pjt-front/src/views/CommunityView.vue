@@ -33,7 +33,7 @@
                   <v-col cols="4" class="ps-16">
                     <v-row class="ms-16">
                       <v-col cols="2">
-                        <v-avatar :image="profileImg" size="25" alt="User Profile Image"></v-avatar>
+                        <v-avatar :image="`http://localhost:8000${item.user.profile_img}`" size="25" alt="User Profile Image"></v-avatar>
                       </v-col>
                       <v-col cols="10">
                         <p class="nick-color">{{ item.user.nickname }}</p>

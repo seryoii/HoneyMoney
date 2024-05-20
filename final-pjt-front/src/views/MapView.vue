@@ -1,6 +1,5 @@
 <template>
-  <MapSearchComponent :province="province" :city="city" :bank="bank" class="py-0 map-component"/>
-  <v-container>
+  <v-container class="map-size">
     <v-row>
       <!-- 도/시 선택 -->
       <v-col cols="4">
@@ -16,6 +15,7 @@
       </v-col>
       <!-- 지도 출력 Component 연결, 선택된 데이터 전달 -->
     </v-row>
+    <MapSearchComponent :province="province" :city="city" :bank="bank" class="py-0 map-component" />
   </v-container>
 </template>
 
@@ -51,42 +51,18 @@ watch(province, () => {
   updateCities();
 });
 
-///////////////////////////////////////////////
-
-const productList = ref([])
-import { useDepositStore } from '@/stores/deposit'  
-import { useSavingStore } from '@/stores/saving'
-
-const depositStore = useDepositStore()
-const savingStore = useSavingStore()
-
-// watch(province, () => {depositStore.allDeposit.forEach((item) => {
-//   // if (item.kor_co_nm === bank.value) {
-//   //   productList.value.push(item)
-//   // }
-//   console.log(item)
-// })})
-// watch(bank, savingStore.allSaving.forEach((item)=> {
-//   if (item.kor_co_nm === bank.value) {
-//     productList.value.push(item)
-//   }
-// }))
-
-////////////////////////////////////////////////
 </script>
 
 <style scoped>
-
-const depositStore = useDepositStore()
-const savingStore = usesavingStore()
-
-
 .custom-select {
   background-color: #fef5e771; /* 원하는 배경 색상 */
   /* 테스트 색상 */
-  color: #805f26;
+  color: #643a09;
+  font-weight: bold;
   box-shadow: 2px 2px 1px rgba(0, 0, 0, 0.1); /* 그림자 */
   border-radius: 8px;
 }
-
+.map-size {
+  width: 80%;
+}
 </style>

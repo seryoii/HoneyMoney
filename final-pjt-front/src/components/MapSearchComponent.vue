@@ -1,8 +1,11 @@
 <template>
-  <v-container class="map-component-under">
-    <!-- 지도를 표시할 컨테이너 -->
-    <div id="mapContainer" class="map-container"></div>
-    <v-btn class="button-custom" @click="searchOnMap">검색하기</v-btn>
+  <v-container>
+    <v-container class="map-component-under">
+      <v-btn class="button-custom" @click="searchOnMap">검색하기</v-btn>
+      <!-- 지도를 표시할 컨테이너 -->
+      <div id="mapContainer" class="map-container"></div>
+    </v-container>
+    <v-container></v-container>
   </v-container>
 </template>
 
@@ -86,6 +89,8 @@ const searchOnMap = function () {
   searchKeyword.value = `${props.province} ${props.city} ${props.bank}`;
   console.log("Search Keyword:", searchKeyword.value);
   searchPlaces(searchKeyword.value);
+  console.log(props.bank);
+  // 상품 검색 함수 실행
 };
 
 const searchPlaces = function (keyword) {
@@ -139,9 +144,11 @@ const removeAllMarkers = function () {
   // 배열 비우기
   markers.value = [];
 };
+
+const searchProducts = function (params) {};
 </script>
 
-<style scoped lang="scss">
+<style scoped>
 .map-component-under {
   display: flex;
   flex-direction: column;
@@ -151,7 +158,7 @@ const removeAllMarkers = function () {
   width: fit-content;
 }
 .map-container {
-  width: 80%;
+  width: 100%;
   margin-top: 10px;
   margin-bottom: 10px;
   margin-left: auto;
@@ -159,7 +166,8 @@ const removeAllMarkers = function () {
   height: 500px;
 }
 .button-custom {
-  color: #805f26;
+  color: #916415;
+  font-weight: bold;
   background-color: #fef5e7;
 }
 </style>
