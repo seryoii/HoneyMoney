@@ -12,10 +12,13 @@
       <!-- 지도를 표시할 컨테이너 -->
       <v-container id="mapContainer" class="map-container"></v-container>
     </v-container>
+    <MapSearchResultComponent :searchKeyword="props.bank"/>
   </v-container>
 </template>
+
 <script setup>
 import { ref, onMounted, onBeforeUnmount } from "vue";
+import MapSearchResultComponent from "@/components/MapSearchResultComponent.vue";
 
 // props 정의
 const props = defineProps({

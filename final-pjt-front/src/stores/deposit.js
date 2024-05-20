@@ -55,5 +55,18 @@ export const useDepositStore = defineStore("deposit", () => {
         console.log(err);
       });
   };
-  return { depositProductsData, loadDepositData, allDeposit, getAllDeposit, bankList, getDepositData, getDepositDetail };
+  const getDepositDetailOption = ref([]);
+  const getDepositOptionData = function (productName) {
+    axios({
+      method: "get",
+      url: `${API_URL}/deposit/${productName}/option/`,
+    })
+      .then((res) => {
+        getDepositDetailOption.value = res.data;
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  return { depositProductsData, loadDepositData, allDeposit, getAllDeposit, bankList, getDepositData, getDepositDetail, getDepositOptionData, getDepositDetailOption };
 });

@@ -44,7 +44,7 @@
                   </v-col>
 
                   <v-col cols="12">
-                    <v-file-input label="Profile Image" accept="image/" v-model="form.profile_img"></v-file-input>
+                    <v-file-input prepend-icon="mdi-camera" label="Profile Image" accept="image/" v-model="form.profile_img"></v-file-input>
                   </v-col>
                 </v-row>
 

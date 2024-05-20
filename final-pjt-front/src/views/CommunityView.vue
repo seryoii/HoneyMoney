@@ -1,57 +1,63 @@
 <template>
-  <RouterLink :to="{ name: 'CreateArticleView' }"></RouterLink>
-  <v-container class="text-center main-title pb-0">
-    <h1>Financial Freedom Forum</h1>
+  <v-container>
+    <RouterLink :to="{ name: 'CreateArticleView' }"></RouterLink>
+    <v-container class="text-center main-title pb-0">
+      <h1>Financial Freedom Forum</h1>
+    </v-container>
+    <v-card class="my-5 mx-auto" max-width="100%">
+      <v-row justify="end">
+        <v-col cols="auto">
+          <v-btn @click="createArticle" type="submit" class="mt-5 me-10" color="yellow-darken-3" size="large" variant="tonal">New POST</v-btn>
+        </v-col>
+      </v-row>
+      <v-list>
+        <v-container class="pt-6 pb-0">
+          <v-card class="border card-style mx-4">
+            <v-row class="pb-0">
+              <v-col cols="8">
+                <p class="title-style ps-4">Title</p>
+              </v-col>
+              <v-col cols="2" class="ps-auto">
+                <p class="nick-style">Nickname</p>
+              </v-col>
+              <v-col cols="2">
+                <p class="date-style">Date</p>
+              </v-col>
+            </v-row>
+          </v-card>
+        </v-container>
+        <v-list-item class="py-0" v-for="(item, index) in paginatedItems" :key="index">
+          <v-list-item-content>
+            <v-layout>
+              <v-container fluid class="py-0">
+                <v-card @click="detailView(item.id)" class="py-5 border card-hover card-style" density="compact">
+                  <v-row>
+                    <v-col cols="6">
+                      <p class="link-style ps-4">{{ item.title }}</p>
+                    </v-col>
+                    <v-col cols="4" class="ps-16">
+                      <v-row class="ms-16">
+                        <v-col cols="2">
+                          <v-avatar :image="`http://localhost:8000${item.user.profile_img}`" size="25" alt="User Profile Image"></v-avatar>
+                        </v-col>
+                        <v-col cols="10">
+                          <p class="nick-color">{{ item.user.nickname }}</p>
+                        </v-col>
+                      </v-row>
+                    </v-col>
+                    <v-col cols="2">
+                      <p class="date-color">{{ formatDate(item.created_at) }}</p>
+                    </v-col>
+                  </v-row>
+                </v-card>
+              </v-container>
+            </v-layout>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list>
+      <v-pagination class="" v-model="currentPage" :length="totalPages" @input="updatePagination"></v-pagination>
+    </v-card>
   </v-container>
-  <v-card class="my-5 mx-auto" max-width="100%">
-    <v-btn @click="createArticle" type="submit" class="mt-5 ml-5" color="yellow-darken-3" size="large" variant="tonal">New POST</v-btn>
-    <v-list>
-      <v-container class="pt-6 pb-0">
-        <v-card class="border card-style mx-4">
-          <v-row class="pb-0">
-            <v-col cols="8">
-              <p class="title-style ps-4">Title</p>
-            </v-col>
-            <v-col cols="2" class="ps-auto">
-              <p class="nick-style">Nickname</p>
-            </v-col>
-            <v-col cols="2">
-              <p class="date-style">Date</p>
-            </v-col>
-          </v-row>
-        </v-card>
-      </v-container>
-      <v-list-item class="py-0" v-for="(item, index) in paginatedItems" :key="index">
-        <v-list-item-content>
-          <v-layout>
-            <v-container fluid class="py-0">
-              <v-card @click="detailView(item.id)" class="py-5 border card-hover card-style" density="compact">
-                <v-row>
-                  <v-col cols="6">
-                    <p class="link-style ps-4">{{ item.title }}</p>
-                  </v-col>
-                  <v-col cols="4" class="ps-16">
-                    <v-row class="ms-16">
-                      <v-col cols="2">
-                        <v-avatar :image="`http://localhost:8000${item.user.profile_img}`" size="25" alt="User Profile Image"></v-avatar>
-                      </v-col>
-                      <v-col cols="10">
-                        <p class="nick-color">{{ item.user.nickname }}</p>
-                      </v-col>
-                    </v-row>
-                  </v-col>
-                  <v-col cols="2">
-                    <p class="date-color">{{ formatDate(item.created_at) }}</p>
-                  </v-col>
-                </v-row>
-              </v-card>
-            </v-container>
-          </v-layout>
-        </v-list-item-content>
-      </v-list-item>
-    </v-list>
-    <v-pagination class="" v-model="currentPage" :length="totalPages" @input="updatePagination"></v-pagination>
-  </v-card>
 </template>
 
 <script setup>

@@ -34,8 +34,8 @@
             <h1 class="text-white">세상엔 어떤 상품이 있을까?</h1>
             <h1 class="text-white">예금 적금 상품 알아보기</h1>
             <v-row justify="end">
-              <v-col cols="4">
-                <v-img class="click-event" @click="moveProducts" max-width="200" :src="savingPhoto"></v-img>
+              <v-col cols="5">
+                <v-img class="click-event" @click="moveProducts" max-width="300" :src="savingPhoto"></v-img>
               </v-col>
             </v-row>
             <v-btn class="btn-1" @click="moveProducts" variant="tonal">상품 검색하러 가기</v-btn>
@@ -49,7 +49,7 @@
                 <h1 class="text-white">내 주변 은행은 어디에?</h1>
               </v-col>
             </v-row>
-            <v-img class="click-event" @click="moveFindBank" max-width="200" :src="mapPhoto"></v-img>
+            <v-img class="click-event" @click="moveFindBank" max-width="300" :src="mapPhoto"></v-img>
             <v-row justify="end">
               <v-col cols="3">
                 <v-btn class="btn-2" @click="moveFindBank" variant="tonal">주변 은행 찾기</v-btn>
@@ -63,7 +63,7 @@
             <h1 class="text-white">당장 여행 계획을 세워보자</h1>
             <v-row justify="end">
               <v-col cols="8">
-                <v-img class="click-event" @click="moveExchange" max-width="200" :src="exchangePhoto"></v-img>
+                <v-img class="click-event" @click="moveExchange" max-width="300" :src="exchangePhoto"></v-img>
               </v-col>
             </v-row>
             <v-btn class="btn-3" @click="moveExchange" variant="tonal">환율 알아 보기</v-btn>
@@ -73,8 +73,11 @@
           <v-sheet class="ps-10 py-10 sheet-background-color-4 full-screen">
             <h1 class="text-white">어떤 상품을 가입해야하는지 모르겠다고?</h1>
             <h1 class="text-white">내 성향과 비슷한 금융 상품 추천!</h1>
-            <v-img class="click-event" @click="moveRecommend" max-width="200" :src="recommendPhoto"></v-img>
-            <v-btn class="btn-4" @click="moveRecommend" variant="tonal">금융 상품 추천 받기</v-btn>
+
+            <v-img class="click-event" @click="moveRecommend" max-width="300" :src="recommendPhoto"></v-img>
+            <v-row justify="end" class="me-10">
+                <v-btn class="btn-4" @click="moveRecommend" variant="tonal">금융 상품 추천 받기</v-btn>
+            </v-row>
           </v-sheet>
         </v-carousel-item>
       </v-carousel>

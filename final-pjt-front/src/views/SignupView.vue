@@ -51,16 +51,47 @@
             ></v-text-field>
           </v-col>
           <v-col class="pt-0" cols="6">
-            <v-text-field hint="나이를 입력해주세요" class="ms-5" label="Age*" variant="outlined" type="number" v-model="state.age" @blur="v$.age.$touch" :error-messages="v$.age.$error ? ['나이는 최소 0살, 최대 100살 입니다.'] : []"></v-text-field>
+            <v-text-field
+              prepend-inner-icon="mdi-numeric"
+              hint="나이를 입력해주세요"
+              class="ms-5"
+              label="Age*"
+              variant="outlined"
+              type="number"
+              v-model="state.age"
+              @blur="v$.age.$touch"
+              :error-messages="v$.age.$error ? ['나이는 최소 0살, 최대 100살 입니다.'] : []"
+            ></v-text-field>
           </v-col>
           <v-col class="pt-0" cols="6">
-            <v-text-field hint="연봉을 입력해주세요" class="me-5" label="Salary*" variant="outlined" type="number" v-model="state.salary" @blur="v$.salary.$touch" :error-messages="v$.salary.$error ? ['연봉은 최소 0원 입니다.'] : []"></v-text-field>
-          </v-col>
-          <v-col class="py-0" cols="4">
-            <v-text-field hint="자산을 입력해주세요" class="ms-5" label="Wealth*" variant="outlined" type="number" v-model="state.wealth" @blur="v$.wealth.$touch" :error-messages="v$.wealth.$error ? ['자산은 최소 0원 입니다.'] : []"></v-text-field>
+            <v-text-field
+              prepend-inner-icon="mdi-card-bulleted"
+              hint="연봉을 입력해주세요"
+              class="me-5"
+              label="Salary*"
+              variant="outlined"
+              type="number"
+              v-model="state.salary"
+              @blur="v$.salary.$touch"
+              :error-messages="v$.salary.$error ? ['연봉은 최소 0원 입니다.'] : []"
+            ></v-text-field>
           </v-col>
           <v-col class="py-0" cols="4">
             <v-text-field
+              prefix="$"
+              hint="자산을 입력해주세요"
+              class="ms-5"
+              label="Wealth*"
+              variant="outlined"
+              type="number"
+              v-model="state.wealth"
+              @blur="v$.wealth.$touch"
+              :error-messages="v$.wealth.$error ? ['자산은 최소 0원 입니다.'] : []"
+            ></v-text-field>
+          </v-col>
+          <v-col class="py-0" cols="4">
+            <v-text-field
+              prepend-inner-icon="mdi-sine-wave"
               hint="0에 가까울 수록 안정성, 10에 가까울 수록 적극성을 의미합니다"
               class="mx-auto"
               label="Tendency*"
@@ -72,7 +103,7 @@
             ></v-text-field>
           </v-col>
           <v-col class="py-0" cols="4">
-            <v-select type="number" class="me-5" hint="단위는 '개월' 입니다." :items="[6, 12, 24, 36]" label="Desire Period*" variant="outlined" required v-model="state.desirePeriod" persistent-hint></v-select>
+            <v-select prepend-inner-icon="mdi-timer-sand" type="number" class="me-5" hint="단위는 '개월' 입니다." :items="[6, 12, 24, 36]" label="Desire Period*" variant="outlined" required v-model="state.desirePeriod" persistent-hint></v-select>
           </v-col>
           <v-col class="py-0" cols="6">
             <v-checkbox class="mx-10" color="#F9A825" label="(필수) 서비스 이용약관 동의" value="service" v-model="selected"></v-checkbox>

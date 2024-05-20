@@ -1,9 +1,9 @@
 <template>
   <v-container>
     <v-select v-model="bank" :items="bankList" label="은행"></v-select>
-      <v-tabs v-model="type" bg-color="indigo-darken-2" fixed-tabs>
-      <v-tab text="자유 적립식"></v-tab>
-      <v-tab text="정액 적립식"></v-tab>
+    <v-tabs v-model="type" bg-color="indigo-darken-2" fixed-tabs>
+      <v-tab @click="loaddata_free()" text="자유 적립식"></v-tab>
+      <v-tab @click="loaddata_period()" text="정액 적립식"></v-tab>
     </v-tabs>
 
     <v-container>
@@ -87,10 +87,10 @@
           </v-col>
           <v-col>
             <v-card-text v-for="option in savingStore.getSavingDetailOption">
-              <p>적립 방법 : {{ option.rsrv_type_nm }}</p>
-              <p>개월 수 : {{ option.save_trm }}</p>
-              <p>이율 : {{ option.intr_rate }}</p>
-              <p>최대 이율 : {{ option.intr_rate2 }}</p>
+                <p>적립 방법 : {{ option.rsrv_type_nm }}</p>
+                <p>개월 수 : {{ option.save_trm }}</p>
+                <p>이율 : {{ option.intr_rate }}</p>
+                <p>최대 이율 : {{ option.intr_rate2 }}</p>
             </v-card-text>
           </v-col>
         </v-row>
@@ -165,70 +165,95 @@ const dialog = ref(false);
 const savingStore = useSavingStore();
 const savingData = ref([]);
 onMounted(() => {
+  bank.value = "모든은행";
   savingStore.getAllSaving();
 });
 
-const type = ref('')
-console.log(type.value)
+const type = ref("");
+console.log(type.value);
 
 const loaddata_free = function () {
   if (savingStore.allSaving && savingStore.allSaving.length > 0) {
-    savingData.value = savingStore.allSaving.map((element) => {
-      const option6 = element.savingoption_set.find((option) => option.save_trm === 6 && option.rsrv_type_nm === '자유적립식');
-      const intrRate6 = option6 ? option6.intr_rate : null;
-      const option12 = element.savingoption_set.find((option) => option.save_trm === 12 && option.rsrv_type_nm === '자유적립식');
-      const intrRate12 = option12 ? option12.intr_rate : null;
-      const option24 = element.savingoption_set.find((option) => option.save_trm === 24 && option.rsrv_type_nm === '자유적립식');
-      const intrRate24 = option24 ? option24.intr_rate : null;
-      const option36 = element.savingoption_set.find((option) => option.save_trm === 36 && option.rsrv_type_nm === '자유적립식');
-      const intrRate36 = option36 ? option36.intr_rate : null;
-      return {
-        공시제출일: element.dcls_month,
-        은행: element.kor_co_nm,
-        상품명: element.fin_prdt_nm,
-        "6개월": intrRate6,
-        "12개월": intrRate12,
-        "24개월": intrRate24,
-        "36개월": intrRate36,
-      };
-    });
+    savingData.value = savingStore.allSaving
+      .map((element) => {
+        const option6 = element.savingoption_set.find((option) => option.save_trm === 6 && option.rsrv_type_nm === "자유적립식");
+        const intrRate6 = option6 ? option6.intr_rate : null;
+        const option12 = element.savingoption_set.find((option) => option.save_trm === 12 && option.rsrv_type_nm === "자유적립식");
+        const intrRate12 = option12 ? option12.intr_rate : null;
+        const option24 = element.savingoption_set.find((option) => option.save_trm === 24 && option.rsrv_type_nm === "자유적립식");
+        const intrRate24 = option24 ? option24.intr_rate : null;
+        const option36 = element.savingoption_set.find((option) => option.save_trm === 36 && option.rsrv_type_nm === "자유적립식");
+        const intrRate36 = option36 ? option36.intr_rate : null;
+
+        // 모든 이자율 값이 null인지 확인
+        if (intrRate6 === null && intrRate12 === null && intrRate24 === null && intrRate36 === null) {
+          return null; // 모두 null이면 null을 반환
+        }
+
+        return {
+          공시제출일: element.dcls_month,
+          은행: element.kor_co_nm,
+          상품명: element.fin_prdt_nm,
+          "6개월": intrRate6,
+          "12개월": intrRate12,
+          "24개월": intrRate24,
+          "36개월": intrRate36,
+        };
+      })
+      .filter((data) => data !== null); // null이 아닌 값만 필터링
   }
 };
 
 const loaddata_period = function () {
   if (savingStore.allSaving && savingStore.allSaving.length > 0) {
-    savingData.value = savingStore.allSaving.map((element) => {
-      const option6 = element.savingoption_set.find((option) => option.save_trm === 6 && option.rsrv_type_nm === '정액적립식');
-      const intrRate6 = option6 ? option6.intr_rate : null;
-      const option12 = element.savingoption_set.find((option) => option.save_trm === 12 && option.rsrv_type_nm === '정액적립식');
-      const intrRate12 = option12 ? option12.intr_rate : null;
-      const option24 = element.savingoption_set.find((option) => option.save_trm === 24 && option.rsrv_type_nm === '정액적립식');
-      const intrRate24 = option24 ? option24.intr_rate : null;
-      const option36 = element.savingoption_set.find((option) => option.save_trm === 36 && option.rsrv_type_nm === '정액적립식');
-      const intrRate36 = option36 ? option36.intr_rate : null;
-      return {
-        공시제출일: element.dcls_month,
-        은행: element.kor_co_nm,
-        상품명: element.fin_prdt_nm,
-        "6개월": intrRate6,
-        "12개월": intrRate12,
-        "24개월": intrRate24,
-        "36개월": intrRate36,
-      };
-    });
+    savingData.value = savingStore.allSaving
+      .map((element) => {
+        const option6 = element.savingoption_set.find((option) => option.save_trm === 6 && option.rsrv_type_nm === "정액적립식");
+        const intrRate6 = option6 ? option6.intr_rate : null;
+        const option12 = element.savingoption_set.find((option) => option.save_trm === 12 && option.rsrv_type_nm === "정액적립식");
+        const intrRate12 = option12 ? option12.intr_rate : null;
+        const option24 = element.savingoption_set.find((option) => option.save_trm === 24 && option.rsrv_type_nm === "정액적립식");
+        const intrRate24 = option24 ? option24.intr_rate : null;
+        const option36 = element.savingoption_set.find((option) => option.save_trm === 36 && option.rsrv_type_nm === "정액적립식");
+        const intrRate36 = option36 ? option36.intr_rate : null;
+
+        // 모든 이자율 값이 null인지 확인
+        if (intrRate6 === null && intrRate12 === null && intrRate24 === null && intrRate36 === null) {
+          return null; // 모두 null이면 null을 반환
+        }
+
+        return {
+          공시제출일: element.dcls_month,
+          은행: element.kor_co_nm,
+          상품명: element.fin_prdt_nm,
+          "6개월": intrRate6,
+          "12개월": intrRate12,
+          "24개월": intrRate24,
+          "36개월": intrRate36,
+        };
+      })
+      .filter((data) => data !== null); // null이 아닌 값만 필터링
   }
 };
 
+const bankList = ref(["모든은행"]);
+const bank = ref("");
 watch(
   () => savingStore.allSaving,
   () => {
-    loaddata_free();
+    if (type.value == 0) {
+      bank.value = "모든은행";
+      // 자유 적금
+      loaddata_free();
+    } else if (type.value == 1) {
+      bank.value = "모든은행";
+      // 정기 적금
+      loaddata_period();
+      console.log(bankList.value);
+    }
   },
   { immediate: true }
 );
-
-const bankList = ref(["전체보기"]);
-const bank = ref("");
 
 watchEffect(() => {
   if (savingStore.bankList && savingStore.bankList.length > 0) {
@@ -237,15 +262,38 @@ watchEffect(() => {
     });
   }
 });
-
 watch(bank, () => {
-  loaddata_free();
-  if (bank.value !== "전체보기") {
+  if (type.value == 0) {
+    // 자유 적금
+    loaddata_free();
+  } else if (type.value == 1) {
+    // 정기 적금
+    loaddata_period();
+  }
+  if (bank.value !== "모든은행") {
     savingData.value = savingData.value.filter((item) => {
       return item.은행 === bank.value;
     });
   }
 });
+
+watch(type, () => {
+  if (type.value == 0) {
+    // 자유 적금
+    // bank.value = "모든은행";
+    loaddata_free();
+  } else if (type.value == 1) {
+    // 정기 적금
+    // bank.value = "모든은행";
+    loaddata_period();
+  }
+  if (bank.value !== "모든은행") {
+    savingData.value = savingData.value.filter((item) => {
+      return item.은행 === bank.value;
+    });
+  }
+});
+
 const showDetails = (productName) => {
   findDetail(productName);
   // 로딩 데이터 확인 후 출력될 다이얼로그 데이터에 삽입

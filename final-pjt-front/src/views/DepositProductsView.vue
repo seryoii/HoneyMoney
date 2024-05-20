@@ -1,8 +1,8 @@
 <template>
   <v-container>
-    <v-select v-model="bank" :items="bankList" label="은행"></v-select>
+    <v-autocomplete variant="solo" v-model="bank" :items="bankList" label="은행"></v-autocomplete>
     <v-container>
-      <v-data-table :items="depositData" class="elevation-1" item-class="hoverable-row">
+      <v-data-table :items="depositData" class="elevation-1" item-class="hoverable-row" :height="400" fixed-header>
         <!-- <template v-slot:item.은행="{ item }">
           <a class="custom-link" @click="showDetails(item[은행])">{{ item.은행 }}</a>
         </template> -->
@@ -65,7 +65,6 @@
           </v-col>
         </v-row>
         <hr />
-
         <v-row justify="center" align="center">
           <v-col cols="3" class="d-flex justify-center">
             <v-card-text class="text-style" align="center">만기 후 이자율</v-card-text>
@@ -136,6 +135,7 @@ const depositData = ref([]);
 const dialog = ref(false);
 
 onMounted(() => {
+  bank.value = "모든은행";
   depositStore.getAllDeposit();
 });
 
@@ -171,7 +171,7 @@ watch(
   { immediate: true }
 );
 
-const bankList = ref(["전체보기"]);
+const bankList = ref(["모든은행"]);
 const bank = ref("");
 
 watchEffect(() => {
@@ -184,7 +184,7 @@ watchEffect(() => {
 
 watch(bank, () => {
   loaddata();
-  if (bank.value !== "전체보기") {
+  if (bank.value !== "모든은행") {
     depositData.value = depositData.value.filter((item) => {
       return item.은행 === bank.value;
     });
