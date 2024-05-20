@@ -77,3 +77,11 @@ class UserGetInterestSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('id', 'deposit', 'saving')
+
+
+
+
+class NewInfoChangeSerializer(serializers.ModelSerializer):
+     class Meta:
+          model = User
+          fields = ('nickname', 'age', 'profile_img', 'salary', 'wealth', 'tendency', 'desirePeriod', 'deposit', 'saving')

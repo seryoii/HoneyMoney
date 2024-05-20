@@ -1,3 +1,4 @@
+from django.http import JsonResponse
 import requests
 import random
 
@@ -173,55 +174,55 @@ def saving_option_detail(request, saving_code, option_id):
         serializer = SavingOptionSerializer(option)
         return Response(serializer.data)
 
-@api_view(['GET', 'POST', 'DELETE'])
-def deposit_interest(request, deposit_code):
-    deposit = get_object_or_404(DepositProduct, fin_prdt_cd=deposit_code)
-    if request.method == 'GET':
-        serializer = InterestDepositSerializer(deposit)
-        return Response(serializer.data)
+# @api_view(['GET', 'POST', 'DELETE'])
+# def deposit_interest(request, deposit_code):
+#     deposit = get_object_or_404(DepositProduct, fin_prdt_cd=deposit_code)
+#     if request.method == 'GET':
+#         serializer = InterestDepositSerializer(deposit)
+#         return Response(serializer.data)
     
-    elif request.method == 'POST':
-        if request.user not in deposit.interest_user.all():
-            deposit.interest_user.add(request.user)
-            serializer = InterestDepositSerializer(deposit, data=request.data, partial=True)
+#     elif request.method == 'POST':
+#         if request.user not in deposit.interest_user.all():
+#             deposit.interest_user.add(request.user)
+#             serializer = InterestDepositSerializer(deposit, data=request.data, partial=True)
 
-            if serializer.is_valid(raise_exception=True):
-                serializer.save()
-                return Response({ "detail": "상품이 추가되었습니다." }, status=status.HTTP_200_OK)
-        else:
-            return Response({ "detail": "이미 상품이 존재합니다." }, status=status.HTTP_400_BAD_REQUEST)
+#             if serializer.is_valid(raise_exception=True):
+#                 serializer.save()
+#                 return Response({ "detail": "상품이 추가되었습니다." }, status=status.HTTP_200_OK)
+#         else:
+#             return Response({ "detail": "이미 상품이 존재합니다." }, status=status.HTTP_400_BAD_REQUEST)
         
-    elif request.method == 'DELETE':
-        if request.user in deposit.interest_user.all():
-            deposit.interest_user.remove(request.user)
-            return Response({ "detail": "삭제되었습니다." }, status=status.HTTP_204_NO_CONTENT)
-        else:
-            return Response({ "detail": "삭제할 항목이 없습니다." }, status=status.HTTP_404_NOT_FOUND)
+#     elif request.method == 'DELETE':
+#         if request.user in deposit.interest_user.all():
+#             deposit.interest_user.remove(request.user)
+#             return Response({ "detail": "삭제되었습니다." }, status=status.HTTP_204_NO_CONTENT)
+#         else:
+#             return Response({ "detail": "삭제할 항목이 없습니다." }, status=status.HTTP_404_NOT_FOUND)
 
-@api_view(['GET', 'POST', 'DELETE'])
-def saving_interest(request, saving_code):
-    saving = get_object_or_404(DepositProduct, fin_prdt_cd=saving_code)
-    if request.method == 'GET':
-        serializer = InterestSavingSerializer(saving)
-        return Response(serializer.data)
+# @api_view(['GET', 'POST', 'DELETE'])
+# def saving_interest(request, saving_code):
+#     saving = get_object_or_404(DepositProduct, fin_prdt_cd=saving_code)
+#     if request.method == 'GET':
+#         serializer = InterestSavingSerializer(saving)
+#         return Response(serializer.data)
     
-    elif request.method == 'POST':
-        if request.user not in saving.interest_user.all():
-            saving.interest_user.add(request.user)
-            serializer = InterestSavingSerializer(saving, data=request.data, partial=True)
+#     elif request.method == 'POST':
+#         if request.user not in saving.interest_user.all():
+#             saving.interest_user.add(request.user)
+#             serializer = InterestSavingSerializer(saving, data=request.data, partial=True)
 
-            if serializer.is_valid(raise_exception=True):
-                serializer.save()
-                return Response({ "detail": "상품이 추가되었습니다." }, status=status.HTTP_200_OK)
-        else:
-            return Response({ "detail": "이미 상품이 존재합니다." }, status=status.HTTP_400_BAD_REQUEST)
+#             if serializer.is_valid(raise_exception=True):
+#                 serializer.save()
+#                 return Response({ "detail": "상품이 추가되었습니다." }, status=status.HTTP_200_OK)
+#         else:
+#             return Response({ "detail": "이미 상품이 존재합니다." }, status=status.HTTP_400_BAD_REQUEST)
         
-    elif request.method == 'DELETE':
-        if request.user in saving.interest_user.all():
-            saving.interest_user.remove(request.user)
-            return Response({ "detail": "삭제되었습니다." }, status=status.HTTP_204_NO_CONTENT)
-        else:
-            return Response({ "detail": "삭제할 항목이 없습니다." }, status=status.HTTP_404_NOT_FOUND)
+#     elif request.method == 'DELETE':
+#         if request.user in saving.interest_user.all():
+#             saving.interest_user.remove(request.user)
+#             return Response({ "detail": "삭제되었습니다." }, status=status.HTTP_204_NO_CONTENT)
+#         else:
+#             return Response({ "detail": "삭제할 항목이 없습니다." }, status=status.HTTP_404_NOT_FOUND)
         
 @api_view(['GET'])
 def bank_deposit(request, bank_name):
@@ -343,3 +344,50 @@ def saving_recommend(request):
     recommend = list(set(saving.order_by("savingoption__intr_rate")[:8]))
     serializer = SavingRecommendSerializer(recommend, many=True)
     return Response(serializer.data)
+
+@api_view(['GET'])
+def deposit_recommend_second(request):
+    user = get_object_or_404(User, username=request.user.username)
+    age = user.age
+    deposits = user.deposit.all()
+    cnt_lst = [0] * 70
+    users = User.objects.all()
+    for user in users:
+        if age // 10 == user.age // 10:
+            deposits = user.deposit.all()
+            for deposit in deposits:
+                cnt_lst[int(deposit.id)] += 1
+    # print(cnt_lst)
+    cnt_tpl = []
+    for value in range(len(cnt_lst)):
+        cnt_tpl.append((cnt_lst[value], value))
+    # print(cnt_tpl)
+    cnt_tpl.sort(key= lambda x: -x[0])
+    best = []
+    for i in range(10):
+        best.append(cnt_tpl[i][1])
+    return Response(best)
+    
+
+@api_view(['GET'])
+def saving_recommend_second(request):
+    user = get_object_or_404(User, username=request.user.username)
+    age = user.age
+    savings = user.saving.all()
+    cnt_lst = [0] * 70
+    users = User.objects.all()
+    for user in users:
+        if age // 10 == user.age // 10:
+            savings = user.saving.all()
+            for saving in savings:
+                cnt_lst[int(saving.id)] += 1
+    # print(cnt_lst)
+    cnt_tpl = []
+    for value in range(len(cnt_lst)):
+        cnt_tpl.append((cnt_lst[value], value))
+    # print(cnt_tpl)
+    cnt_tpl.sort(key= lambda x: -x[0])
+    best = []
+    for i in range(10):
+        best.append(cnt_tpl[i][1])
+    return Response(best)
