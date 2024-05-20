@@ -255,3 +255,23 @@ def bank_saving(request, bank_name):
 #         savings = SavingProduct.objects.filter(savingoption__save_trm=month).order_by('savingoption__intr_rate')
 #         serializer = SavingMonthSerializer(savings, many=True, save_trm=month)
 #         return Response(serializer.data)
+
+def like_deposit(request, deposit_code):
+    deposit = get_object_or_404(DepositProduct, id=deposit_code)
+    user = request.user
+    if deposit in user.deposit.all():
+        user.deposit.remove(deposit)  # 이미 좋아요한 경우 좋아요 취소
+        return Response({'status': 'unliked'}, status=status.HTTP_200_OK)
+    else:
+        user.deposit.add(deposit)  # 좋아요 추가
+        return Response({'status': 'liked'}, status=status.HTTP_200_OK)
+    
+def like_saving(request, saving_code):
+    saving = get_object_or_404(SavingProduct, id=saving_code)
+    user = request.user
+    if saving in user.saving.all():
+        user.saving.remove(saving)  # 이미 좋아요한 경우 좋아요 취소
+        return Response({'status': 'unliked'}, status=status.HTTP_200_OK)
+    else:
+        user.saving.add(saving)  # 좋아요 추가
+        return Response({'status': 'liked'}, status=status.HTTP_200_OK)
