@@ -1,16 +1,20 @@
 <template>
-  <v-container class="mt-10">
-    <v-row justify="center">
-      <v-col cols="6" align="center">
-        <v-img class="cursor" @click="intoDeposits" :src="depositsPic" width="50%"></v-img>
-        <p>Deposits</p>
-      </v-col>
-      <v-col cols="6" align="center">
-        <v-img class="cursor" @click="intoSavings" :src="savingsPic" width="50%"></v-img>
-        <p>Savings</p>
-      </v-col>
-    </v-row>
-  </v-container>
+<v-container class="px-16">
+  <v-row justify="center" align="center">
+    <v-col cols="6" align="center" class="custom-border custom-border-right">
+      <v-container class="cursor" @click="intoDeposits">
+        <v-img :src="depositsPic" height="400px" width="200px"></v-img>
+        <h1 class="ibm-plex-sans-kr-bold">예금</h1>
+      </v-container>
+    </v-col>
+    <v-col cols="6" align="center" class="custom-border custom-border-left">
+      <v-container class="cursor" @click="intoSavings">
+        <v-img :src="savingsPic" height="400px" width="200px"></v-img>
+        <h1 class="ibm-plex-sans-kr-bold">적금</h1>
+      </v-container>
+    </v-col>
+  </v-row>
+</v-container>
 </template>
 
 <script setup>
@@ -33,5 +37,28 @@ const intoSavings = function () {
 <style scoped>
 .cursor {
   cursor: pointer;
+}
+.custom-border {
+  position: relative;
+}
+
+.custom-border-right::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 10%; /* adjust as needed */
+  bottom: 10%; /* adjust as needed */
+  width: 1px; /* adjust thickness as needed */
+  background-color: lightgrey; /* adjust color as needed */
+}
+
+.custom-border-left::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 10%; /* adjust as needed */
+  bottom: 10%; /* adjust as needed */
+  width: 1px; /* adjust thickness as needed */
+  background-color: lightgrey; /* adjust color as needed */
 }
 </style>

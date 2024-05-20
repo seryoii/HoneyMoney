@@ -1,12 +1,45 @@
 <template>
   <v-container>
     <v-container v-if="userStore.userProfile">
+      <v-card :disabled="loading" :loading="loading" class="mx-auto my-12" max-width="374">
+        <template v-slot:loader="{ isActive }">
+          <v-progress-linear :active="isActive" color="deep-purple" height="4" indeterminate></v-progress-linear>
+        </template>
+        <v-container class="mt-3" align="center">
+          <v-avatar :image="profileImg" size="200" alt="User Profile Image" cover></v-avatar>
+          <v-card-title class="mt-3 ibm-plex-sans-kr-bold"><h2>{{ userStore.userProfile.nickname }} 님</h2></v-card-title>
+          <v-card-text class="ibm-plex-sans-kr-bold"><h3>{{ userStore.userProfile.username }} (만 {{ userStore.userProfile.age }}세)</h3></v-card-text>
+        </v-container>
+
+        <v-divider class="mx-4 mb-1"></v-divider>
+
+        <!-- <v-container>
+          <v-card-title class="ibm-plex-sans-kr-bold"><h4>내 정보</h4></v-card-title>
+          <v-card-text>아이디 : {{ userStore.userProfile.username }}</v-card-text>
+          <v-card-text>나이 : {{ userStore.userProfile.age }}</v-card-text>
+        </v-container> -->
+
+        
+        <v-container>
+          <v-card-title class="ibm-plex-sans-kr-bold"><h4>나의 금융 정보</h4></v-card-title>
+
+          <div class="px-4 mb-2">
+              <v-chip>나의 연봉 : {{ userStore.userProfile.salary }}</v-chip>
+
+              <v-chip>나의 자산 : {{ userStore.userProfile.wealth }}</v-chip>
+
+              <v-chip>나의 저축 성향 : {{ userStore.userProfile.tendency }}</v-chip>
+
+              <v-chip>나의 저축 희망 기간 : {{ userStore.userProfile.desirePeriod }}</v-chip>
+          </div>
+        </v-container>
+
+        <v-card-actions>
       <v-container class="pa-4 text-center">
         <v-dialog v-model="dialog" max-width="600">
           <template v-slot:activator="{ props: activatorProps }">
-            <v-btn class="text-none font-weight-regular" prepend-icon="mdi-account" text="Edit Profile" variant="tonal" v-bind="activatorProps"></v-btn>
+            <v-btn v-bind="activatorProps" color="yellow-darken-3" prepend-icon="mdi-account" variant="tonal" text="Edit Profile" block border @click="reserve"></v-btn>
           </template>
-
           <v-card prepend-icon="mdi-account" title="User Profile">
             <v-card-text>
               <v-form @submit.prevent="submitForm">
@@ -47,7 +80,6 @@
                     <v-file-input prepend-icon="mdi-camera" label="Profile Image" accept="image/" v-model="form.profile_img"></v-file-input>
                   </v-col>
                 </v-row>
-
                 <small class="text-caption text-medium-emphasis">*indicates required field</small>
               </v-form>
             </v-card-text>
@@ -64,7 +96,9 @@
           </v-card>
         </v-dialog>
       </v-container>
-      <v-avatar :image="profileImg" size="150" alt="User Profile Image"></v-avatar>
+    </v-card-actions>
+  </v-card>
+      <!-- <v-avatar :image="profileImg" size="150" alt="User Profile Image"></v-avatar>
       <p>유저 등록 ID : {{ userStore.userProfile.id }}</p>
       <p>유저 아이디 : {{ userStore.userProfile.username }}</p>
       <p>유저 닉네임 : {{ userStore.userProfile.nickname }}</p>
@@ -74,7 +108,7 @@
       <p>유저 연봉 : {{ userStore.userProfile.salary }}</p>
       <p>유저 자산 : {{ userStore.userProfile.wealth }}</p>
       <p>유저 성향 : {{ userStore.userProfile.tendency }}</p>
-      <p>유저 희망 기간 : {{ userStore.userProfile.desirePeriod }}</p>
+      <p>유저 희망 기간 : {{ userStore.userProfile.desirePeriod }}</p> -->
     </v-container>
   </v-container>
 </template>
