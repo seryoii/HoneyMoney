@@ -4,8 +4,8 @@ from django.contrib.auth import get_user_model
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework import status
-from .serializers import UserPageSerializer, UserInfoChangeSerializer
-from .models import DepositProduct
+from .serializers import UserPageSerializer, UserInfoChangeSerializer, UserGetInterestSerializer
+from .models import User
 
 # Create your views here.
 
@@ -44,22 +44,31 @@ def user_profile(request, username):
     serializer = UserPageSerializer(user)
     return Response(serializer.data, status=status.HTTP_200_OK)
 
-def sync_deposit_interest_users(request):
-    # 현재 로그인된 사용자
-    user = request.user
+# def sync_deposit_interest_users(request):
+#     # 현재 로그인된 사용자
+#     user = request.user
 
-    try:
-        # 사용자 deposit 필드에서 모든 DepositProduct ID 가져오기
-        deposit_ids = user.deposit.values_list('id', flat=True)
+#     try:
+#         # 사용자 deposit 필드에서 모든 DepositProduct ID 가져오기
+#         deposit_ids = user.deposit.values_list('id', flat=True)
 
-        # 각 DepositProduct의 interest_user에 사용자 추가
-        for deposit_id in deposit_ids:
-            deposit_product = get_object_or_404(DepositProduct, id=deposit_id)
-            deposit_product.interest_user.add(user)
+#         # 각 DepositProduct의 interest_user에 사용자 추가
+#         for deposit_id in deposit_ids:
+#             deposit_product = get_object_or_404(DepositProduct, id=deposit_id)
+#             deposit_product.interest_user.add(user)
 
-        # 사용자의 갱신된 정보 직렬화
-        serializer = UserPageSerializer(user)
+#         # 사용자의 갱신된 정보 직렬화
+#         serializer = UserPageSerializer(user)
 
-        return JsonResponse({'status': 'success', 'message': 'Deposit interest users synchronized successfully', 'data': serializer.data})
-    except Exception as e:
-        return JsonResponse({'status': 'error', 'message': str(e)})
+#         return JsonResponse({'status': 'success', 'message': 'Deposit interest users synchronized successfully', 'data': serializer.data})
+#     except Exception as e:
+#         return JsonResponse({'status': 'error', 'message': str(e)})
+@api_view(['GET'])
+def get_interest(request):
+    users = User.objects.all()
+    for user in users:
+        print(user.deposit)
+    serializer = UserGetInterestSerializer(users, many=True)
+    return Response(serializer.data)
+    # for user in users:
+    #     print(user.deposit)

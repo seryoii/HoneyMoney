@@ -1,6 +1,11 @@
 <template>
   <v-container>
     <v-select v-model="bank" :items="bankList" label="은행"></v-select>
+      <v-tabs v-model="type" bg-color="indigo-darken-2" fixed-tabs>
+      <v-tab text="자유 적립식"></v-tab>
+      <v-tab text="정액 적립식"></v-tab>
+    </v-tabs>
+
     <v-container>
       <v-data-table :items="savingData" class="elevation-1" item-class="hoverable-row">
         <!-- <template v-slot:item.은행="{ item }">
@@ -163,6 +168,9 @@ onMounted(() => {
   savingStore.getAllSaving();
 });
 
+const type = ref('')
+console.log(type.value)
+
 const loaddata_free = function () {
   if (savingStore.allSaving && savingStore.allSaving.length > 0) {
     savingData.value = savingStore.allSaving.map((element) => {
@@ -173,6 +181,30 @@ const loaddata_free = function () {
       const option24 = element.savingoption_set.find((option) => option.save_trm === 24 && option.rsrv_type_nm === '자유적립식');
       const intrRate24 = option24 ? option24.intr_rate : null;
       const option36 = element.savingoption_set.find((option) => option.save_trm === 36 && option.rsrv_type_nm === '자유적립식');
+      const intrRate36 = option36 ? option36.intr_rate : null;
+      return {
+        공시제출일: element.dcls_month,
+        은행: element.kor_co_nm,
+        상품명: element.fin_prdt_nm,
+        "6개월": intrRate6,
+        "12개월": intrRate12,
+        "24개월": intrRate24,
+        "36개월": intrRate36,
+      };
+    });
+  }
+};
+
+const loaddata_period = function () {
+  if (savingStore.allSaving && savingStore.allSaving.length > 0) {
+    savingData.value = savingStore.allSaving.map((element) => {
+      const option6 = element.savingoption_set.find((option) => option.save_trm === 6 && option.rsrv_type_nm === '정액적립식');
+      const intrRate6 = option6 ? option6.intr_rate : null;
+      const option12 = element.savingoption_set.find((option) => option.save_trm === 12 && option.rsrv_type_nm === '정액적립식');
+      const intrRate12 = option12 ? option12.intr_rate : null;
+      const option24 = element.savingoption_set.find((option) => option.save_trm === 24 && option.rsrv_type_nm === '정액적립식');
+      const intrRate24 = option24 ? option24.intr_rate : null;
+      const option36 = element.savingoption_set.find((option) => option.save_trm === 36 && option.rsrv_type_nm === '정액적립식');
       const intrRate36 = option36 ? option36.intr_rate : null;
       return {
         공시제출일: element.dcls_month,

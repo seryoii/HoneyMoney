@@ -6,6 +6,5 @@ from . import views
 urlpatterns = [
     path('<str:username>/', views.mypage),
     path('profile/<str:username>/', views.user_profile),
-    path('sync-deposit-interest/', views.sync_deposit_interest_users, name='sync_deposit_interest_users'),
-
+    path('get/interest/', views.get_interest)
 ]
