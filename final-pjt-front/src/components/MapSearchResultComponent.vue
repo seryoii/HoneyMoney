@@ -2,11 +2,128 @@
   <v-container>
     <v-row>
       <!-- {{ results }} -->
-      <v-col v-for="result in results" :key="result" cols="6">
-        <v-card class="mx-auto pb-2" @click="intoDetail">
+      <v-col v-for="result in results" :key="result.id" cols="6">
+        <v-card class="mx-auto pb-2" @click="openDialog(result)">
           <v-card-title>{{ result.fin_prdt_nm }}</v-card-title>
           <v-card-subtitle>{{ result.kor_co_nm }}</v-card-subtitle>
         </v-card>
+        <!-- Dialog for the card -->
+        <v-dialog v-model="result.dialog" width="1000">
+          <v-card class="mx-auto" prepend-icon="$vuetify" :subtitle="`${result.kor_co_nm}`" width="1000">
+            <template v-slot:title>
+              <v-row>
+                <v-col class="pb-0" cols="10">
+                  <span class="font-weight-black">{{ result.fin_prdt_nm }}</span>
+                </v-col>
+                <v-col class="pb-0">
+                  <v-card-actions>
+                    <!-- 꿀바르기 버튼 -->
+                    <v-img v-if="(userStore.userInfo.id in result.interest_user)" @click="saveEvent(result.fin_prdt_cd)" :src="cancel" alt="Save" class="button-image hover-effect" max-width="50" />
+                    <v-img v-else @click="deleteEvent(result.fin_prdt_cd)" :src="save" alt="Cancel" class="button-image hover-effect" max-width="50" />
+                  </v-card-actions>
+                </v-col>
+              </v-row>
+              {{ userStore.userInfo.id }} {{ result.interest_user }}
+            </template>
+            <v-row justify="center" align="center">
+              <v-col cols="3" class="d-flex justify-center">
+                <v-card-text class="text-style" align="center">관심도 ★</v-card-text>
+              </v-col>
+              <v-col>
+                <v-card-text class="">{{ result.interest_user?.length }}</v-card-text>
+              </v-col>
+            </v-row>
+            <hr />
+            <v-row justify="center" align="center">
+              <v-col cols="3" class="d-flex justify-center">
+                <v-card-text class="text-style" align="center">공시 제출일</v-card-text>
+              </v-col>
+              <v-col>
+                <v-card-text class="">{{ result.dcls_month }}</v-card-text>
+              </v-col>
+            </v-row>
+            <hr />
+
+            <v-row justify="center" align="center">
+              <v-col cols="3" class="d-flex justify-center">
+                <v-card-text class="text-style" align="center">금융 상품명</v-card-text>
+              </v-col>
+              <v-col>
+                <v-card-text class="">{{ result.fin_prdt_nm }}</v-card-text>
+              </v-col>
+            </v-row>
+            <hr />
+
+            <v-row justify="center" align="center">
+              <v-col cols="3" class="d-flex justify-center">
+                <v-card-text class="text-style" align="center">가입 방법</v-card-text>
+              </v-col>
+              <v-col>
+                <v-card-text class="">{{ result.join_way }}</v-card-text>
+              </v-col>
+            </v-row>
+            <hr />
+
+            <v-row justify="center" align="center">
+              <v-col cols="3" class="d-flex justify-center">
+                <v-card-text class="text-style" align="center">만기 후 이자율</v-card-text>
+              </v-col>
+              <v-col>
+                <v-card-text class="">{{ result.mtrt_int }}</v-card-text>
+              </v-col>
+            </v-row>
+            <hr />
+            <v-row justify="center" align="center">
+              <v-col cols="3" class="d-flex justify-center">
+                <v-card-text class="text-style" align="center">우대 조건</v-card-text>
+              </v-col>
+              <v-col>
+                <v-card-text class="">{{ result.spcl_cnd }}</v-card-text>
+              </v-col>
+            </v-row>
+            <hr />
+            <v-row justify="center" align="center">
+              <v-col cols="3" class="d-flex justify-center">
+                <v-card-text class="text-style" align="center">가입 대상</v-card-text>
+              </v-col>
+              <v-col>
+                <v-card-text class="">{{ result.join_member }}</v-card-text>
+              </v-col>
+            </v-row>
+            <hr />
+            <v-row justify="center" align="center">
+              <v-col cols="3" class="d-flex justify-center">
+                <v-card-text class="text-style" align="center">가입 제한</v-card-text>
+              </v-col>
+              <v-col>
+                <v-card-text class="">
+                  {{ result.join_deny == 1 ? "제한없음" : result.join_deny == 2 ? "서민전용" : result.join_deny == 3 ? "일부제한" : "기타" }}
+                </v-card-text>
+              </v-col>
+            </v-row>
+            <hr />
+            <v-row justify="center" align="center">
+              <v-col cols="3" class="d-flex justify-center">
+                <v-card-text class="text-style" align="center">최고 한도</v-card-text>
+              </v-col>
+              <v-col>
+                <v-card-text class="">{{ result.max_limit === null ? "한도 없음" : `${new Intl.NumberFormat("ko-KR", { style: "currency", currency: "KRW" }).format(result.max_limit)}` }}</v-card-text>
+              </v-col>
+            </v-row>
+            <hr />
+            <v-row justify="center" align="center">
+              <v-col cols="3" class="d-flex justify-center">
+                <v-card-text class="text-style" align="center">기타 유의사항</v-card-text>
+              </v-col>
+              <v-col>
+                <v-card-text class="">{{ result.etc_note }}</v-card-text>
+              </v-col>
+            </v-row>
+            <v-card-actions>
+              <v-btn @click="result.dialog = false">OK</v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
       </v-col>
     </v-row>
   </v-container>
@@ -15,34 +132,124 @@
 <script setup>
 import { ref, watch } from "vue";
 import axios from "axios";
-
+import cancel from "@/assets/cancel.png";
+import save from "@/assets/save.png";
+import { useUserStore } from "@/stores/user";
+import { useDepositStore } from "@/stores/deposit";
+import { useSavingStore } from "@/stores/saving";
+const depositStore = useDepositStore();
+const savingStore = useSavingStore();
+const userStore = useUserStore();
+console.log(userStore.userInfo);
 const results = ref([]);
-const intoDetail = function () {};
+
 const props = defineProps({
   searchKeyword: String,
 });
 
 watch(
   () => props.searchKeyword,
-  (newKeyword, oldKeyword) => {
+  (newKeyword) => {
     console.log(newKeyword);
+    results.value = [];
     searchDeposit(newKeyword);
+    searchSaving(newKeyword);
   }
 );
 
 const searchDeposit = function (keyword) {
   axios({
     method: "get",
-    url: `http://127.0.0.1:8000/products/bank/deposit/${keyword}`,
+    url: `http://127.0.0.1:8000/products/bank/deposit/${keyword}/`,
   })
     .then((res) => {
       console.log(res);
-      results.value = res.data;
+      res.data.forEach((element) => {
+        results.value.push({ ...element, dialog: false, resultOption: element.resultOption || [] });
+      });
     })
     .catch((err) => {
+      console.log("예금은 없어용");
       console.log(err);
     });
 };
+
+const searchSaving = function (keyword) {
+  axios({
+    method: "get",
+    url: `http://127.0.0.1:8000/products/bank/saving/${keyword}/`,
+  })
+    .then((res) => {
+      console.log(res);
+      res.data.forEach((element) => {
+        results.value.push({ ...element, dialog: false, resultOption: element.resultOption || [] });
+      });
+    })
+    .catch((err) => {
+      console.log("적금은 없어용");
+      console.log(err);
+    });
+};
+
+const openDialog = (result) => {
+  result.dialog = true;
+};
+
+const saveEvent = function (productCode) {
+  console.log(productCode);
+  console.log(`꿀바르기!`);
+  // 예금 쪽 확인
+  depositStore.getHoney(productCode);
+  // 적금 쪽 확인
+  savingStore.getHoney(productCode);
+};
+const deleteEvent = function (productCode) {
+  console.log(productCode);
+  console.log(`꿀버리기...`);
+  // 예금 쪽 확인
+  depositStore.getHoney(productCode);
+  // 적금 쪽 확인
+  savingStore.getHoney(productCode);
+};
 </script>
 
-<style scoped></style>
+<style scoped>
+.hoverable-row {
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.hoverable-row:hover {
+  background-color: #f5f5f5;
+}
+
+.custom-link {
+  color: black;
+  font-weight: bold;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.custom-link:hover {
+  color: darkblue;
+}
+hr {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  margin-left: 40px;
+  margin-right: 40px;
+  box-shadow: 1px 1px 1px rgba(193, 193, 193, 0.435);
+  border: 1px solid rgba(255, 255, 255, 0);
+}
+.text-style {
+  font-weight: bolder;
+  font-size: medium;
+}
+.button-image {
+  transition: transform 0.3s ease-in-out;
+}
+
+.hover-effect:hover {
+  transform: translateY(-10px);
+}
+</style>
