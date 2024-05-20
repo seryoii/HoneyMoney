@@ -1,14 +1,19 @@
 <template>
   <v-container>
     <v-container class="map-component-under">
-      <v-btn class="button-custom" @click="searchOnMap">검색하기</v-btn>
+      <v-row>
+        <v-col>
+          <v-btn class="button-custom" @click="searchOnMap">검색하기</v-btn>
+        </v-col>
+        <v-col>
+          <v-btn class="button-custom" @click="searchNearbyBanks">현 위치 주변 검색</v-btn>
+        </v-col>
+      </v-row>
       <!-- 지도를 표시할 컨테이너 -->
-      <div id="mapContainer" class="map-container"></div>
+      <v-container id="mapContainer" class="map-container"></v-container>
     </v-container>
-    <v-container></v-container>
   </v-container>
 </template>
-
 <script setup>
 import { ref, onMounted, onBeforeUnmount } from "vue";
 
@@ -59,9 +64,12 @@ const initializeKakaoMap = function () {
 
       map.value = new window.kakao.maps.Map(mapContainer, mapOption);
       infowindow.value = new window.kakao.maps.InfoWindow({ zIndex: 1 });
+
+      // 현재 위치 기준 은행 검색
+      searchPlacesByCoordinates(lat, lon);
     });
   } else {
-    console.log("사용불가");
+    console.log("Geolocation을 사용할 수 없습니다.");
   }
 };
 
@@ -91,6 +99,46 @@ const searchOnMap = function () {
   searchPlaces(searchKeyword.value);
   console.log(props.bank);
   // 상품 검색 함수 실행
+};
+
+const searchNearbyBanks = function () {
+  if (map.value) {
+    const center = map.value.getCenter();
+    searchPlacesByCoordinates(center.getLat(), center.getLng());
+  } else {
+    alert("지도가 초기화되지 않았습니다.");
+  }
+};
+
+const searchPlacesByCoordinates = function (lat, lon) {
+  const ps = new window.kakao.maps.services.Places();
+  const callback = function (data, status, pagination) {
+    if (status === window.kakao.maps.services.Status.OK) {
+      // 검색 결과가 OK일 때 기존 마커들을 모두 제거
+      removeAllMarkers();
+
+      // 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
+      // LatLngBounds 객체에 좌표를 추가
+      let bounds = new window.kakao.maps.LatLngBounds();
+
+      for (let i = 0; i < data.length; i++) {
+        displayMarker(data[i]);
+        bounds.extend(new window.kakao.maps.LatLng(data[i].y, data[i].x));
+      }
+      // 검색된 장소 위치를 기준으로 지도 범위를 재설정
+      map.value.setBounds(bounds);
+      // 이전에 열린 인포윈도우 닫기
+      infowindow.value.close();
+    } else {
+      alert("현재 위치 주변에 해당 은행이 없습니다.");
+    }
+  };
+
+  // 현재 위치 기준으로 반경 1000m 내에 있는 은행 검색
+  ps.keywordSearch("은행", callback, {
+    location: new window.kakao.maps.LatLng(lat, lon),
+    radius: 1000,
+  });
 };
 
 const searchPlaces = function (keyword) {

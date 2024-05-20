@@ -60,6 +60,7 @@ class SavingListSerializer(serializers.ModelSerializer):
 
 class InterestDepositSerializer(serializers.ModelSerializer):
     depositoption_set = DepositOptionSerializer(many=True, read_only=True)
+    # interest_user_cnt = serializers.RelatedField(source="DepositProduct.objects.interest_user")
     class Meta:
         model = DepositProduct
         fields = ('fin_prdt_cd', 'fin_prdt_nm', 'kor_co_nm', 'depositoption_set')
