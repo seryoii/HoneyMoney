@@ -7,7 +7,7 @@
             <v-text-field
               class="ms-5"
               hint="사용할 아이디를 입력 해주세요"
-              label="Username"
+              label="Username*"
               variant="outlined"
               v-model="state.username"
               @blur="v$.username.$touch"
@@ -17,7 +17,7 @@
           <v-col cols="6">
             <v-text-field
               class="me-5"
-              label="Nickname"
+              label="Nickname*"
               variant="outlined"
               hint="사용할 닉네임을 입력해주세요"
               v-model="state.nickname"
@@ -30,7 +30,7 @@
               width="auto"
               class="ms-5"
               hint="특수문자를 제외한 10자리 이상을 입력해주세요"
-              label="Password"
+              label="Password*"
               variant="outlined"
               type="password"
               v-model="state.password1"
@@ -42,7 +42,7 @@
             <v-text-field
               hint="동일한 비밀번호를 입력해주세요"
               class="me-5"
-              label="Check Password"
+              label="Check Password*"
               variant="outlined"
               type="password"
               v-model="state.password2"
@@ -51,19 +51,19 @@
             ></v-text-field>
           </v-col>
           <v-col class="pt-0" cols="6">
-            <v-text-field hint="나이를 입력해주세요" class="ms-5" label="Age" variant="outlined" type="number" v-model="state.age" @blur="v$.age.$touch" :error-messages="v$.age.$error ? ['나이는 최소 0살, 최대 100살 입니다.'] : []"></v-text-field>
+            <v-text-field hint="나이를 입력해주세요" class="ms-5" label="Age*" variant="outlined" type="number" v-model="state.age" @blur="v$.age.$touch" :error-messages="v$.age.$error ? ['나이는 최소 0살, 최대 100살 입니다.'] : []"></v-text-field>
           </v-col>
           <v-col class="pt-0" cols="6">
-            <v-text-field hint="연봉을 입력해주세요" class="me-5" label="Salary" variant="outlined" type="number" v-model="state.salary" @blur="v$.salary.$touch" :error-messages="v$.salary.$error ? ['연봉은 최소 0원 입니다.'] : []"></v-text-field>
+            <v-text-field hint="연봉을 입력해주세요" class="me-5" label="Salary*" variant="outlined" type="number" v-model="state.salary" @blur="v$.salary.$touch" :error-messages="v$.salary.$error ? ['연봉은 최소 0원 입니다.'] : []"></v-text-field>
           </v-col>
           <v-col class="py-0" cols="4">
-            <v-text-field hint="자산을 입력해주세요" class="ms-5" label="Wealth" variant="outlined" type="number" v-model="state.wealth" @blur="v$.wealth.$touch" :error-messages="v$.wealth.$error ? ['자산은 최소 0원 입니다.'] : []"></v-text-field>
+            <v-text-field hint="자산을 입력해주세요" class="ms-5" label="Wealth*" variant="outlined" type="number" v-model="state.wealth" @blur="v$.wealth.$touch" :error-messages="v$.wealth.$error ? ['자산은 최소 0원 입니다.'] : []"></v-text-field>
           </v-col>
           <v-col class="py-0" cols="4">
             <v-text-field
               hint="0에 가까울 수록 안정성, 10에 가까울 수록 적극성을 의미합니다"
               class="mx-auto"
-              label="Tendency"
+              label="Tendency*"
               variant="outlined"
               type="number"
               v-model="state.tendency"
@@ -72,16 +72,7 @@
             ></v-text-field>
           </v-col>
           <v-col class="py-0" cols="4">
-            <v-text-field
-              hint="원하는 투자 기간을 기입해주세요"
-              class="me-5"
-              label="Desire Period"
-              variant="outlined"
-              type="number"
-              v-model="state.desirePeriod"
-              @blur="v$.desirePeriod.$touch"
-              :error-messages="v$.desirePeriod.$error ? ['기간은 최소 0개월, 최대 36개월입니다.'] : []"
-            ></v-text-field>
+            <v-select type="number" class="me-5" hint="단위는 '개월' 입니다." :items="[6, 12, 24, 36]" label="Desire Period*" variant="outlined" required v-model="state.desirePeriod" persistent-hint></v-select>
           </v-col>
           <v-col class="py-0" cols="6">
             <v-checkbox class="mx-10" color="#F9A825" label="(필수) 서비스 이용약관 동의" value="service" v-model="selected"></v-checkbox>
