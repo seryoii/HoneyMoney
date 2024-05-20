@@ -22,7 +22,7 @@ class DepositListSerializer(serializers.ModelSerializer):
     class Meta:
         model = DepositProduct
         # fields = '__all__'
-        fields = ('dcls_month', 'kor_co_nm', 'fin_prdt_nm', 'depositoption_set')
+        fields = ('id', 'dcls_month', 'kor_co_nm', 'fin_prdt_nm', 'depositoption_set')
         read_only_fields = ('interest_user',)
     
 
@@ -53,7 +53,7 @@ class SavingListSerializer(serializers.ModelSerializer):
     class Meta:
         model = SavingProduct
         # fields = '__all__'
-        fields = ('dcls_month', 'kor_co_nm', 'fin_prdt_nm', 'savingoption_set')
+        fields = ('id', 'dcls_month', 'kor_co_nm', 'fin_prdt_nm', 'savingoption_set')
         read_only_fields = ('interest_user',)
 
 
@@ -114,3 +114,17 @@ class SavingMonthSerializer(serializers.ModelSerializer):
         representation['savingoption_set'] = filtered_options
 
         return representation
+    
+class DepositRecommendSerializer(serializers.ModelSerializer):
+    depositoption_set = DepositOptionSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = DepositProduct
+        fields = '__all__'
+
+class SavingRecommendSerializer(serializers.ModelSerializer):
+    savingoption_set = SavingOptionSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = SavingProduct
+        fields = '__all__'

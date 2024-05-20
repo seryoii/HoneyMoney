@@ -1,15 +1,18 @@
+import requests
+import random
+
 from django.shortcuts import render
 from django.shortcuts import get_object_or_404
+from django.db.models import Q
+from django.conf import settings
 from rest_framework import status
 from rest_framework.decorators import api_view
-from django.conf import settings
 from rest_framework.response import Response
-from django.http import HttpResponse
-from .serializers import DepositSerializer, DepositOptionSerializer, DepositListSerializer, InterestDepositSerializer, DepositMonthSerializer
-from .serializers import SavingSerializer, SavingOptionSerializer, SavingListSerializer, InterestSavingSerializer, SavingMonthSerializer
-import requests
+from .serializers import DepositSerializer, DepositOptionSerializer, DepositListSerializer, InterestDepositSerializer, DepositRecommendSerializer
+from .serializers import SavingSerializer, SavingOptionSerializer, SavingListSerializer, InterestSavingSerializer, SavingRecommendSerializer
 from .models import DepositProduct, SavingProduct, DepositOption, SavingOption
-from urllib.parse import unquote
+from accounts.models import User
+
 
 API_KEY = settings.FIN_API_KEY
 # API_KEY='075aba31f295dc17f85b416dfabc2969'
@@ -256,8 +259,9 @@ def bank_saving(request, bank_name):
 #         serializer = SavingMonthSerializer(savings, many=True, save_trm=month)
 #         return Response(serializer.data)
 
+@api_view(['GET', 'POST'])
 def like_deposit(request, deposit_code):
-    deposit = get_object_or_404(DepositProduct, id=deposit_code)
+    deposit = get_object_or_404(DepositProduct, fin_prdt_cd=deposit_code)
     user = request.user
     if deposit in user.deposit.all():
         user.deposit.remove(deposit)  # 이미 좋아요한 경우 좋아요 취소
@@ -265,9 +269,10 @@ def like_deposit(request, deposit_code):
     else:
         user.deposit.add(deposit)  # 좋아요 추가
         return Response({'status': 'liked'}, status=status.HTTP_200_OK)
-    
+
+@api_view(['GET', 'POST'])
 def like_saving(request, saving_code):
-    saving = get_object_or_404(SavingProduct, id=saving_code)
+    saving = get_object_or_404(SavingProduct, fin_prdt_cd=saving_code)
     user = request.user
     if saving in user.saving.all():
         user.saving.remove(saving)  # 이미 좋아요한 경우 좋아요 취소
@@ -275,3 +280,66 @@ def like_saving(request, saving_code):
     else:
         user.saving.add(saving)  # 좋아요 추가
         return Response({'status': 'liked'}, status=status.HTTP_200_OK)
+    
+@api_view(['GET'])
+def deposit_recommend(request):
+    user = get_object_or_404(User, username=request.user.username)
+    salary = int(user.salary)
+    wealth = int(user.wealth)
+    tendency = int(user.tendency)
+
+    if not wealth or not salary:
+        if not wealth:
+            return Response({"message": "유저의 희망기간이 없습니다."})
+        elif not salary:
+            return Response({"message": "유저의 희망적금금액이 없습니다."})
+
+    deposit = DepositProduct.objects.filter(
+        Q(max_limit__gte = (salary + wealth) // 2) | Q(max_limit__isnull=True)
+    )
+    if len(deposit) >= 9:
+        if 0 <= tendency < 3:
+            deposit = deposit.filter(depositoption__save_trm__lte = 6)
+        elif 3 <= tendency < 6:
+            deposit = deposit.filter(depositoption__save_trm__lte = 12)
+        elif 6 <= tendency < 9:
+            deposit = deposit.filter(depositoption__save_trm__lte = 24)
+        else:
+            deposit = deposit.filter(depositoption__save_trm__lte = 36)
+    else:
+        deposit = deposit
+    recommend = list(set(deposit.order_by("-depositoption__intr_rate")[:8]))
+    serializer = DepositRecommendSerializer(recommend, many=True)
+    return Response(serializer.data)
+
+@api_view(['GET'])
+def saving_recommend(request):
+    user = get_object_or_404(User, username=request.user.username)
+    salary = int(user.salary)
+    wealth = int(user.wealth)
+    tendency = int(user.tendency)
+
+    if not wealth or not salary:
+        if not wealth:
+            return Response({"message": "유저의 희망기간이 없습니다."})
+        elif not salary:
+            return Response({"message": "유저의 희망적금금액이 없습니다."})
+
+    saving = SavingProduct.objects.filter(
+        Q(max_limit__gte = (salary + wealth) // 2) | Q(max_limit__isnull=True)
+    )
+
+    if len(saving) >= 9:
+        if 0 <= tendency < 3:
+            saving = saving.filter(savingoption__save_trm__lte = 6)
+        elif 3 <= tendency < 6:
+            saving = saving.filter(savingoption__save_trm__lte = 12)
+        elif 6 <= tendency < 9:
+            saving = saving.filter(savingoption__save_trm__lte = 24)
+        else:
+            saving = saving.filter(savingoption__save_trm__lte = 36)
+    else:
+        saving = saving
+    recommend = list(set(saving.order_by("savingoption__intr_rate")[:8]))
+    serializer = SavingRecommendSerializer(recommend, many=True)
+    return Response(serializer.data)

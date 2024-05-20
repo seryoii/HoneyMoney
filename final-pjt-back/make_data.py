@@ -103,11 +103,12 @@ with open(save_dir, 'w', encoding="utf-8") as f:
             'wealth': random.randrange(10, 1000000) * 1000, # 자산
             'tendency': random.randint(0, 10),  # 성향
             'password': "password12341234",
-            'nickname': None,
             'is_active': True,
             'is_staff': False,
             'is_superuser': False
         }
+        file["fields"]["deposit"] = [random.randint(1, 38) for _ in range(3)]
+        file["fields"]["saving"] = [random.randint(1, 63) for _ in range(3)]
 
         json.dump(file, f, ensure_ascii=False, indent="\t")
         if i != N-1:

@@ -13,6 +13,7 @@ urlpatterns = [
   path('bank/deposit/<str:bank_name>/', views.bank_deposit),
   # path('deposit/month/<int:month>/', views.deposit_month),
   path('like/deposit/<str:deposit_code>/', views.like_deposit),
+  path('recommend/deposit/', views.deposit_recommend),
 
   path('saving/', views.saving_product_list),
   path('saving/<str:saving_code>/', views.saving_detail),
@@ -23,8 +24,7 @@ urlpatterns = [
   # path('saving/month/<int:month>/', views.saving_month),
   path('like/saving/<str:saving_code>/', views.like_saving),
 
-
-
+  path('recommend/saving/', views.saving_recommend),
 
 
 
