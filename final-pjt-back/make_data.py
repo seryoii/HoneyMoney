@@ -93,7 +93,7 @@ with open(save_dir, 'w', encoding="utf-8") as f:
         file["model"] = "accounts.User"
         file["pk"] = i+1
         file["fields"] = {
-            'username': 'testuser' + str(i),  # 유저 이름 랜덤 생성
+            'username': 'testuser' + str(i+1),  # 유저 이름 랜덤 생성
             'nickname': username_list[i],
             # 랜덤한 0~5개의 상품을 가입하도록 삽입됨
             # 'financial_products': ','.join([random.choice(financial_products) for _ in range(random.randint(0, 5))]), # 금융 상품 리스트
