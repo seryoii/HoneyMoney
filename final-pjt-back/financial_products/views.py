@@ -154,8 +154,8 @@ def deposit_option_detail(request, deposit_code, option_id):
 
     
 @api_view(['GET'])
-def saving_option_list(request, saving_code):
-    saving = get_object_or_404(SavingProduct, fin_prdt_cd=saving_code)
+def saving_option_list(request, saving_name):
+    saving = get_object_or_404(SavingProduct, fin_prdt_nm=saving_name)
     saving_options = SavingOption.objects.filter(saving_product=saving)
 
     if request.method == 'GET':

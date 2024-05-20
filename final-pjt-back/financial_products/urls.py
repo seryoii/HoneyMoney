@@ -16,7 +16,7 @@ urlpatterns = [
 
   path('saving/', views.saving_product_list),
   path('saving/<str:saving_name>/', views.saving_detail),
-  path('saving/<str:saving_code>/option/', views.saving_option_list),
+  path('saving/<str:saving_name>/option/', views.saving_option_list),
   path('saving/<str:saving_code>/option/<str:option_id>/', views.saving_option_detail),
   path('saving/<str:saving_code>/interest/', views.saving_interest),
   path('bank/saving/<str:bank_name>/', views.bank_saving),
