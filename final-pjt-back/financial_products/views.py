@@ -122,15 +122,15 @@ def saving_product_list(request):
         return Response(serializer.data)
 
 @api_view(['GET'])
-def deposit_detail(request, deposit_code):
-    deposit = get_object_or_404(DepositProduct, fin_prdt_cd=deposit_code)
+def deposit_detail(request, deposit_name):
+    deposit = get_object_or_404(DepositProduct, fin_prdt_nm=deposit_name)
     if request.method == 'GET':
         serializer = DepositSerializer(deposit)
         return Response(serializer.data)
     
 @api_view(['GET'])
-def saving_detail(request, saving_code):
-    saving = get_object_or_404(SavingProduct, fin_prdt_cd=saving_code)
+def saving_detail(request, saving_name):
+    saving = get_object_or_404(SavingProduct, fin_prdt_nm=saving_name)
     if request.method == 'GET':
         serializer = SavingSerializer(saving)
         return Response(serializer.data)
