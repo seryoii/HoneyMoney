@@ -47,7 +47,7 @@ const intoSavings = function () {
   position: absolute;
   right: 0;
   top: 10%; /* adjust as needed */
-  bottom: 10%; /* adjust as needed */
+  bottom: 0%; /* adjust as needed */
   width: 1px; /* adjust thickness as needed */
   background-color: lightgrey; /* adjust color as needed */
 }
@@ -57,7 +57,7 @@ const intoSavings = function () {
   position: absolute;
   left: 0;
   top: 10%; /* adjust as needed */
-  bottom: 10%; /* adjust as needed */
+  bottom: 0%; /* adjust as needed */
   width: 1px; /* adjust thickness as needed */
   background-color: lightgrey; /* adjust color as needed */
 }
