@@ -98,7 +98,7 @@ const recommend2 = function () {
     const option36 = element.depositoption_set.find((option) => option.save_trm === 36);
     const intrRate36 = option36 ? option36.intr_rate : null;
     return {
-      "상품 유형": type,
+      유형: type,
       공시제출일: element.dcls_month,
       은행: element.kor_co_nm,
       상품명: element.fin_prdt_nm,
@@ -118,7 +118,7 @@ const recommend2 = function () {
     const option36 = element.savingoption_set.find((option) => option.save_trm === 36);
     const intrRate36 = option36 ? option36.intr_rate : null;
     return {
-        "상품 유형": type,
+        유형: type,
         공시제출일: element.dcls_month,
         은행: element.kor_co_nm,
         상품명: element.fin_prdt_nm,

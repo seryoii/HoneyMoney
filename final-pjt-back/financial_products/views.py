@@ -391,8 +391,8 @@ def deposit_recommend_second(request, username):
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
-def saving_recommend_second(request):
-    user = get_object_or_404(User, username=request.user.username)
+def saving_recommend_second(request, username):
+    user = get_object_or_404(User, username=username)
     age = user.age
     savings = user.saving.all()
     cnt_lst = [0] * 70
