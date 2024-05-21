@@ -1,23 +1,23 @@
 <template>
-  <v-container >
+  <v-container>
     <v-container>
-    <v-row class="align-center">
-      <v-col>
-        <v-tabs class="mb-3" v-model="type" variant="outlined" divided>
-          <v-tab class="ibm-plex-sans-kr-regular" @click="loaddata_free()"><h3>자유 적립식</h3></v-tab>
-          <v-tab class="ibm-plex-sans-kr-regular" @click="loaddata_period()"><h3>정액 적립식</h3></v-tab>
-        </v-tabs>
-      </v-col>
-      <v-col class="d-flex justify-end" >
-        <v-select class="ps-16 ms-16 ibm-plex-sans-kr-regular" v-model="bank" :items="bankList" label="은행" variant="outlined"></v-select>
-      </v-col>
-    </v-row>
-  </v-container>
-  <v-data-table-virtual height="600" :items="savingData" class="elevation-2" item-class="hoverable-row">
-    <template v-slot:item.상품명="{ item }">
-      <v-btn class="mx-auto custom-btn" @click="showDetails(item.상품명)">{{ item.상품명 }}</v-btn>
-    </template>
-  </v-data-table-virtual>
+      <v-row class="align-center">
+        <v-col>
+          <v-tabs class="mb-3" v-model="type" variant="outlined" divided>
+            <v-tab class="ibm-plex-sans-kr-regular" @click="loaddata_free()"><h3>자유 적립식</h3></v-tab>
+            <v-tab class="ibm-plex-sans-kr-regular" @click="loaddata_period()"><h3>정액 적립식</h3></v-tab>
+          </v-tabs>
+        </v-col>
+        <v-col class="d-flex justify-end">
+          <v-select class="ps-16 ms-16 ibm-plex-sans-kr-regular" v-model="bank" :items="bankList" label="은행" variant="outlined"></v-select>
+        </v-col>
+      </v-row>
+    </v-container>
+    <v-data-table-virtual height="600" :items="savingData" class="elevation-2" item-class="hoverable-row">
+      <template v-slot:item.상품명="{ item }">
+        <v-btn class="mx-auto custom-btn" @click="showDetails(item.상품명)">{{ item.상품명 }}</v-btn>
+      </template>
+    </v-data-table-virtual>
 
     <v-dialog v-model="dialog" width="1000">
       <v-card class="mx-auto" prepend-icon="$vuetify" :subtitle="`${savingStore.getSavingDetail.kor_co_nm}`" width="1000">
@@ -168,8 +168,7 @@ import save from "@/assets/save.png";
 const userStore = useUserStore();
 const depositStore = useDepositStore();
 const dialog = ref(false);
-const activeButton = ref('free')
-
+const activeButton = ref("free");
 
 const savingStore = useSavingStore();
 const savingData = ref([]);
@@ -180,8 +179,8 @@ onMounted(() => {
 
 const type = ref("");
 const loaddata_free = function () {
-  let i = 1
-  activeButton.value = 'free'
+  let i = 1;
+  activeButton.value = "free";
   if (savingStore.allSaving && savingStore.allSaving.length > 0) {
     savingData.value = savingStore.allSaving
       .map((element) => {
@@ -215,8 +214,8 @@ const loaddata_free = function () {
 };
 
 const loaddata_period = function () {
-  let i = 1
-  activeButton.value = 'period'
+  let i = 1;
+  activeButton.value = "period";
   if (savingStore.allSaving && savingStore.allSaving.length > 0) {
     savingData.value = savingStore.allSaving
       .map((element) => {
@@ -233,7 +232,7 @@ const loaddata_period = function () {
         if (intrRate6 === null && intrRate12 === null && intrRate24 === null && intrRate36 === null) {
           return null; // 모두 null이면 null을 반환
         }
-        
+
         return {
           NO: i++,
           공시제출일: element.dcls_month,
@@ -399,20 +398,19 @@ hr {
   border-radius: 5%px;
 }
 .custom-btn {
-  background-color: #F5F5F5;
-  box-shadow: none
+  background-color: #f5f5f5;
+  box-shadow: none;
 }
 
 .custom-btn:hover {
   background-color: #f0f0f0; /* 마우스를 올렸을 때 연한 회색 배경색으로 변경 */
 }
 
-/* 텍스트만 가운데 정렬 됨
-.custom-table {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-} */
+.button-image {
+  transition: transform 0.3s ease-in-out;
+}
 
+.hover-effect:hover {
+  transform: translateY(-10px);
+}
 </style>
