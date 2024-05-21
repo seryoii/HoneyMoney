@@ -15,7 +15,7 @@ urlpatterns = [
   path('bank/deposit/<str:bank_name>/', views.bank_deposit),
   # path('deposit/month/<int:month>/', views.deposit_month),
   path('like/deposit/<str:deposit_code>/', views.like_deposit),
-  path('recommend/deposit/', views.deposit_recommend),
+  path('recommend/deposit/<str:username>/', views.deposit_recommend),
   # 나이로 상품 추천 (반환 값: 상품 데이터의 id 값)
   path('recommend/deposit/second/', views.deposit_recommend_second),
 

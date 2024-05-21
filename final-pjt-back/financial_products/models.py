@@ -38,8 +38,8 @@ class DepositOption(models.Model):
     intr_rate_type = models.CharField(max_length=100)
     intr_rate_type_nm = models.CharField(max_length=100)    
     save_trm = models.IntegerField(default=0)
-    intr_rate = models.FloatField()
-    intr_rate2 = models.FloatField()
+    intr_rate = models.FloatField(null=True)
+    intr_rate2 = models.FloatField(null=True)
 
 class SavingOption(models.Model):
     # fin_prdt_cd = models.IntegerField()
@@ -49,5 +49,5 @@ class SavingOption(models.Model):
     rsrv_type = models.TextField()
     rsrv_type_nm = models.TextField()
     save_trm = models.IntegerField()
-    intr_rate = models.FloatField()
-    intr_rate2 = models.FloatField()
+    intr_rate = models.FloatField(null=True)
+    intr_rate2 = models.FloatField(null=True)

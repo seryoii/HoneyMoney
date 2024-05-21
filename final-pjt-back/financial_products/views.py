@@ -285,8 +285,8 @@ def like_saving(request, saving_code):
         return Response({'status': 'liked'}, status=status.HTTP_200_OK)
     
 @api_view(['GET'])
-def deposit_recommend(request):
-    user = get_object_or_404(User, username=request.user.username)
+def deposit_recommend(request, username):
+    user = get_object_or_404(User, username=username)
     salary = int(user.salary)
     wealth = int(user.wealth)
     tendency = int(user.tendency)
@@ -300,6 +300,7 @@ def deposit_recommend(request):
     deposit = DepositProduct.objects.filter(
         Q(max_limit__gte = (salary + wealth) // 2) | Q(max_limit__isnull=True)
     )
+    print(len(deposit))
     if len(deposit) >= 9:
         if 0 <= tendency < 3:
             deposit = deposit.filter(depositoption__save_trm__lte = 6)
@@ -311,7 +312,8 @@ def deposit_recommend(request):
             deposit = deposit.filter(depositoption__save_trm__lte = 36)
     else:
         deposit = deposit
-    recommend = list(set(deposit.order_by("-depositoption__intr_rate")[:8]))
+    recommend = list(set(deposit.order_by("?")[:8]))
+    print(recommend)
     serializer = DepositRecommendSerializer(recommend, many=True)
     return Response(serializer.data)
 
