@@ -7,13 +7,13 @@ from django.shortcuts import get_object_or_404
 from django.db.models import Q
 from django.conf import settings
 from rest_framework import status
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from .serializers import DepositSerializer, DepositOptionSerializer, DepositListSerializer, InterestDepositSerializer, DepositRecommendSerializer
 from .serializers import SavingSerializer, SavingOptionSerializer, SavingListSerializer, InterestSavingSerializer, SavingRecommendSerializer
 from .models import DepositProduct, SavingProduct, DepositOption, SavingOption
 from accounts.models import User
-
+from rest_framework.permissions import IsAuthenticated
 
 API_KEY = settings.FIN_API_KEY
 # API_KEY='075aba31f295dc17f85b416dfabc2969'
@@ -260,32 +260,28 @@ def bank_saving(request, bank_name):
 #         serializer = SavingMonthSerializer(savings, many=True, save_trm=month)
 #         return Response(serializer.data)
 
-@api_view(['GET', 'POST'])
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
 def like_deposit(request, deposit_code):
     deposit = get_object_or_404(DepositProduct, fin_prdt_cd=deposit_code)
     user = request.user
-    print(user)
-    print(user.deposit)
-    if deposit in user.deposit.all():
-        print(deposit.id)
+    if deposit.interest_user.filter(id=user.id).exists():
         deposit.interest_user.remove(user)  # 이미 좋아요한 경우 좋아요 취소
-        print(user.deposit)
         return Response({'status': 'unliked'}, status=status.HTTP_200_OK)
     else:
-        print(deposit.id)
         deposit.interest_user.add(user)  # 좋아요 추가
-        print(user.deposit)
         return Response({'status': 'liked'}, status=status.HTTP_200_OK)
 
-@api_view(['GET', 'POST'])
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
 def like_saving(request, saving_code):
     saving = get_object_or_404(SavingProduct, fin_prdt_cd=saving_code)
     user = request.user
-    if saving in user.saving.all():
-        user.saving.remove(saving)  # 이미 좋아요한 경우 좋아요 취소
+    if saving.interest_user.filter(id=user.id).exists():
+        saving.interest_user.remove(user)  # 이미 좋아요한 경우 좋아요 취소
         return Response({'status': 'unliked'}, status=status.HTTP_200_OK)
     else:
-        user.saving.add(saving)  # 좋아요 추가
+        saving.interest_user.add(user)  # 좋아요 추가
         return Response({'status': 'liked'}, status=status.HTTP_200_OK)
     
 @api_view(['GET'])
