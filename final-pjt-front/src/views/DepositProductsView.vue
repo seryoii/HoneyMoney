@@ -21,7 +21,15 @@
             </v-col>
             <v-col class="pb-0">
               <v-card-actions>
-                <v-btn class="btn-style">save</v-btn>
+                <!-- 꿀바르기 버튼 -->
+                <v-img
+                  v-if="depositStore.getDepositDetail.interest_user && !depositStore.getDepositDetail.interest_user.includes(userStore.userInfo.id)"
+                  @click="saveEvent(depositStore.getDepositDetail.fin_prdt_cd, depositStore.getDepositDetail.fin_prdt_nm)"
+                  :src="cancel"
+                  class="button-image hover-effect"
+                  max-width="50"
+                />
+                <v-img v-else @click="deleteEvent(depositStore.getDepositDetail.fin_prdt_cd, depositStore.getDepositDetail.fin_prdt_nm)" :src="save" class="button-image hover-effect" max-width="50" />
               </v-card-actions>
             </v-col>
           </v-row>
@@ -129,6 +137,13 @@
 <script setup>
 import { useDepositStore } from "@/stores/deposit";
 import { onMounted, watch, ref, watchEffect, computed } from "vue";
+import { useSavingStore } from "@/stores/saving";
+import { useUserStore } from "@/stores/user";
+import cancel from "@/assets/cancel.png";
+import save from "@/assets/save.png";
+
+const userStore = useUserStore();
+const savingStore = useSavingStore();
 
 const depositStore = useDepositStore();
 const depositData = ref([]);
@@ -220,6 +235,28 @@ const join_limit = computed(() => {
     return `일부 제한`;
   }
 });
+const saveEvent = function (productCode, productName) {
+  console.log(productCode);
+  console.log(`꿀바르기!`);
+  if (productName.includes("예금")) {
+    // 예금 쪽 확인
+    depositStore.getHoney(productCode);
+  } else if (productName.includes("적금")) {
+    // 적금 쪽 확인
+    savingStore.getHoney(productCode);
+  }
+};
+const deleteEvent = function (productCode, productName) {
+  console.log(productCode);
+  console.log(`꿀버리기...`);
+  if (productName.includes("예금")) {
+    // 예금 쪽 확인
+    depositStore.getHoney(productCode);
+  } else if (productName.includes("적금")) {
+    // 적금 쪽 확인
+    savingStore.getHoney(productCode);
+  }
+};
 </script>
 
 <style scoped>

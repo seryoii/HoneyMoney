@@ -26,7 +26,15 @@
             </v-col>
             <v-col class="pb-0">
               <v-card-actions>
-                <v-btn class="btn-style">save</v-btn>
+                <!-- 꿀바르기 버튼 -->
+                <v-img
+                  v-if="savingStore.getSavingDetail.interest_user && !savingStore.getSavingDetail.interest_user.includes(userStore.userInfo.id)"
+                  @click="saveEvent(savingStore.getSavingDetail.fin_prdt_cd, savingStore.getSavingDetail.fin_prdt_nm)"
+                  :src="cancel"
+                  class="button-image hover-effect"
+                  max-width="50"
+                />
+                <v-img v-else @click="deleteEvent(savingStore.getSavingDetail.fin_prdt_cd, savingStore.getSavingDetail.fin_prdt_nm)" :src="save" class="button-image hover-effect" max-width="50" />
               </v-card-actions>
             </v-col>
           </v-row>
@@ -77,10 +85,10 @@
           </v-col>
           <v-col>
             <v-card-text v-for="option in savingStore.getSavingDetailOption">
-                <p>적립 방법 : {{ option.rsrv_type_nm }}</p>
-                <p>개월 수 : {{ option.save_trm }}</p>
-                <p>이율 : {{ option.intr_rate }}</p>
-                <p>최대 이율 : {{ option.intr_rate2 }}</p>
+              <p>적립 방법 : {{ option.rsrv_type_nm }}</p>
+              <p>개월 수 : {{ option.save_trm }}</p>
+              <p>이율 : {{ option.intr_rate }}</p>
+              <p>최대 이율 : {{ option.intr_rate2 }}</p>
             </v-card-text>
           </v-col>
         </v-row>
@@ -148,8 +156,15 @@
 </template>
 
 <script setup>
-import { useSavingStore } from "@/stores/saving";
 import { onMounted, watch, ref, watchEffect, computed } from "vue";
+import { useDepositStore } from "@/stores/deposit";
+import { useSavingStore } from "@/stores/saving";
+import { useUserStore } from "@/stores/user";
+import cancel from "@/assets/cancel.png";
+import save from "@/assets/save.png";
+
+const userStore = useUserStore();
+const depositStore = useDepositStore();
 const dialog = ref(false);
 
 const savingStore = useSavingStore();
@@ -312,6 +327,28 @@ const join_limit = computed(() => {
     return `일부 제한`;
   }
 });
+const saveEvent = function (productCode, productName) {
+  console.log(productCode);
+  console.log(`꿀바르기!`);
+  if (productName.includes("예금")) {
+    // 예금 쪽 확인
+    depositStore.getHoney(productCode);
+  } else if (productName.includes("적금")) {
+    // 적금 쪽 확인
+    savingStore.getHoney(productCode);
+  }
+};
+const deleteEvent = function (productCode, productName) {
+  console.log(productCode);
+  console.log(`꿀버리기...`);
+  if (productName.includes("예금")) {
+    // 예금 쪽 확인
+    depositStore.getHoney(productCode);
+  } else if (productName.includes("적금")) {
+    // 적금 쪽 확인
+    savingStore.getHoney(productCode);
+  }
+};
 </script>
 
 <style scoped>

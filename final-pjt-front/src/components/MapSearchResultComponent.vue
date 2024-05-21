@@ -14,16 +14,16 @@
               <v-row>
                 <v-col class="pb-0" cols="10">
                   <span class="font-weight-black">{{ result.fin_prdt_nm }}</span>
+                  <span class="font-weight-black">{{ result.id }}</span>
                 </v-col>
                 <v-col class="pb-0">
                   <v-card-actions>
                     <!-- 꿀바르기 버튼 -->
-                    <v-img v-if="(userStore.userInfo.id in result.interest_user)" @click="saveEvent(result.fin_prdt_cd)" :src="cancel" alt="Save" class="button-image hover-effect" max-width="50" />
-                    <v-img v-else @click="deleteEvent(result.fin_prdt_cd)" :src="save" alt="Cancel" class="button-image hover-effect" max-width="50" />
+                    <v-img v-if="!result.interest_user.includes(userStore.userInfo.id)" @click="saveEvent(result.fin_prdt_cd, result.fin_prdt_nm)" :src="cancel" class="button-image hover-effect" max-width="50" />
+                    <v-img v-else @click="deleteEvent(result.fin_prdt_cd, result.fin_prdt_nm)" :src="save" class="button-image hover-effect" max-width="50" />
                   </v-card-actions>
                 </v-col>
               </v-row>
-              {{ userStore.userInfo.id }} {{ result.interest_user }}
             </template>
             <v-row justify="center" align="center">
               <v-col cols="3" class="d-flex justify-center">
@@ -195,21 +195,27 @@ const openDialog = (result) => {
   result.dialog = true;
 };
 
-const saveEvent = function (productCode) {
+const saveEvent = function (productCode, productName) {
   console.log(productCode);
   console.log(`꿀바르기!`);
-  // 예금 쪽 확인
-  depositStore.getHoney(productCode);
-  // 적금 쪽 확인
-  savingStore.getHoney(productCode);
+  if (productName.includes("예금")) {
+    // 예금 쪽 확인
+    depositStore.getHoney(productCode);
+  } else if (productName.includes("적금")) {
+    // 적금 쪽 확인
+    savingStore.getHoney(productCode);
+  }
 };
-const deleteEvent = function (productCode) {
+const deleteEvent = function (productCode, productName) {
   console.log(productCode);
   console.log(`꿀버리기...`);
-  // 예금 쪽 확인
-  depositStore.getHoney(productCode);
-  // 적금 쪽 확인
-  savingStore.getHoney(productCode);
+  if (productName.includes("예금")) {
+    // 예금 쪽 확인
+    depositStore.getHoney(productCode);
+  } else if (productName.includes("적금")) {
+    // 적금 쪽 확인
+    savingStore.getHoney(productCode);
+  }
 };
 </script>
 
