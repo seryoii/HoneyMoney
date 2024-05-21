@@ -136,7 +136,9 @@ import { useUserStore } from "@/stores/user";
 import { useDepositStore } from "@/stores/deposit";
 import { useSavingStore } from "@/stores/saving";
 import swal from "sweetalert";
+import { useRouter } from "vue-router";
 
+const router = useRouter();
 const depositStore = useDepositStore();
 const savingStore = useSavingStore();
 const userStore = useUserStore();
@@ -150,13 +152,27 @@ const props = defineProps({
 watch(
   () => props.searchKeyword,
   (newKeyword) => {
-    console.log(newKeyword);
-    results.value = [];
-    if (userStore.isLogin) {
+    if (!userStore.isLogin) {
+      swal({
+        title: "더 많은 정보를 보실래요?",
+        text: "로그인 하시면 상품도 볼 수 있어요!",
+        icon: "info",
+        buttons: {
+          cancel: "아뇨 괜찮아요",
+          catch: {
+            text: "로그인 하러 가기!",
+          },
+        },
+      }).then((willDelete) => {
+        if (willDelete) {
+          router.push({ name: "LoginView" });
+        }
+      });
+    } else {
+      console.log(newKeyword);
+      results.value = [];
       searchDeposit(newKeyword);
       searchSaving(newKeyword);
-    } else {
-      
     }
   }
 );

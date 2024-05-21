@@ -11,6 +11,7 @@ export const useUserStore = defineStore(
     const API_URL = "http://127.0.0.1:8000";
     const router = useRouter();
     const token = ref(null);
+    const userDesirePeriod = ref(null);
     const userInfo = ref(null);
     const userProfile = ref(null);
     const isLogin = computed(() => {
@@ -68,7 +69,7 @@ export const useUserStore = defineStore(
         .then((res) => {
           token.value = res.data.key;
           userInfo.value = res.data.user;
-          console.log(res.data);
+          userDesirePeriod.value = res.data.user.desirePeriod;
           router.push({ name: "MainView" });
           swal(`${res.data.user.nickname}님 HoneyMoney에 오신 것을 환영합니다!`, {
             buttons: false,
@@ -92,6 +93,7 @@ export const useUserStore = defineStore(
         .then((res) => {
           console.log(res);
           token.value = null;
+          userDesirePeriod.value = null;
           userInfo.value = null;
           userProfile.value = null;
           router.push({ name: "MainView" });
@@ -114,7 +116,7 @@ export const useUserStore = defineStore(
         userProfile.value = res.data;
       });
     };
-    return { createUser, loginUser, logoutUser, getProfile, token, isLogin, userInfo, userProfile };
+    return { createUser, loginUser, logoutUser, getProfile, token, isLogin, userInfo, userProfile, userDesirePeriod };
   },
   { persist: true }
 );
