@@ -20,6 +20,12 @@
 
 import random
 import requests
+import os
+import django
+from django.contrib.auth.hashers import make_password
+
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "final_pjt_back.settings")
+django.setup()
 
 first_name_samples = "김이박최정강조윤장임신유한오서전황원문양손배백"
 middle_name_samples = "민효세경서예지도하주윤채현지진승"
@@ -102,7 +108,7 @@ with open(save_dir, 'w', encoding="utf-8") as f:
             'salary': random.randrange(30000, 150000) * 1000, # 연봉
             'wealth': random.randrange(10, 1000000) * 1000, # 자산
             'tendency': random.randint(0, 10),  # 성향
-            'password': "password12341234",
+            'password': make_password("password12341234"),
             'desirePeriod': random.choice([6, 12, 24, 36]),
             'is_active': True,
             'is_staff': False,

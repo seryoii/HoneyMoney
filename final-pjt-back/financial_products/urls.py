@@ -16,8 +16,7 @@ urlpatterns = [
   # path('deposit/month/<int:month>/', views.deposit_month),
   path('like/deposit/<str:deposit_code>/', views.like_deposit),
   path('recommend/deposit/<str:username>/', views.deposit_recommend),
-  # 나이로 상품 추천 (반환 값: 상품 데이터의 id 값)
-  path('recommend/deposit/second/', views.deposit_recommend_second),
+  path('recommend/deposit/second/<str:username>/', views.deposit_recommend_second),
 
 # saving
   path('saving/', views.saving_product_list),
@@ -28,9 +27,8 @@ urlpatterns = [
   path('bank/saving/<str:bank_name>/', views.bank_saving),
   # path('saving/month/<int:month>/', views.saving_month),
   path('like/saving/<str:saving_code>/', views.like_saving),
-  path('recommend/saving/', views.saving_recommend),
-  # 나이로 상품 추천 (반환 값: 상품 데이터의 id 값)
-  path('recommend/saving/second/', views.saving_recommend_second),
+  path('recommend/saving/<str:username>/', views.saving_recommend),
+  path('recommend/saving/second/<str:username>/', views.saving_recommend_second),
 
 
 
