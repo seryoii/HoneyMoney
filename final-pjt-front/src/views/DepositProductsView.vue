@@ -1,12 +1,16 @@
 <template>
   <v-container>
-    <v-autocomplete variant="solo" v-model="bank" :items="bankList" label="은행"></v-autocomplete>
-    <v-container>
-      <v-data-table :items="depositData" class="elevation-1" item-class="hoverable-row" :height="400" fixed-header>
+    <v-container class="d-flex justify-end">
+      <v-col cols="5">
+        <v-select class="ibm-plex-sans-kr-regular" v-model="bank" :items="bankList" label="은행" variant="outlined"></v-select>
+      </v-col>
+      </v-container>
+          <v-container>
+      <v-data-table-virtual height="600" :items="depositData" class="elevation-2" item-class="hoverable-row" fixed-header>
         <template v-slot:item.상품명="{ item }">
-          <v-btn class="mx-auto" @click="showDetails(item.상품명)">{{ item.상품명 }}</v-btn>
+          <v-btn class="mx-auto custom-btn" @click="showDetails(item.상품명)">{{ item.상품명 }}</v-btn>
         </template>
-      </v-data-table>
+      </v-data-table-virtual>
     </v-container>
 
     <v-dialog v-model="dialog" width="1000">
@@ -162,6 +166,7 @@ onMounted(() => {
 });
 
 const loaddata = function () {
+  let i = 1
   if (depositStore.allDeposit && depositStore.allDeposit.length > 0) {
     depositData.value = depositStore.allDeposit.map((element) => {
       const option6 = element.depositoption_set.find((option) => option.save_trm === 6);
@@ -173,6 +178,7 @@ const loaddata = function () {
       const option36 = element.depositoption_set.find((option) => option.save_trm === 36);
       const intrRate36 = option36 ? option36.intr_rate : null;
       return {
+        NO: i++,
         공시제출일: element.dcls_month,
         은행: element.kor_co_nm,
         상품명: element.fin_prdt_nm,
@@ -302,5 +308,14 @@ hr {
   font-size: large;
   background-color: rgba(255, 174, 0, 0.661);
   border-radius: 5%px;
+}
+
+.custom-btn {
+  background-color: #F5F5F5;
+  box-shadow: none
+}
+
+.custom-btn:hover {
+  background-color: #f0f0f0; /* 마우스를 올렸을 때 연한 회색 배경색으로 변경 */
 }
 </style>

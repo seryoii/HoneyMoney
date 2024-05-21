@@ -11,10 +11,11 @@ export const useRecommendStore = defineStore('recommend', () => {
     const recommendFirst = ref([])
     const recommendSecond = ref([])
     const userStore = useUserStore()
+    console.log(userStore.userInfo)
     const getRecommendFirst = function () {
         axios({
         method: 'get',
-        url: `${API_URL}/recommend/deposit/`,
+        url: `${API_URL}/recommend/deposit/${userStore.userInfo.username}/`,
         headers: {
             Authorization: userStore.token
         }

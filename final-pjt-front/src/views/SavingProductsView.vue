@@ -14,10 +14,6 @@
     </v-row>
   </v-container>
   <v-data-table-virtual height="600" :items="savingData" class="elevation-2" item-class="hoverable-row">
-    <!-- <template v-slot:item.은행="{ item }">
-      <a class="custom-link" @click="showDetails(item[은행])">{{ item.은행 }}</a>
-    </template> -->
-
     <template v-slot:item.상품명="{ item }">
       <v-btn class="mx-auto custom-btn" @click="showDetails(item.상품명)">{{ item.상품명 }}</v-btn>
     </template>
