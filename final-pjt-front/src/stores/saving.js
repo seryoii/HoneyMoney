@@ -81,5 +81,27 @@ export const useSavingStore = defineStore("saving", () => {
       console.log(res);
     });
   };
-  return { savingProductsData, loadSavingData, allSaving, getAllSaving, bankList, getSavingData, getSavingDetail, getSavingOptionData, getSavingDetailOption, getHoney };
+  const profileSavingData = ref([]);
+  const getProfileSaving = function (userSaving) {
+    axios({
+      method: "get",
+      url: `${API_URL}/saving/`,
+    })
+      .then((res) => {
+        allSaving.value = res.data;
+        profileSavingData.value = [];
+        const interestSaving = userSaving.map((info) => {
+          return info.id;
+        });
+        allSaving.value.forEach((item) => {
+          if (interestSaving.includes(item.id)) {
+            profileSavingData.value.push(item);
+          }
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  return { savingProductsData, loadSavingData, allSaving, getAllSaving, bankList, getSavingData, getSavingDetail, getSavingOptionData, getSavingDetailOption, getHoney, getProfileSaving, profileSavingData };
 });

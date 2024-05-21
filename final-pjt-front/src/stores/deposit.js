@@ -4,7 +4,7 @@ import axios from "axios";
 import { useUserStore } from "./user";
 
 export const useDepositStore = defineStore("deposit", () => {
-  const userStore = useUserStore()
+  const userStore = useUserStore();
   const API_URL = "http://127.0.0.1:8000/products";
   const depositProductsData = ref([]);
   const getDepositDetail = ref({});
@@ -24,7 +24,7 @@ export const useDepositStore = defineStore("deposit", () => {
 
   const allDeposit = ref([]);
   const bankList = ref([]);
-  // db 호출
+  // Deposit List
   const getAllDeposit = function () {
     axios({
       method: "get",
@@ -83,5 +83,27 @@ export const useDepositStore = defineStore("deposit", () => {
       console.log(res);
     });
   };
-  return { depositProductsData, loadDepositData, allDeposit, getAllDeposit, bankList, getDepositData, getDepositDetail, getDepositOptionData, getDepositDetailOption, getHoney };
+  const profileDepositData = ref([]);
+  const getProfileDeposit = function (userDeposit) {
+    axios({
+      method: "get",
+      url: `${API_URL}/deposit/`,
+    })
+      .then((res) => {
+        allDeposit.value = res.data;
+        profileDepositData.value = [];
+        const interestDeposit = userDeposit.map((info) => {
+          return info.id;
+        });
+        allDeposit.value.forEach((item) => {
+          if (interestDeposit.includes(item.id)) {
+            profileDepositData.value.push(item);
+          }
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  return { depositProductsData, loadDepositData, allDeposit, getAllDeposit, bankList, getDepositData, getDepositDetail, getDepositOptionData, getDepositDetailOption, getHoney, getProfileDeposit, profileDepositData };
 });

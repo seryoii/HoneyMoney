@@ -3,9 +3,6 @@
     <v-autocomplete variant="solo" v-model="bank" :items="bankList" label="은행"></v-autocomplete>
     <v-container>
       <v-data-table :items="depositData" class="elevation-1" item-class="hoverable-row" :height="400" fixed-header>
-        <!-- <template v-slot:item.은행="{ item }">
-          <a class="custom-link" @click="showDetails(item[은행])">{{ item.은행 }}</a>
-        </template> -->
         <template v-slot:item.상품명="{ item }">
           <v-btn class="mx-auto" @click="showDetails(item.상품명)">{{ item.상품명 }}</v-btn>
         </template>
@@ -13,24 +10,33 @@
     </v-container>
 
     <v-dialog v-model="dialog" width="1000">
-      <v-card class="mx-auto" prepend-icon="$vuetify" :subtitle="`${depositStore.getDepositDetail.kor_co_nm}`" width="1000">
-        <template v-slot:title>
+      <v-card class="mx-auto" width="1000">
+        <template v-slot:subtitle>
           <v-row>
-            <v-col class="pb-0" cols="10">
-              <span class="font-weight-black">{{ depositStore.getDepositDetail.fin_prdt_nm }}</span>
+            <v-col align="center" cols="4">
+              <div class="custom-subtitle ibm-plex-sans-kr-regular">{{ depositStore.getDepositDetail.kor_co_nm }}</div>
             </v-col>
-            <v-col class="pb-0">
-              <v-card-actions>
-                <!-- 꿀바르기 버튼 -->
-                <v-img
-                  v-if="depositStore.getDepositDetail.interest_user && !depositStore.getDepositDetail.interest_user.includes(userStore.userInfo.id)"
-                  @click="saveEvent(depositStore.getDepositDetail.fin_prdt_cd, depositStore.getDepositDetail.fin_prdt_nm)"
-                  :src="cancel"
-                  class="button-image hover-effect"
-                  max-width="50"
-                />
-                <v-img v-else @click="deleteEvent(depositStore.getDepositDetail.fin_prdt_cd, depositStore.getDepositDetail.fin_prdt_nm)" :src="save" class="button-image hover-effect" max-width="50" />
-              </v-card-actions>
+            <v-col cols="4"></v-col>
+            <v-col align="center" cols="4" class="ibm-plex-sans-kr-regular">꿀바르기</v-col>
+          </v-row>
+        </template>
+        <template v-slot:title>
+          <v-row align="center" justify="space-between">
+            <v-col align="center">
+              <v-avatar :image="Toss" height="100" width="100" />
+            </v-col>
+            <v-col align="center" class="pb-0">
+              <span class="font-weight-black ibm-plex-sans-kr-regular"><h2>{{ depositStore.getDepositDetail.fin_prdt_nm }}</h2></span>
+            </v-col>
+            <v-col align="center" class="pb-0">
+              <v-img
+                v-if="depositStore.getDepositDetail.interest_user && !depositStore.getDepositDetail.interest_user.includes(userStore.userInfo.id)"
+                @click="saveEvent(depositStore.getDepositDetail.fin_prdt_cd, depositStore.getDepositDetail.fin_prdt_nm)"
+                :src="cancel"
+                class="button-image hover-effect"
+                max-width="60"
+              />
+              <v-img v-else @click="deleteEvent(depositStore.getDepositDetail.fin_prdt_cd, depositStore.getDepositDetail.fin_prdt_nm)" :src="save" class="button-image hover-effect" max-width="60" />
             </v-col>
           </v-row>
         </template>
@@ -141,6 +147,7 @@ import { useSavingStore } from "@/stores/saving";
 import { useUserStore } from "@/stores/user";
 import cancel from "@/assets/cancel.png";
 import save from "@/assets/save.png";
+import Toss from "@/assets/bank/Toss.jpg";
 
 const userStore = useUserStore();
 const savingStore = useSavingStore();
