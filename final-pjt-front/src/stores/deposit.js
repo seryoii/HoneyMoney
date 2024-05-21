@@ -1,8 +1,10 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
 import axios from "axios";
+import { useUserStore } from "./user";
 
 export const useDepositStore = defineStore("deposit", () => {
+  const userStore = useUserStore()
   const API_URL = "http://127.0.0.1:8000/products";
   const depositProductsData = ref([]);
   const getDepositDetail = ref({});
@@ -68,5 +70,18 @@ export const useDepositStore = defineStore("deposit", () => {
         console.log(err);
       });
   };
-  return { depositProductsData, loadDepositData, allDeposit, getAllDeposit, bankList, getDepositData, getDepositDetail, getDepositOptionData, getDepositDetailOption };
+
+  // 꿀바르기 확인
+  const getHoney = function (productCode) {
+    axios({
+      method: "post",
+      url: `${API_URL}/like/deposit/${productCode}/`,
+      headers: {
+        Authorization: `Token ${userStore.token}`,
+      },
+    }).then((res) => {
+      console.log(res);
+    });
+  };
+  return { depositProductsData, loadDepositData, allDeposit, getAllDeposit, bankList, getDepositData, getDepositDetail, getDepositOptionData, getDepositDetailOption, getHoney };
 });

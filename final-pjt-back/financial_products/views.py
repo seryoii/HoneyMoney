@@ -264,11 +264,17 @@ def bank_saving(request, bank_name):
 def like_deposit(request, deposit_code):
     deposit = get_object_or_404(DepositProduct, fin_prdt_cd=deposit_code)
     user = request.user
+    print(user)
+    print(user.deposit)
     if deposit in user.deposit.all():
-        user.deposit.remove(deposit)  # 이미 좋아요한 경우 좋아요 취소
+        print(deposit.id)
+        deposit.interest_user.remove(user)  # 이미 좋아요한 경우 좋아요 취소
+        print(user.deposit)
         return Response({'status': 'unliked'}, status=status.HTTP_200_OK)
     else:
-        user.deposit.add(deposit)  # 좋아요 추가
+        print(deposit.id)
+        deposit.interest_user.add(user)  # 좋아요 추가
+        print(user.deposit)
         return Response({'status': 'liked'}, status=status.HTTP_200_OK)
 
 @api_view(['GET', 'POST'])

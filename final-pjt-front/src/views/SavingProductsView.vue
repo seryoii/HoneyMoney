@@ -73,17 +73,7 @@
 
         <v-row justify="center" align="center">
           <v-col cols="3" class="d-flex justify-center">
-            <v-card-text class="text-style" align="center">가입 방법</v-card-text>
-          </v-col>
-          <v-col>
-            <v-card-text class="">{{ savingStore.getSavingDetail.join_way }}</v-card-text>
-          </v-col>
-        </v-row>
-        <hr />
-
-        <v-row justify="center" align="center">
-          <v-col cols="3" class="d-flex justify-center">
-            <v-card-text class="text-style" align="center">가입 방법</v-card-text>
+            <v-card-text class="text-style" align="center">기간 별 이율</v-card-text>
           </v-col>
           <v-col>
             <v-card-text v-for="option in savingStore.getSavingDetailOption">
@@ -170,8 +160,6 @@ onMounted(() => {
 });
 
 const type = ref("");
-console.log(type.value);
-
 const loaddata_free = function () {
   if (savingStore.allSaving && savingStore.allSaving.length > 0) {
     savingData.value = savingStore.allSaving

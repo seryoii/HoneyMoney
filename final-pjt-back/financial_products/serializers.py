@@ -21,8 +21,8 @@ class DepositListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = DepositProduct
-        # fields = '__all__'
-        fields = ('id', 'dcls_month', 'kor_co_nm', 'fin_prdt_nm', 'depositoption_set')
+        fields = '__all__'
+        # fields = ('id', 'dcls_month', 'kor_co_nm', 'fin_prdt_nm', 'depositoption_set')
         read_only_fields = ('interest_user',)
     
 
@@ -52,8 +52,8 @@ class SavingListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = SavingProduct
-        # fields = '__all__'
-        fields = ('id', 'dcls_month', 'kor_co_nm', 'fin_prdt_nm', 'savingoption_set')
+        fields = '__all__'
+        # fields = ('id', 'dcls_month', 'kor_co_nm', 'fin_prdt_nm', 'savingoption_set')
         read_only_fields = ('interest_user',)
 
 

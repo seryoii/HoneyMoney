@@ -1,8 +1,10 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
 import axios from "axios";
+import { useUserStore } from "./user";
 
 export const useSavingStore = defineStore("saving", () => {
+  const userStore = useUserStore();
   const API_URL = "http://127.0.0.1:8000/products";
   const savingProductsData = ref([]);
   const getSavingDetail = ref({});
@@ -68,5 +70,16 @@ export const useSavingStore = defineStore("saving", () => {
         console.log(err);
       });
   };
-  return { savingProductsData, loadSavingData, allSaving, getAllSaving, bankList, getSavingData, getSavingDetail, getSavingOptionData, getSavingDetailOption };
+  const getHoney = function (productCode) {
+    axios({
+      method: "post",
+      url: `${API_URL}/like/saving/${productCode}/`,
+      headers: {
+        Authorization: `Token ${userStore.token}`,
+      },
+    }).then((res) => {
+      console.log(res);
+    });
+  };
+  return { savingProductsData, loadSavingData, allSaving, getAllSaving, bankList, getSavingData, getSavingDetail, getSavingOptionData, getSavingDetailOption, getHoney };
 });
