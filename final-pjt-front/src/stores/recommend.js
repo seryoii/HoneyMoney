@@ -1,10 +1,7 @@
 import { defineStore } from "pinia";
-import { ref, computed } from "vue";
-import { useRouter } from "vue-router";
+import { ref } from "vue";
 import axios from "axios";
-import swal from "sweetalert";
 import { useUserStore } from "./user";
-import { lightFormatters } from "date-fns";
 
 export const useRecommendStore = defineStore('recommend', () => {
     const API_URL = "http://127.0.0.1:8000/products";
@@ -23,31 +20,62 @@ export const useRecommendStore = defineStore('recommend', () => {
         .then((response) => {
             recommendFirst.value = []
             response.data.forEach((item) => {
-                // console.log(item)
                 recommendFirst.value.push(item)
             })
-        })
-        .catch((error) => {
-            console.log(error)
-        })
-        axios({
-        method: 'get',
-        url: `${API_URL}/recommend/deposit/${userStore.userInfo.username}/`,
-        headers: {
-            Authorization: userStore.token
-        }
-        })
-        .then((response) => {
-            recommendFirst.value = []
-            response.data.forEach((item) => {
-                // console.log(item)
-                recommendFirst.value.push(item)
-            })
+            axios({
+                method: 'get',
+                url: `${API_URL}/recommend/saving/${userStore.userInfo.username}/`,
+                headers: {
+                    Authorization: userStore.token
+                }
+                })
+                .then((response) => {
+                    response.data.forEach((item) => {
+                        recommendFirst.value.push(item)
+                    })
+                })
+                .catch((error) => {
+                    console.log(error)
+                })
         })
         .catch((error) => {
             console.log(error)
         })
     }
-    return { getRecommendFirst, recommendFirst }
+
+    const getRecommendSecond = function () {
+        axios({
+        method: 'get',
+        url: `${API_URL}/recommend/deposit/second/${userStore.userInfo.username}/`,
+        headers: {
+            Authorization: userStore.token
+        }
+        })
+        .then((response) => {
+            recommendSecond.value = []
+            response.data.forEach((item) => {
+                recommendSecond.value.push(item)
+            })
+            axios({
+                method: 'get',
+                url: `${API_URL}/recommend/saving/second/${userStore.userInfo.username}/`,
+                headers: {
+                    Authorization: userStore.token
+                }
+                })
+                .then((response) => {
+                    response.data.forEach((item) => {
+                        recommendSecond.value.push(item)
+                    })
+                })
+                .catch((error) => {
+                    console.log(error)
+                })
+        })
+        .catch((error) => {
+            console.log(error)
+        })
+    }
+    return { getRecommendFirst, recommendFirst, getRecommendSecond, recommendSecond }
 }, { persist: true }
 );
