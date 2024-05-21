@@ -26,7 +26,9 @@
               <v-avatar :image="Toss" height="100" width="100" />
             </v-col>
             <v-col align="center" class="pb-0">
-              <span class="font-weight-black ibm-plex-sans-kr-regular"><h2>{{ depositStore.getDepositDetail.fin_prdt_nm }}</h2></span>
+              <span class="font-weight-black ibm-plex-sans-kr-regular">
+                <h2>{{ depositStore.getDepositDetail.fin_prdt_nm }}</h2>
+              </span>
             </v-col>
             <v-col align="center" class="pb-0">
               <v-img
@@ -302,5 +304,12 @@ hr {
   font-size: large;
   background-color: rgba(255, 174, 0, 0.661);
   border-radius: 5%px;
+}
+.button-image {
+  transition: transform 0.3s ease-in-out;
+}
+
+.hover-effect:hover {
+  transform: translateY(-10px);
 }
 </style>

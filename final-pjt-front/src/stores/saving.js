@@ -51,7 +51,7 @@ export const useSavingStore = defineStore("saving", () => {
       url: `${API_URL}/saving/${productName}/`,
     })
       .then((res) => {
-        console.log(res);
+        console.log(res.data);
         getSavingDetail.value = res.data;
       })
       .catch((err) => {

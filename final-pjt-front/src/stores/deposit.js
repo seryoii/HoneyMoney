@@ -70,7 +70,7 @@ export const useDepositStore = defineStore("deposit", () => {
         console.log(err);
       });
   };
-
+  const depositHoney = ref("");
   // 꿀바르기 확인
   const getHoney = function (productCode) {
     axios({
@@ -81,6 +81,7 @@ export const useDepositStore = defineStore("deposit", () => {
       },
     }).then((res) => {
       console.log(res);
+      depositHoney.value = res.data;
     });
   };
   const profileDepositData = ref([]);
@@ -105,5 +106,5 @@ export const useDepositStore = defineStore("deposit", () => {
         console.log(err);
       });
   };
-  return { depositProductsData, loadDepositData, allDeposit, getAllDeposit, bankList, getDepositData, getDepositDetail, getDepositOptionData, getDepositDetailOption, getHoney, getProfileDeposit, profileDepositData };
+  return { depositProductsData, loadDepositData, allDeposit, getAllDeposit, bankList, getDepositData, getDepositDetail, getDepositOptionData, getDepositDetailOption, getHoney, getProfileDeposit, profileDepositData, depositHoney };
 });
