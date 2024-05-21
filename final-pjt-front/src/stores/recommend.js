@@ -21,8 +21,28 @@ export const useRecommendStore = defineStore('recommend', () => {
         }
         })
         .then((response) => {
-            console.log(response)
-            recommendFirst.value.push(response.data.id)
+            recommendFirst.value = []
+            response.data.forEach((item) => {
+                // console.log(item)
+                recommendFirst.value.push(item)
+            })
+        })
+        .catch((error) => {
+            console.log(error)
+        })
+        axios({
+        method: 'get',
+        url: `${API_URL}/recommend/deposit/${userStore.userInfo.username}/`,
+        headers: {
+            Authorization: userStore.token
+        }
+        })
+        .then((response) => {
+            recommendFirst.value = []
+            response.data.forEach((item) => {
+                // console.log(item)
+                recommendFirst.value.push(item)
+            })
         })
         .catch((error) => {
             console.log(error)

@@ -1,17 +1,15 @@
 <template>
   <v-container>
     <v-container class="d-flex justify-end">
-      <v-col cols="5">
+      <v-col class="my-0 py-0" cols="5">
         <v-select class="ibm-plex-sans-kr-regular" v-model="bank" :items="bankList" label="은행" variant="outlined"></v-select>
       </v-col>
-      </v-container>
-          <v-container>
-      <v-data-table-virtual height="600" :items="depositData" class="elevation-2" item-class="hoverable-row" fixed-header>
-        <template v-slot:item.상품명="{ item }">
-          <v-btn class="mx-auto custom-btn" @click="showDetails(item.상품명)">{{ item.상품명 }}</v-btn>
-        </template>
-      </v-data-table-virtual>
     </v-container>
+    <v-data-table-virtual height="600" :items="depositData" class="elevation-2" item-class="hoverable-row" fixed-header>
+      <template v-slot:item.상품명="{ item }">
+        <v-btn class="mx-auto custom-btn" @click="showDetails(item.상품명)">{{ item.상품명 }}</v-btn>
+      </template>
+    </v-data-table-virtual>
 
     <v-dialog v-model="dialog" width="1000">
       <v-card class="mx-auto" width="1000">
