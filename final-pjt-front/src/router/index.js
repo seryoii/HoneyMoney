@@ -1,3 +1,4 @@
+// src/router/index.js
 import { createRouter, createWebHistory } from "vue-router";
 import MainView from "@/views/MainView.vue";
 import MapView from "@/views/MapView.vue";
@@ -13,6 +14,7 @@ import UpdateArticleView from "@/views/UpdateArticleView.vue";
 import RecommendView from "@/views/RecommendView.vue";
 import SavingProductsView from "@/views/SavingProductsView.vue";
 import DepositProductsView from "@/views/DepositProductsView.vue";
+import eventBus from "@/eventBus"; // 이벤트 버스 임포트
 
 const routes = [
   {
@@ -64,6 +66,9 @@ const routes = [
     path: "/profile",
     name: "UserProfileView",
     component: UserProfileView,
+    beforeEnter: (to, from, next) => {
+      next().then(window.location.reload());
+    },
   },
   {
     path: "/products",

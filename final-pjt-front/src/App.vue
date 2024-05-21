@@ -46,6 +46,7 @@
 import { useUserStore } from "./stores/user";
 import { useRouter, useRoute, RouterLink, RouterView } from "vue-router";
 import { ref, computed } from "vue";
+import swal from "sweetalert";
 
 const userStore = useUserStore();
 import logo from "@/assets/logo_dev.png";
@@ -84,7 +85,23 @@ const handleMoreClick = (item) => {
       router.push({ name: "LoginView" });
       break;
     case "LOGOUT":
-      userStore.logoutUser();
+      swal({
+        title: "오늘도 달달한 하루가 되었나요?",
+        text: "꿀단지는 오늘도 숙성중입니다.",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+      }).then((willDelete) => {
+        if (willDelete) {
+          swal("로그아웃 되었습니다!", {
+            icon: "success",
+          });
+          userStore.logoutUser();
+        } else {
+          swal("더 둘러보다 가세요!");
+        }
+      });
+
       break;
     case "PROFILE":
       router.push({ name: "UserProfileView" });

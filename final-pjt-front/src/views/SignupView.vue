@@ -159,11 +159,10 @@ const v$ = useVuelidate(rules, state);
 
 const submitForm = () => {
   v$.value.$validate();
-  console.log(selected);
   if (selected.value.length !== 2) {
     swal("Oops", "모든 약관에 동의 해주셔야 합니다.", "error");
     return router.push({ name: "SignupView" });
-  } else if (!v$.value.$error) {
+  } else if (selected.value.length == 2 && !v$.value.$error) {
     const payload = {
       username: state.value.username,
       nickname: state.value.nickname,
@@ -177,9 +176,9 @@ const submitForm = () => {
     };
     userStore.createUser(payload);
   } else {
-    console.log("Form is invalid");
+    swal("Oops", "* 표시가 된 칸을 채워주세요!", "error");
   }
-};
+}
 </script>
 
 <style>

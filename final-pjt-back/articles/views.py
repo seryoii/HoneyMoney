@@ -9,11 +9,12 @@ from .models import Article, Comment
 from .serializers import ArticleListSerializer, ArticleSerializer, CommentSerializer
 # Create your views here.
 @api_view(['GET'])
-@authentication_classes([TokenAuthentication])
+# @authentication_classes([TokenAuthentication])
 @permission_classes([IsAuthenticated])
 def function(request):
     pass
 
+@permission_classes([IsAuthenticated])
 @api_view(['GET', 'POST'])
 def article_list(request):
     if request.method == 'GET':
@@ -27,6 +28,7 @@ def article_list(request):
             serializer.save(user=request.user)
             return Response(serializer.data)
 
+@permission_classes([IsAuthenticated])
 @api_view(['GET', 'PUT', 'DELETE'])
 def article_detail(request, article_id):
     article = Article.objects.get(id=article_id)
@@ -45,6 +47,7 @@ def article_detail(request, article_id):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
+@permission_classes([IsAuthenticated])
 @api_view(['GET', 'POST'])
 def article_comments(request, article_id):
     article = Article.objects.get(id=article_id)
@@ -59,6 +62,7 @@ def article_comments(request, article_id):
             serializer.save(user=request.user, article_id=article_id)
             return Response(serializer.data)
 
+@permission_classes([IsAuthenticated])
 @api_view(['GET', 'PUT', 'DELETE'])
 def article_comment_detail(request, article_id, comment_id):
     comment = Comment.objects.get(id=comment_id)

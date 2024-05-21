@@ -1,5 +1,12 @@
 <template>
-  <v-container v-if="userStore.userProfile">
+  <div v-if="isLoading" class="loading-screen">
+    <v-container fill-height align="center" justify="center">
+      <v-progress-circular :model-value="value" :rotate="360" :size="100" :width="15" color="amber">
+        <template v-slot:default>{{ value }} %</template>
+      </v-progress-circular>
+    </v-container>
+  </div>
+  <v-container v-else v-if="userStore.userProfile">
     <v-card class="mx-auto py-5">
       <v-row>
         <v-col cols="6">
@@ -78,8 +85,7 @@
         <v-col class="px-0 mx-0" cols="6">
           <v-row class="px-0 mx-0">
             <v-col class="d-flex align-center justify-center px-0 mx-0 mb-0">
-              <v-skeleton-loader v-if="loading" type="card, image, list-item, text" />
-              <v-container v-else-if="depositStore.profileDepositData.length" class="py-0 mb-0">
+              <v-container v-if="depositStore.profileDepositData.length" class="py-0 mb-0">
                 <v-row justify="end">
                   <v-col class="ms-4" cols="2">
                     <v-badge color="yellow" :content="depositStore.profileDepositData.length"></v-badge>
@@ -120,8 +126,7 @@
           </v-row>
           <v-row class="py-0 my-0">
             <v-col class="d-flex align-center justify-center py-0 my-0">
-              <v-skeleton-loader v-if="loading" type="card, image, list-item, text" />
-              <v-container v-else class="py-0 mb-0" v-if="savingStore.profileSavingData.length">
+              <v-container class="py-0 mb-0" v-if="savingStore.profileSavingData.length">
                 <v-row justify="end">
                   <v-col class="ms-4" cols="2">
                     <v-badge color="yellow" :content="savingStore.profileSavingData.length"></v-badge>
@@ -176,10 +181,29 @@ import jar from "@/assets/jar.png";
 const depositStore = useDepositStore();
 const savingStore = useSavingStore();
 const userStore = useUserStore();
+
+const isLoading = ref(true);
+const value = ref(0);
+const interval = ref(-1);
+
 onMounted(() => {
   userStore.getProfile();
   checkDeposit();
   checkSaving();
+  // 프로그레스 서클 업데이트
+  interval.value = setInterval(() => {
+    if (value.value === 100) {
+      value.value = 100;
+    } else {
+      value.value += 10;
+    }
+  }, 200);
+
+  // 3-5초 후에 로딩을 false로 설정합니다.
+  setTimeout(() => {
+    isLoading.value = false;
+    clearInterval(interval.value);
+  }, 3000); // 여기서는 3초로 설정
 });
 
 // 꿀바른 상품 확인 함수
@@ -243,6 +267,14 @@ const submitForm = async () => {
 </script>
 
 <style scoped>
+.loading-screen {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  font-size: 24px;
+}
+
 .chip-style {
   cursor: pointer;
 }

@@ -1,13 +1,11 @@
 <template>
   <v-container>
     <v-row>
-      <!-- {{ results }} -->
       <v-col v-for="result in results" :key="result.id" cols="6">
         <v-card class="mx-auto pb-2" @click="openDialog(result)">
           <v-card-title>{{ result.fin_prdt_nm }}</v-card-title>
           <v-card-subtitle>{{ result.kor_co_nm }}</v-card-subtitle>
         </v-card>
-        <!-- Dialog for the card -->
         <v-dialog v-model="result.dialog" width="1000">
           <v-card class="mx-auto" prepend-icon="$vuetify" :subtitle="`${result.kor_co_nm}`" width="1000">
             <template v-slot:title>
@@ -137,6 +135,8 @@ import save from "@/assets/save.png";
 import { useUserStore } from "@/stores/user";
 import { useDepositStore } from "@/stores/deposit";
 import { useSavingStore } from "@/stores/saving";
+import swal from "sweetalert";
+
 const depositStore = useDepositStore();
 const savingStore = useSavingStore();
 const userStore = useUserStore();
@@ -152,8 +152,12 @@ watch(
   (newKeyword) => {
     console.log(newKeyword);
     results.value = [];
-    searchDeposit(newKeyword);
-    searchSaving(newKeyword);
+    if (userStore.isLogin) {
+      searchDeposit(newKeyword);
+      searchSaving(newKeyword);
+    } else {
+      
+    }
   }
 );
 
@@ -161,6 +165,9 @@ const searchDeposit = function (keyword) {
   axios({
     method: "get",
     url: `http://127.0.0.1:8000/products/bank/deposit/${keyword}/`,
+    headers: {
+      Authorization: `Token ${userStore.token}`,
+    },
   })
     .then((res) => {
       console.log(res);
@@ -178,6 +185,9 @@ const searchSaving = function (keyword) {
   axios({
     method: "get",
     url: `http://127.0.0.1:8000/products/bank/saving/${keyword}/`,
+    headers: {
+      Authorization: `Token ${userStore.token}`,
+    },
   })
     .then((res) => {
       console.log(res);
@@ -196,7 +206,6 @@ const openDialog = (result) => {
 };
 
 const saveEvent = function (productCode, productName) {
-  console.log(productCode);
   console.log(`꿀바르기!`);
   if (productName.includes("예금")) {
     // 예금 쪽 확인
@@ -207,7 +216,6 @@ const saveEvent = function (productCode, productName) {
   }
 };
 const deleteEvent = function (productCode, productName) {
-  console.log(productCode);
   console.log(`꿀버리기...`);
   if (productName.includes("예금")) {
     // 예금 쪽 확인

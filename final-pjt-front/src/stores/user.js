@@ -49,7 +49,7 @@ export const useUserStore = defineStore(
           loginUser(payload);
         })
         .catch((err) => {
-          // 회원가입 오류 메세지 출력.
+          swal("Oops", "아이디가 중복되었어요!", "error");
           console.log(err);
         });
     };

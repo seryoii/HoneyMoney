@@ -1,22 +1,24 @@
 from django.http import JsonResponse
 import requests
 import random
-
 from django.shortcuts import render
 from django.shortcuts import get_object_or_404
 from django.db.models import Q
 from django.conf import settings
 from rest_framework import status
-from rest_framework.decorators import api_view, permission_classes
+from rest_framework.decorators import api_view, authentication_classes, permission_classes
+from rest_framework.authentication import TokenAuthentication
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from .serializers import DepositSerializer, DepositOptionSerializer, DepositListSerializer, InterestDepositSerializer, DepositRecommendSerializer
 from .serializers import SavingSerializer, SavingOptionSerializer, SavingListSerializer, InterestSavingSerializer, SavingRecommendSerializer
 from .models import DepositProduct, SavingProduct, DepositOption, SavingOption
 from accounts.models import User
-from rest_framework.permissions import IsAuthenticated
+
+# @permission_classes([IsAuthenticated])
+# @permission_classes([IsAuthenticated])
 
 API_KEY = settings.FIN_API_KEY
-# API_KEY='075aba31f295dc17f85b416dfabc2969'
 # Create your views here.
 
 @api_view(['GET'])
@@ -112,12 +114,14 @@ def get_saving_products(request):
     return Response('Saving 데이터 가져오기 성공')
 
 @api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def deposit_product_list(request):
     if request.method == 'GET':
         deposit_products = DepositProduct.objects.all()
         serializer = DepositListSerializer(deposit_products, many=True)
         return Response(serializer.data)
-
+    
+@permission_classes([IsAuthenticated])
 @api_view(['GET'])
 def saving_product_list(request):
     if request.method == 'GET':
@@ -133,6 +137,7 @@ def deposit_detail(request, deposit_name):
         return Response(serializer.data)
     
 @api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def saving_detail(request, saving_name):
     saving = get_object_or_404(SavingProduct, fin_prdt_nm=saving_name)
     if request.method == 'GET':
@@ -140,6 +145,7 @@ def saving_detail(request, saving_name):
         return Response(serializer.data)
     
 @api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def deposit_option_list(request, deposit_code):
     deposit = get_object_or_404(DepositProduct, fin_prdt_cd=deposit_code)
     deposit_options = DepositOption.objects.filter(deposit_product=deposit)
@@ -149,15 +155,16 @@ def deposit_option_list(request, deposit_code):
         return Response(serializer.data)
     
 @api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def deposit_option_detail(request, deposit_code, option_id):
     deposit = get_object_or_404(DepositProduct, fin_prdt_cd=deposit_code)
     option = DepositOption.objects.get(deposit_product=deposit, id=option_id)
     if request.method == 'GET':
         serializer = DepositOptionSerializer(option)
         return Response(serializer.data)
-
     
 @api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def saving_option_list(request, saving_name):
     saving = get_object_or_404(SavingProduct, fin_prdt_nm=saving_name)
     saving_options = SavingOption.objects.filter(saving_product=saving)
@@ -167,6 +174,7 @@ def saving_option_list(request, saving_name):
         return Response(serializer.data)
 
 @api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def saving_option_detail(request, saving_code, option_id):
     saving = get_object_or_404(SavingProduct, fin_prdt_cd=saving_code)
     option = SavingOption.objects.get(saving_product=saving, id=option_id)
@@ -223,8 +231,8 @@ def saving_option_detail(request, saving_code, option_id):
 #             return Response({ "detail": "삭제되었습니다." }, status=status.HTTP_204_NO_CONTENT)
 #         else:
 #             return Response({ "detail": "삭제할 항목이 없습니다." }, status=status.HTTP_404_NOT_FOUND)
-        
 @api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def bank_deposit(request, bank_name):
     if request.method == 'GET':
         if DepositProduct.objects.filter(kor_co_nm=bank_name).exists():
@@ -233,8 +241,9 @@ def bank_deposit(request, bank_name):
             return Response(serializer.data)
         else:
             return Response({'detail': '해당 은행의 상품이 없습니다.'}, status=status.HTTP_204_NO_CONTENT)
-        
+
 @api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def bank_saving(request, bank_name):
     if request.method == 'GET':
         if SavingProduct.objects.filter(kor_co_nm=bank_name).exists():
@@ -285,6 +294,7 @@ def like_saving(request, saving_code):
         return Response({'status': 'liked'}, status=status.HTTP_200_OK)
     
 @api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def deposit_recommend(request, username):
     user = get_object_or_404(User, username=username)
     salary = int(user.salary)
@@ -318,6 +328,7 @@ def deposit_recommend(request, username):
     return Response(serializer.data)
 
 @api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def saving_recommend(request):
     user = get_object_or_404(User, username=request.user.username)
     salary = int(user.salary)
@@ -350,6 +361,7 @@ def saving_recommend(request):
     return Response(serializer.data)
 
 @api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def deposit_recommend_second(request):
     user = get_object_or_404(User, username=request.user.username)
     age = user.age
@@ -374,6 +386,7 @@ def deposit_recommend_second(request):
     
 
 @api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def saving_recommend_second(request):
     user = get_object_or_404(User, username=request.user.username)
     age = user.age

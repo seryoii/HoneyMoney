@@ -76,7 +76,7 @@
 
             <v-img class="click-event" @click="moveRecommend" max-width="300" :src="recommendPhoto"></v-img>
             <v-row justify="end" class="me-10">
-                <v-btn class="btn-4" @click="moveRecommend" variant="tonal">금융 상품 추천 받기</v-btn>
+              <v-btn class="btn-4" @click="moveRecommend" variant="tonal">금융 상품 추천 받기</v-btn>
             </v-row>
           </v-sheet>
         </v-carousel-item>
@@ -93,6 +93,7 @@ import mapPhoto from "@/assets/map.png";
 import recommendPhoto from "@/assets/recommend.png";
 import savingPhoto from "@/assets/saving.png";
 import exchangePhoto from "@/assets/exchange.png";
+import swal from "sweetalert";
 
 const userStore = useUserStore();
 const isLoggedIn = computed(() => userStore.isLogin);
@@ -126,7 +127,22 @@ const handleMoreClick = (item) => {
       router.push({ name: "LoginView" });
       break;
     case "LOGOUT":
-      userStore.logoutUser();
+      swal({
+        title: "오늘도 달달한 하루가 되었나요?",
+        text: "꿀단지는 오늘도 숙성중입니다.",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+      }).then((willDelete) => {
+        if (willDelete) {
+          swal("로그아웃 되었습니다!", {
+            icon: "success",
+          });
+          userStore.logoutUser();
+        } else {
+          swal("더 둘러보다 가세요!");
+        }
+      });
       break;
     case "PROFILE":
       router.push({ name: "UserProfileView" });
