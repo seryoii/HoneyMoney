@@ -108,8 +108,8 @@ with open(save_dir, 'w', encoding="utf-8") as f:
             'is_staff': False,
             'is_superuser': False
         }
-        file["fields"]["deposit"] = [random.randint(1, 38) for _ in range(3)]
-        file["fields"]["saving"] = [random.randint(1, 63) for _ in range(3)]
+        file["fields"]["deposit"] = [random.randint(1, 37) for _ in range(3)]
+        file["fields"]["saving"] = [random.randint(1, 64) for _ in range(3)]
 
         json.dump(file, f, ensure_ascii=False, indent="\t")
         if i != N-1:
