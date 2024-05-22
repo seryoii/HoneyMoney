@@ -84,6 +84,8 @@ export const useSavingStore = defineStore(
           console.log(err);
         });
     };
+
+    // 꿀바르기 확인
     const getHoney = function (productCode, productName) {
       axios({
         method: "post",
@@ -94,7 +96,7 @@ export const useSavingStore = defineStore(
       }).then((res) => {
         console.log(res);
         getSavingData(productName);
-      }); 
+      });
     };
     const profileSavingData = ref([]);
     const getProfileSaving = function (userSaving) {
@@ -121,7 +123,17 @@ export const useSavingStore = defineStore(
           console.log(err);
         });
     };
-    return { savingProductsData, loadSavingData, allSaving, getAllSaving, bankList, getSavingData, getSavingDetail, getSavingOptionData, getSavingDetailOption, getHoney, getProfileSaving, profileSavingData };
+    const toggleData = function (productInfo) {
+      const index = userStore.userProfile.interest_saving.findIndex((item) => item['id'] === productInfo['id'])
+      if (index !== -1) {
+        // 객체가 배열에 존재하면 제거
+        userStore.userProfile.interest_saving.splice(index, 1)
+      } else {
+        // 객체가 배열에 존재하지 않으면 추가
+        userStore.userProfile.interest_saving.push(productInfo)
+      }
+    }
+    return { savingProductsData, loadSavingData, allSaving, getAllSaving, bankList, getSavingData, getSavingDetail, getSavingOptionData, getSavingDetailOption, getHoney, getProfileSaving, profileSavingData, toggleData };
   },
   { persist: true }
 );

@@ -38,7 +38,7 @@
         </span>
       </v-container>
       <hr />
-      <CommentsComponent v-if="articleStore.articleDetail" :Username="userStore.userInfo.username" :articleUser="articleStore.articleDetail.user.username" />
+      <CommentsComponent v-if="articleStore.articleDetail && userStore.userInfo" :Username="userStore.userInfo.username" :articleUser="articleStore.articleDetail.user.username" />
     </v-card>
   </v-container>
 </template>
@@ -56,9 +56,10 @@ const route = useRoute();
 const router = useRouter();
 const userStore = useUserStore();
 onMounted(() => {
+  console.log(userStore.userInfo);
   userStore.getProfile();
-  console.log(userStore.userInfo.username);
-  console.log(articleStore.articleDetail.user.username);
+  // console.log(userStore.userInfo.username);
+  // console.log(articleStore.articleDetail.user.username);
 });
 const profileImg = computed(() => {
   return `http://localhost:8000${userStore.userProfile.profile_img}`;

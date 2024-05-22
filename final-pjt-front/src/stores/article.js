@@ -12,7 +12,7 @@ export const useArticleStore = defineStore(
     const userStore = useUserStore();
     const API_URL = "http://127.0.0.1:8000";
     const articlesList = ref([]);
-    const articleDetail = ref({});
+    const articleDetail = ref(null);
     const router = useRouter();
     // 게시글 리스트 GET
     const getArticleList = function () {
@@ -63,11 +63,6 @@ export const useArticleStore = defineStore(
         },
       })
         .then((res) => {
-          swal({
-            title: `게시글이 생성되었습니다.`,
-            icon: "success",
-            button: "확인!",
-          });
           router.push({ name: "ArticleDetailView", params: { id: res.data.id } });
         })
         .catch((err) => {

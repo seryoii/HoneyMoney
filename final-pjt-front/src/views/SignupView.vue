@@ -60,7 +60,7 @@
               type="number"
               v-model="state.age"
               @blur="v$.age.$touch"
-              :error-messages="v$.age.$error ? ['나이는 최소 0살, 최대 100살 입니다.'] : []"
+              :error-messages="v$.age.$error ? ['나이는 최소 18살, 최대 99살 입니다.'] : []"
             ></v-text-field>
           </v-col>
           <v-col class="pt-0" cols="6">
@@ -148,7 +148,7 @@ const rules = computed(() => ({
   nickname: { required, maxLength: maxLength(20) },
   password1: { required, minLength: minLength(10), maxLength: maxLength(128) },
   password2: { required, sameAs: sameAs(computed(() => state.value.password1)) },
-  age: { required, minValue: minValue(0), maxValue: maxValue(100) },
+  age: { required, minValue: minValue(18), maxValue: maxValue(99) },
   salary: { required, minValue: minValue(0) },
   wealth: { required, minValue: minValue(0) },
   tendency: { required, minValue: minValue(0), maxValue: maxValue(10) },
@@ -178,7 +178,7 @@ const submitForm = () => {
   } else {
     swal("Oops", "* 표시가 된 칸을 채워주세요!", "error");
   }
-}
+};
 </script>
 
 <style>

@@ -124,8 +124,9 @@
                 <v-card-text class="me-12">{{ result.etc_note }}</v-card-text>
               </v-col>
             </v-row>
-            <v-card-actions>
-              <v-btn @click="result.dialog = false">OK</v-btn>
+            <hr>
+            <v-card-actions class="justify-center">
+              <v-btn class="mb-6" @click="result.dialog = false">OK</v-btn>
             </v-card-actions>
           </v-card>
         </v-dialog>

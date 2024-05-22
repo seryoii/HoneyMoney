@@ -25,16 +25,23 @@ const articleStore = useArticleStore();
 const newtitle = ref("");
 const newcontent = ref("");
 const newArticle = function () {
-  if (window.confirm("게시글을 생성하시겠습니까?")) {
-    const databox = {
-      title: newtitle.value,
-      content: newcontent.value,
-    };
-    articleStore.createArticle(databox);
-  } else {
-    window.alert("취소되었습니다.");
-    swal("Hello world!");
-  }
+  swal({
+    title: "게시글을 생성할까요?",
+    text: "꿀팁을 나누면 더 달달해져요!",
+    icon: "info",
+    buttons: [true, "생성하기!"],
+  }).then((willCreate) => {
+    if (willCreate) {
+      const databox = {
+        title: newtitle.value,
+        content: newcontent.value,
+      };
+      articleStore.createArticle(databox);
+      swal("성공적으로 생성되었어요!", {
+        icon: "success",
+      });
+    }
+  });
 };
 </script>
 

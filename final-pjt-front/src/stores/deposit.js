@@ -84,9 +84,8 @@ export const useDepositStore = defineStore(
           console.log(err);
         });
     };
-    const depositHoney = ref("");
     // 꿀바르기 확인
-    const getHoney = function (productCode) {
+    const getHoney = function (productCode, productName) {
       axios({
         method: "post",
         url: `${API_URL}/like/deposit/${productCode}/`,
@@ -95,7 +94,7 @@ export const useDepositStore = defineStore(
         },
       }).then((res) => {
         console.log(res);
-        depositHoney.value = res.data;
+        getDepositData(productName);
       });
     };
     const profileDepositData = ref([]);
@@ -123,21 +122,17 @@ export const useDepositStore = defineStore(
           console.log(err);
         });
     };
-    return {
-      depositProductsData,
-      loadDepositData,
-      allDeposit,
-      getAllDeposit,
-      bankList,
-      getDepositData,
-      getDepositDetail,
-      getDepositOptionData,
-      getDepositDetailOption,
-      getHoney,
-      getProfileDeposit,
-      profileDepositData,
-      depositHoney,
+    const toggleData = function (productInfo) {
+      const index = userStore.userProfile.interest_deposit.findIndex((item) => item["id"] === productInfo["id"]);
+      if (index !== -1) {
+        // 객체가 배열에 존재하면 제거
+        userStore.userProfile.interest_deposit.splice(index, 1);
+      } else {
+        // 객체가 배열에 존재하지 않으면 추가
+        userStore.userProfile.interest_deposit.push(productInfo);
+      }
     };
+    return { depositProductsData, loadDepositData, allDeposit, getAllDeposit, bankList, getDepositData, getDepositDetail, getDepositOptionData, getDepositDetailOption, getHoney, getProfileDeposit, profileDepositData, toggleData };
   },
   { persist: true }
 );

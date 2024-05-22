@@ -103,7 +103,7 @@ with open(save_dir, 'w', encoding="utf-8") as f:
             'nickname': username_list[i],
             # 랜덤한 0~5개의 상품을 가입하도록 삽입됨
             # 'financial_products': ','.join([random.choice(financial_products) for _ in range(random.randint(0, 5))]), # 금융 상품 리스트
-            'age': random.randint(18, 100),  # 나이
+            'age': random.randint(18, 99),  # 나이
             'profile_img': 'images/default_profile.png',
             'salary': random.randrange(30000, 150000) * 1000, # 연봉
             'wealth': random.randrange(10, 1000000) * 1000, # 자산

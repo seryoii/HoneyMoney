@@ -11,7 +11,7 @@
               <v-row>
                 <v-col cols="10">
                   <v-avatar :image="`http://localhost:8000${comment.user.profile_img}`" size="25" class="me-1"></v-avatar>
-                  <span class="ibm-plex-sans-kr-regular comment-user-font">{{ comment.user.nickname }}</span>
+                  <span class="ibm-plex-sans-kr-regular comment-user-font">{{ comment.user.nickname }} (작성자)</span>
                 </v-col>
                 <v-col v-if="userStore.userInfo.username === articleUser" cols="2">
                   <v-card-actions>
