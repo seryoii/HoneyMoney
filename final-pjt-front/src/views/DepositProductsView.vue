@@ -2,54 +2,28 @@
   <v-container>
     <v-container class="d-flex justify-end">
       <v-col class="my-0 py-0" cols="5">
-        <v-select
-          class="ibm-plex-sans-kr-regular"
-          v-model="bank"
-          :items="bankList"
-          label="은행"
-          variant="outlined"
-        ></v-select>
+        <v-select class="ibm-plex-sans-kr-regular" v-model="bank" :items="bankList" label="은행" variant="outlined"></v-select>
       </v-col>
     </v-container>
-    <v-data-table-virtual
-      height="600"
-      :items="depositData"
-      class="elevation-2"
-      item-class="hoverable-row"
-      fixed-header
-    >
+    <v-data-table-virtual height="600" :items="depositData" class="elevation-2" item-class="hoverable-row" fixed-header>
       <!-- userPeriod에 따라 다른 기간을 선택하여 표시 -->
-      <template
-        v-if="userPeriod && userPeriod === 6"
-        v-slot:item.6개월="{ value }"
-      >
+      <template v-if="userPeriod && userPeriod === 6" v-slot:item.6개월="{ value }">
         <v-chip :color="getColor(value)">{{ value }}</v-chip>
       </template>
-      <template
-        v-else-if="userPeriod && userPeriod === 12"
-        v-slot:item.12개월="{ value }"
-      >
+      <template v-else-if="userPeriod && userPeriod === 12" v-slot:item.12개월="{ value }">
         <v-chip :color="getColor(value)">{{ value }}</v-chip>
       </template>
-      <template
-        v-else-if="userPeriod && userPeriod === 24"
-        v-slot:item.24개월="{ value }"
-      >
+      <template v-else-if="userPeriod && userPeriod === 24" v-slot:item.24개월="{ value }">
         <v-chip :color="getColor(value)">{{ value }}</v-chip>
       </template>
-      <template
-        v-else-if="userPeriod && userPeriod === 36"
-        v-slot:item.36개월="{ value }"
-      >
+      <template v-else-if="userPeriod && userPeriod === 36" v-slot:item.36개월="{ value }">
         <v-chip :color="getColor(value)">{{ value }}</v-chip>
       </template>
       <template v-else v-slot:item.6개월="{ value }">
         <v-chip :color="getColor(value)">{{ value }}</v-chip>
       </template>
       <template v-slot:item.상품명="{ item }">
-        <v-btn class="mx-auto custom-btn" @click="showDetails(item.상품명)">{{
-          item.상품명
-        }}</v-btn>
+        <v-btn class="mx-auto custom-btn" @click="showDetails(item.상품명)">{{ item.상품명 }}</v-btn>
       </template>
     </v-data-table-virtual>
 
@@ -63,9 +37,7 @@
                 {{ depositStore.getDepositDetail.kor_co_nm }}
               </div>
             </v-col>
-            <v-col align="center" cols="4" class="mt-2 ibm-plex-sans-kr-regular"
-              >꿀바르기</v-col
-            >
+            <v-col align="center" cols="4" class="mt-2 ibm-plex-sans-kr-regular">꿀바르기</v-col>
           </v-row>
         </template>
         <template v-slot:title>
@@ -78,170 +50,117 @@
             </v-col>
             <v-col align="center" class="pb-0 mt-2">
               <v-img
-                v-if="
-                  depositStore.getDepositDetail.interest_user &&
-                  !depositStore.getDepositDetail.interest_user.includes(
-                    userStore.userInfo.id
-                  )
-                "
-                @click="
-                  saveEvent(
-                    depositStore.getDepositDetail.fin_prdt_cd,
-                    depositStore.getDepositDetail.fin_prdt_nm
-                  )
-                "
+                v-if="depositStore.getDepositDetail.interest_user && !depositStore.getDepositDetail.interest_user.includes(userStore.userInfo.id)"
+                @click="saveEvent(depositStore.getDepositDetail.fin_prdt_cd, depositStore.getDepositDetail.fin_prdt_nm)"
                 :src="cancel"
                 class="button-image hover-effect"
                 max-width="60"
               />
-              <v-img
-                v-else
-                @click="
-                  deleteEvent(
-                    depositStore.getDepositDetail.fin_prdt_cd,
-                    depositStore.getDepositDetail.fin_prdt_nm
-                  )
-                "
-                :src="save"
-                class="button-image hover-effect"
-                max-width="60"
-              />
+              <v-img v-else @click="deleteEvent(depositStore.getDepositDetail.fin_prdt_cd, depositStore.getDepositDetail.fin_prdt_nm)" :src="save" class="button-image hover-effect" max-width="60" />
             </v-col>
           </v-row>
         </template>
 
         <v-row justify="center" align="center">
           <v-col cols="3" class="d-flex justify-center">
-            <v-card-text class="text-style" align="center"
-              >관심도 ★</v-card-text
-            >
+            <v-card-text class="text-style" align="center">관심도 ★</v-card-text>
           </v-col>
           <v-col>
-            <v-card-text class="">{{
-              depositStore.getDepositDetail.interest_user?.length
-            }}</v-card-text>
+            <v-card-text class="">{{ depositStore.getDepositDetail.interest_user?.length }}</v-card-text>
           </v-col>
         </v-row>
         <hr />
         <v-row justify="center" align="center">
           <v-col cols="3" class="d-flex justify-center">
-            <v-card-text class="text-style" align="center"
-              >공시 제출일</v-card-text
-            >
+            <v-card-text class="text-style" align="center">공시 제출일</v-card-text>
           </v-col>
           <v-col>
-            <v-card-text class="">{{
-              depositStore.getDepositDetail.dcls_month
-            }}</v-card-text>
+            <v-card-text class="">{{ depositStore.getDepositDetail.dcls_month }}</v-card-text>
           </v-col>
         </v-row>
         <hr />
 
         <v-row justify="center" align="center">
           <v-col cols="3" class="d-flex justify-center">
-            <v-card-text class="text-style" align="center"
-              >금융 상품명</v-card-text
-            >
+            <v-card-text class="text-style" align="center">금융 상품명</v-card-text>
           </v-col>
           <v-col>
-            <v-card-text class="">{{
-              depositStore.getDepositDetail.fin_prdt_nm
-            }}</v-card-text>
+            <v-card-text class="">{{ depositStore.getDepositDetail.fin_prdt_nm }}</v-card-text>
           </v-col>
         </v-row>
         <hr />
 
         <v-row justify="center" align="center">
           <v-col cols="3" class="d-flex justify-center">
-            <v-card-text class="text-style" align="center"
-              >가입 방법</v-card-text
-            >
+            <v-card-text class="text-style" align="center">가입 방법</v-card-text>
           </v-col>
           <v-col>
-            <v-card-text class="">{{
-              depositStore.getDepositDetail.join_way
-            }}</v-card-text>
+            <v-card-text class="">{{ depositStore.getDepositDetail.join_way }}</v-card-text>
           </v-col>
         </v-row>
         <hr />
         <v-row justify="center" align="center">
           <v-col cols="3" class="d-flex justify-center">
-            <v-card-text class="text-style" align="center"
-              >만기 후 이자율</v-card-text
-            >
+            <v-card-text class="text-style" align="center">만기 후 이자율</v-card-text>
           </v-col>
           <v-col>
-            <v-card-text class="">{{
-              depositStore.getDepositDetail.mtrt_int
-            }}</v-card-text>
+            <v-card-text class="">{{ depositStore.getDepositDetail.mtrt_int }}</v-card-text>
           </v-col>
         </v-row>
         <hr />
         <v-row justify="center" align="center">
           <v-col cols="3" class="d-flex justify-center">
-            <v-card-text class="text-style" align="center"
-              >우대 조건</v-card-text
-            >
+            <v-card-text class="text-style" align="center">우대 조건</v-card-text>
           </v-col>
           <v-col>
-            <v-card-text class="">{{
-              depositStore.getDepositDetail.spcl_cnd
-            }}</v-card-text>
+            <v-card-text class="">{{ depositStore.getDepositDetail.spcl_cnd }}</v-card-text>
           </v-col>
         </v-row>
         <hr />
         <v-row justify="center" align="center">
           <v-col cols="3" class="d-flex justify-center">
-            <v-card-text class="text-style" align="center"
-              >가입 대상</v-card-text
-            >
+            <v-card-text class="text-style" align="center">가입 대상</v-card-text>
           </v-col>
           <v-col>
-            <v-card-text class="">{{
-              depositStore.getDepositDetail.join_member
-            }}</v-card-text>
+            <v-card-text class="">{{ depositStore.getDepositDetail.join_member }}</v-card-text>
           </v-col>
         </v-row>
         <hr />
         <v-row justify="center" align="center">
           <v-col cols="3" class="d-flex justify-center">
-            <v-card-text class="text-style" align="center"
-              >가입 제한</v-card-text
-            >
+            <v-card-text class="text-style" align="center">가입 제한</v-card-text>
           </v-col>
           <v-col>
-            {{ depositStore.getDepositDetail.join_deny == 1 ? "제한없음" : depositStore.getDepositDetail.join_deny == 2 ? "서민전용" : depositStore.getDepositDetail.join_deny == 3 ? "일부제한" : "기타" }}
+            <v-card-text class="">
+              {{ depositStore.getDepositDetail.join_deny == 1 ? "제한없음" : depositStore.getDepositDetail.join_deny == 2 ? "서민전용" : depositStore.getDepositDetail.join_deny == 3 ? "일부제한" : "기타" }}
+            </v-card-text>
           </v-col>
         </v-row>
         <hr />
         <v-row justify="center" align="center">
           <v-col cols="3" class="d-flex justify-center">
-            <v-card-text class="text-style" align="center"
-              >최고 한도</v-card-text
-            >
+            <v-card-text class="text-style" align="center">최고 한도</v-card-text>
           </v-col>
           <v-col>
-            <v-card-text class="">{{
-              depositStore.getDepositDetail.max_limit === null
-                ? "한도 없음"
-                : `${new Intl.NumberFormat("ko-KR", {
-                    style: "currency",
-                    currency: "KRW",
-                  }).format(depositStore.getDepositDetail.max_limit)}`
-            }}</v-card-text>
+            <v-card-text class="">
+              {{
+                depositStore.getDepositDetail.max_limit === null
+                  ? "한도 없음"
+                  : `${new Intl.NumberFormat("ko-KR", {
+                      style: "currency",
+                      currency: "KRW",
+                    }).format(depositStore.getDepositDetail.max_limit)}`
+              }}
+            </v-card-text>
           </v-col>
         </v-row>
         <hr />
         <v-row justify="center" align="center">
           <v-col cols="3" class="d-flex justify-center">
-            <v-card-text class="text-style" align="center"
-              >기타 유의사항</v-card-text
-            >
+            <v-card-text class="text-style" align="center">기타 유의사항</v-card-text>
           </v-col>
           <v-col>
-            <v-card-text class="">{{
-              depositStore.getDepositDetail.etc_note
-            }}</v-card-text>
+            <v-card-text class="">{{ depositStore.getDepositDetail.etc_note }}</v-card-text>
           </v-col>
         </v-row>
         <v-card-actions>
@@ -276,21 +195,13 @@ const loaddata = function () {
   let i = 1;
   if (depositStore.allDeposit && depositStore.allDeposit.length > 0) {
     depositData.value = depositStore.allDeposit.map((element) => {
-      const option6 = element.depositoption_set.find(
-        (option) => option.save_trm === 6
-      );
+      const option6 = element.depositoption_set.find((option) => option.save_trm === 6);
       const intrRate6 = option6 ? option6.intr_rate : null;
-      const option12 = element.depositoption_set.find(
-        (option) => option.save_trm === 12
-      );
+      const option12 = element.depositoption_set.find((option) => option.save_trm === 12);
       const intrRate12 = option12 ? option12.intr_rate : null;
-      const option24 = element.depositoption_set.find(
-        (option) => option.save_trm === 24
-      );
+      const option24 = element.depositoption_set.find((option) => option.save_trm === 24);
       const intrRate24 = option24 ? option24.intr_rate : null;
-      const option36 = element.depositoption_set.find(
-        (option) => option.save_trm === 36
-      );
+      const option36 = element.depositoption_set.find((option) => option.save_trm === 36);
       const intrRate36 = option36 ? option36.intr_rate : null;
       return {
         NO: i++,
