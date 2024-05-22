@@ -650,6 +650,7 @@ const deleteAccount = function () {
         .then((res) => {
           console.log(res);
           console.log(`회원탈퇴 완료!`);
+          userStore.logoutUser();
           router.push({ name: "MainView" });
         })
         .catch((err) => {
