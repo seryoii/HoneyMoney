@@ -252,6 +252,6 @@ hr {
 }
 
 .custom-bg {
-  background-color: rgba(248, 228, 145, 0.395);
+  background-color: #f7ecd3;
 }
 </style>
