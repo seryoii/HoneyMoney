@@ -6,6 +6,22 @@
       </v-col>
     </v-container>
     <v-data-table-virtual height="600" :items="depositData" class="elevation-2" item-class="hoverable-row" fixed-header>
+      <!-- userPeriod에 따라 다른 기간을 선택하여 표시 -->
+      <template v-if="userPeriod && userPeriod === 6" v-slot:item.6개월="{ value }">
+        <v-chip :color="getColor(value)">{{ value }}</v-chip>
+      </template>
+      <template v-else-if="userPeriod && userPeriod === 12" v-slot:item.12개월="{ value }">
+        <v-chip :color="getColor(value)">{{ value }}</v-chip>
+      </template>
+      <template v-else-if="userPeriod && userPeriod === 24" v-slot:item.24개월="{ value }">
+        <v-chip :color="getColor(value)">{{ value }}</v-chip>
+      </template>
+      <template v-else-if="userPeriod && userPeriod === 36" v-slot:item.36개월="{ value }">
+        <v-chip :color="getColor(value)">{{ value }}</v-chip>
+      </template>
+      <template v-else v-slot:item.6개월="{ value }">
+        <v-chip :color="getColor(value)">{{ value }}</v-chip>
+      </template>
       <template v-slot:item.상품명="{ item }">
         <v-btn class="mx-auto custom-btn" @click="showDetails(item.상품명)">{{ item.상품명 }}</v-btn>
       </template>
@@ -166,7 +182,7 @@ onMounted(() => {
 });
 
 const loaddata = function () {
-  let i = 1
+  let i = 1;
   if (depositStore.allDeposit && depositStore.allDeposit.length > 0) {
     depositData.value = depositStore.allDeposit.map((element) => {
       const option6 = element.depositoption_set.find((option) => option.save_trm === 6);
@@ -270,6 +286,19 @@ const deleteEvent = function (productCode, productName) {
     savingStore.getHoney(productCode);
   }
 };
+
+// getColor 함수 정의
+const getColor = (value) => {
+  if (value >= 3) {
+    return "green";
+  } else if (value >= 2) {
+    return "orange";
+  } else {
+    return "white";
+  }
+};
+const userPeriod = userStore.userDesirePeriod;
+console.log(userPeriod);
 </script>
 
 <style scoped>
@@ -311,8 +340,8 @@ hr {
 }
 
 .custom-btn {
-  background-color: #F5F5F5;
-  box-shadow: none
+  background-color: #f5f5f5;
+  box-shadow: none;
 }
 
 .custom-btn:hover {

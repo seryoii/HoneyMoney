@@ -264,6 +264,8 @@ const submitForm = async () => {
       console.log(err);
     });
 };
+
+// 여기서 axios로 불러와서 연결해보자. 아니면 로그인 했을 때, 배열을 미리 받아두면 되지 않을까?
 </script>
 
 <style scoped>

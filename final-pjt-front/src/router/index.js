@@ -14,7 +14,8 @@ import UpdateArticleView from "@/views/UpdateArticleView.vue";
 import RecommendView from "@/views/RecommendView.vue";
 import SavingProductsView from "@/views/SavingProductsView.vue";
 import DepositProductsView from "@/views/DepositProductsView.vue";
-import eventBus from "@/eventBus"; // 이벤트 버스 임포트
+import Swal from "sweetalert";
+import { useUserStore } from "@/stores/user";
 
 const routes = [
   {
@@ -41,21 +42,25 @@ const routes = [
     path: "/community",
     name: "CommunityView",
     component: CommunityView,
+    meta: { requiresAuth: true },
   },
   {
     path: "/article",
     name: "CreateArticleView",
     component: CreateArticleView,
+    meta: { requiresAuth: true },
   },
   {
     path: "/article/:id",
     name: "ArticleDetailView",
     component: ArticleDetailView,
+    meta: { requiresAuth: true },
   },
   {
     path: "/updateArticle/:id",
     name: "UpdateArticleView",
     component: UpdateArticleView,
+    meta: { requiresAuth: true },
   },
   {
     path: "/exchange",
@@ -66,9 +71,7 @@ const routes = [
     path: "/profile",
     name: "UserProfileView",
     component: UserProfileView,
-    beforeEnter: (to, from, next) => {
-      next().then(window.location.reload());
-    },
+    meta: { requiresAuth: true },
   },
   {
     path: "/products",
@@ -79,27 +82,51 @@ const routes = [
     path: "/recommend",
     name: "RecommendView",
     component: RecommendView,
+    meta: { requiresAuth: true },
   },
   {
     path: "/preView",
     name: "ProductsPreView",
     component: ProductsPreView,
+    meta: { requiresAuth: true },
   },
   {
     path: "/savings",
     name: "SavingProductsView",
     component: SavingProductsView,
+    meta: { requiresAuth: true },
   },
   {
     path: "/deposits",
     name: "DepositProductsView",
     component: DepositProductsView,
+    meta: { requiresAuth: true },
   },
 ];
 
 const router = createRouter({
   history: createWebHistory(),
   routes,
+});
+
+router.beforeEach((to, from, next) => {
+  const userStore = useUserStore();
+  if (to.matched.some((record) => record.meta.requiresAuth)) {
+    if (userStore.isLogin) {
+      next();
+    } else {
+      Swal({
+        title: "로그인이 필요합니다",
+        text: "이 페이지에 접근하려면 로그인이 필요합니다.",
+        icon: "warning",
+        confirmButtonText: "로그인 페이지로 이동",
+      }).then(() => {
+        next({ name: "LoginView" });
+      });
+    }
+  } else {
+    next();
+  }
 });
 
 export default router;

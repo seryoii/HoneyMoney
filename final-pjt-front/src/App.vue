@@ -93,7 +93,7 @@ const handleMoreClick = (item) => {
         dangerMode: true,
       }).then((willDelete) => {
         if (willDelete) {
-          swal("로그아웃 되었습니다!", {
+          swal("다음에 또 봐요!", {
             icon: "success",
           });
           userStore.logoutUser();
