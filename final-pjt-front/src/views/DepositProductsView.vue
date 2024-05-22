@@ -129,7 +129,9 @@
             <v-card-text class="text-style" align="center">가입 제한</v-card-text>
           </v-col>
           <v-col>
-            {{ depositStore.getDepositDetail.join_deny == 1 ? "제한없음" : depositStore.getDepositDetail.join_deny == 2 ? "서민전용" : depositStore.getDepositDetail.join_deny == 3 ? "일부제한" : "기타" }}
+            <v-card-text class="">
+              {{ depositStore.getDepositDetail.join_deny == 1 ? "제한없음" : depositStore.getDepositDetail.join_deny == 2 ? "서민전용" : depositStore.getDepositDetail.join_deny == 3 ? "일부제한" : "기타" }}
+            </v-card-text>
           </v-col>
         </v-row>
         <hr />
