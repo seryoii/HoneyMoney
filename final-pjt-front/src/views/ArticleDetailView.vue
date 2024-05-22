@@ -1,38 +1,44 @@
 <template>
   <v-container>
     <v-btn class="returnBtn" @click="returnArticleList"><- Back</v-btn>
-    <v-card class="mx-auto" :subtitle="userNickname" width="80%">
-      <template v-slot:title>
-        <v-row justify="center">
-          <v-col>
-            <v-avatar :image="profileImg" size="40" class="mr-2"></v-avatar>
-            <span class="font-weight-black">{{ articleStore.articleDetail.title }}</span>
+    <v-card class="mx-auto px-4 pt-4" width="80%">
+      <template v-slot:title class="mt-2">
+        <v-container class="pt-2 pb-0 px-0 ms-0 my-0 ibm-plex-sans-kr-regular">
+          <h3>{{ articleStore.articleDetail.title }}</h3>
+        </v-container>
+      </template>
+      <template v-slot:subtitle>
+        <v-row justify="center ms-0">
+          <v-col class="ps-0">
+            <v-avatar :image="profileImg" size="20" class="mr-2"></v-avatar>
+            <span class="font-weight-black ibm-plex-sans-kr-regular">{{ userNickname }}</span>
           </v-col>
-          <v-col cols="4" class="text-right">
+          <v-col v-if="userStore.userInfo.username === articleStore.articleDetail.user.username" cols="4" class="text-right">
             <v-btn class="update-btn" @click="articleUpdate">Update</v-btn>
             <v-btn class="delete-btn" @click="articleDelete">Delete</v-btn>
           </v-col>
         </v-row>
       </template>
-      <v-card-text class="pt-4">
+      <hr />
+      <v-card-text class="main-content mx-4 pt-4 ibm-plex-sans-kr-regular" style="white-space: pre-line">
         {{ articleStore.articleDetail.content }}
       </v-card-text>
-      <v-container>
+      <v-container class="py-1 font-style ibm-plex-sans-kr-regular text-right">
         Created Date:
-        <span v-if="articleStore.articleDetail.created_at">
+        <span class="font-style ibm-plex-sans-kr-regular" v-if="articleStore.articleDetail.created_at">
           {{ formatDate(articleStore.articleDetail.created_at) }}
           {{ formatTime(articleStore.articleDetail.created_at) }}
         </span>
       </v-container>
-      <v-container>
+      <v-container class="py-1 font-style ibm-plex-sans-kr-regular text-right">
         Updated Date:
-        <span v-if="articleStore.articleDetail.updated_at">
+        <span class="font-style ibm-plex-sans-kr-regular" v-if="articleStore.articleDetail.updated_at">
           {{ formatDate(articleStore.articleDetail.updated_at) }}
           {{ formatTime(articleStore.articleDetail.updated_at) }}
         </span>
       </v-container>
       <hr />
-      <CommentsComponent v-if="articleStore.articleDetail" />
+      <CommentsComponent v-if="articleStore.articleDetail" :Username="userStore.userInfo.username" :articleUser="articleStore.articleDetail.user.username" />
     </v-card>
   </v-container>
 </template>
@@ -45,18 +51,18 @@ import CommentsComponent from "@/components/CommentsComponent.vue";
 import { format, parseISO } from "date-fns";
 import { useUserStore } from "@/stores/user";
 
+const articleStore = useArticleStore();
+const route = useRoute();
+const router = useRouter();
 const userStore = useUserStore();
 onMounted(() => {
   userStore.getProfile();
-  console.log(userStore.userProfile.profile_img);
+  console.log(userStore.userInfo.username);
+  console.log(articleStore.articleDetail.user.username);
 });
 const profileImg = computed(() => {
   return `http://localhost:8000${userStore.userProfile.profile_img}`;
 });
-
-const articleStore = useArticleStore();
-const route = useRoute();
-const router = useRouter();
 
 const articleUpdate = () => {
   router.push({
@@ -122,6 +128,13 @@ hr {
   height: 0.5px; /* 두께 설정 */
   background-color: #dedede; /* 배경색 (수평선의 색상) 설정 */
   width: 95%; /* 너비 설정 */
-  margin: 20px auto; /* 상하 여백 및 가운데 정렬 */
+  margin: 10px auto; /* 상하 여백 및 가운데 정렬 */
+}
+.font-style {
+  font-size: small;
+  color: gray;
+}
+.main-content {
+  font-size: medium;
 }
 </style>

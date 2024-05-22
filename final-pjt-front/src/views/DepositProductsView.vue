@@ -31,24 +31,22 @@
       <v-card class="mx-auto" width="1000">
         <template v-slot:subtitle>
           <v-row>
+            <v-col cols="4"></v-col>
             <v-col align="center" cols="4">
               <div class="custom-subtitle ibm-plex-sans-kr-regular">{{ depositStore.getDepositDetail.kor_co_nm }}</div>
             </v-col>
-            <v-col cols="4"></v-col>
-            <v-col align="center" cols="4" class="ibm-plex-sans-kr-regular">꿀바르기</v-col>
+            <v-col align="center" cols="4" class="mt-2 ibm-plex-sans-kr-regular">꿀바르기</v-col>
           </v-row>
         </template>
         <template v-slot:title>
           <v-row align="center" justify="space-between">
-            <v-col align="center">
-              <v-avatar :image="Toss" height="100" width="100" />
-            </v-col>
+            <v-col align="center"></v-col>
             <v-col align="center" class="pb-0">
               <span class="font-weight-black ibm-plex-sans-kr-regular">
                 <h2>{{ depositStore.getDepositDetail.fin_prdt_nm }}</h2>
               </span>
             </v-col>
-            <v-col align="center" class="pb-0">
+            <v-col align="center" class="pb-0 mt-2">
               <v-img
                 v-if="depositStore.getDepositDetail.interest_user && !depositStore.getDepositDetail.interest_user.includes(userStore.userInfo.id)"
                 @click="saveEvent(depositStore.getDepositDetail.fin_prdt_cd, depositStore.getDepositDetail.fin_prdt_nm)"
@@ -131,7 +129,7 @@
             <v-card-text class="text-style" align="center">가입 제한</v-card-text>
           </v-col>
           <v-col>
-            <v-card-text class="">{{ join_limit }}</v-card-text>
+            {{ depositStore.getDepositDetail.join_deny == 1 ? "제한없음" : depositStore.getDepositDetail.join_deny == 2 ? "서민전용" : depositStore.getDepositDetail.join_deny == 3 ? "일부제한" : "기타" }}
           </v-col>
         </v-row>
         <hr />
@@ -140,7 +138,7 @@
             <v-card-text class="text-style" align="center">최고 한도</v-card-text>
           </v-col>
           <v-col>
-            <v-card-text class="">{{ join_member }}</v-card-text>
+            <v-card-text class="">{{ depositStore.getDepositDetail.max_limit === null ? "한도 없음" : `${new Intl.NumberFormat("ko-KR", { style: "currency", currency: "KRW" }).format(depositStore.getDepositDetail.max_limit)}` }}</v-card-text>
           </v-col>
         </v-row>
         <hr />
@@ -167,7 +165,6 @@ import { useSavingStore } from "@/stores/saving";
 import { useUserStore } from "@/stores/user";
 import cancel from "@/assets/cancel.png";
 import save from "@/assets/save.png";
-import Toss from "@/assets/bank/Toss.jpg";
 
 const userStore = useUserStore();
 const savingStore = useSavingStore();
@@ -245,25 +242,6 @@ const findDetail = function (productName) {
   depositStore.getDepositData(productName);
 };
 
-// 한도 단위 변환
-const formatCurrency = (amount) => {
-  if (amount === null || amount === undefined) return "한도 없음";
-  return new Intl.NumberFormat("ko-KR", { style: "currency", currency: "KRW" }).format(amount);
-};
-
-const join_member = computed(() => {
-  return formatCurrency(depositStore.getDepositDetail.max_limit);
-});
-
-const join_limit = computed(() => {
-  if (depositStore.getDepositDetail.join_deny === 1) {
-    return `가입 제한 없음`;
-  } else if (depositStore.getDepositDetail.join_deny === 2) {
-    return `서민 전용`;
-  } else if (depositStore.getDepositDetail.join_deny === 3) {
-    return `일부 제한`;
-  }
-});
 const saveEvent = function (productCode, productName) {
   console.log(productCode);
   console.log(`꿀바르기!`);
@@ -298,7 +276,6 @@ const getColor = (value) => {
   }
 };
 const userPeriod = userStore.userDesirePeriod;
-console.log(userPeriod);
 </script>
 
 <style scoped>

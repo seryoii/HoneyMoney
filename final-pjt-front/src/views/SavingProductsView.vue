@@ -14,13 +14,40 @@
       </v-row>
     </v-container>
     <v-data-table-virtual height="600" :items="savingData" class="elevation-2" item-class="hoverable-row">
+      <!-- userPeriod에 따라 다른 기간을 선택하여 표시 -->
+      <template v-if="userPeriod && userPeriod === 6" v-slot:item.6개월="{ value }">
+        <v-chip :color="getColor(value)">{{ value }}</v-chip>
+      </template>
+      <template v-else-if="userPeriod && userPeriod === 12" v-slot:item.12개월="{ value }">
+        <v-chip :color="getColor(value)">{{ value }}</v-chip>
+      </template>
+      <template v-else-if="userPeriod && userPeriod === 24" v-slot:item.24개월="{ value }">
+        <v-chip :color="getColor(value)">{{ value }}</v-chip>
+      </template>
+      <template v-else-if="userPeriod && userPeriod === 36" v-slot:item.36개월="{ value }">
+        <v-chip :color="getColor(value)">{{ value }}</v-chip>
+      </template>
+      <template v-else v-slot:item.6개월="{ value }">
+        <v-chip :color="getColor(value)">{{ value }}</v-chip>
+      </template>
       <template v-slot:item.상품명="{ item }">
         <v-btn class="mx-auto custom-btn" @click="showDetails(item.상품명)">{{ item.상품명 }}</v-btn>
       </template>
     </v-data-table-virtual>
 
     <v-dialog v-model="dialog" width="1000">
-      <v-card class="mx-auto" prepend-icon="$vuetify" :subtitle="`${savingStore.getSavingDetail.kor_co_nm}`" width="1000">
+      <v-card class="mx-auto" prepend-icon="$vuetify" width="1000">
+
+        <template v-slot:subtitle>
+          <v-row>
+            <v-col cols="4"></v-col>
+            <v-col align="center" cols="4">
+              <div class="custom-subtitle ibm-plex-sans-kr-regular">{{ savingStore.getSavingDetail.kor_co_nm }}</div>
+            </v-col>
+            <v-col align="center" cols="4" class="mt-2 ibm-plex-sans-kr-regular">꿀바르기</v-col>
+          </v-row>
+        </template>
+
         <template v-slot:title>
           <v-row>
             <v-col class="pb-0" cols="10">
@@ -358,6 +385,18 @@ const deleteEvent = function (productCode, productName) {
     savingStore.getHoney(productCode);
   }
 };
+
+// getColor 함수 정의
+const getColor = (value) => {
+  if (value >= 3) {
+    return "green";
+  } else if (value >= 2) {
+    return "orange";
+  } else {
+    return "white";
+  }
+};
+const userPeriod = userStore.userDesirePeriod;
 </script>
 
 <style scoped>

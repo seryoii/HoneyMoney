@@ -112,7 +112,135 @@
                         <v-card-text class="mt-3 pb-0 ibm-plex-sans-kr-regular">가입 방법 : {{ honeyDeposit.join_way }}</v-card-text>
                         <v-card-text class="ibm-plex-sans-kr-regular">만기 후 이자율 : {{ honeyDeposit.mtrt_int }}</v-card-text>
                         <v-container align="center">
-                          <v-btn color="yellow-darken-3" variant="tonal">Details</v-btn>
+                          <v-btn color="yellow-darken-3" variant="tonal" @click="viewDetailDeposit(honeyDeposit)">Details</v-btn>
+                          <v-dialog v-model="viewDetailDepositDialog" width="1000">
+                            <v-card class="mx-auto" width="1000">
+                              <template v-slot:subtitle>
+                                <v-row>
+                                  <v-col cols="4"></v-col>
+                                  <v-col align="center" cols="4">
+                                    <div class="custom-subtitle ibm-plex-sans-kr-regular">{{ honeyDeposit.kor_co_nm }}</div>
+                                  </v-col>
+                                  <v-col align="center" cols="4" class="mt-2 ibm-plex-sans-kr-regular">꿀바르기</v-col>
+                                </v-row>
+                              </template>
+                              <template v-slot:title>
+                                <v-row align="center" justify="space-between">
+                                  <v-col align="center"></v-col>
+                                  <v-col align="center" class="pb-0">
+                                    <span class="font-weight-black ibm-plex-sans-kr-regular">
+                                      <h2>{{ honeyDeposit.fin_prdt_nm }}</h2>
+                                    </span>
+                                  </v-col>
+                                  <v-col align="center" class="pb-0 mt-2">
+                                    <v-img
+                                      v-if="honeyDeposit.interest_user && !honeyDeposit.interest_user.includes(userStore.userInfo.id)"
+                                      @click="saveEvent(honeyDeposit.fin_prdt_cd, honeyDeposit.fin_prdt_nm)"
+                                      :src="cancel"
+                                      class="button-image hover-effect"
+                                      max-width="60"
+                                    />
+                                    <v-img v-else @click="deleteEvent(honeyDeposit.fin_prdt_cd, honeyDeposit.fin_prdt_nm)" :src="save" class="button-image hover-effect" max-width="60" />
+                                  </v-col>
+                                </v-row>
+                              </template>
+
+                              <v-row justify="center" align="center">
+                                <v-col cols="3" class="d-flex justify-center">
+                                  <v-card-text class="text-style" align="center">관심도 ★</v-card-text>
+                                </v-col>
+                                <v-col>
+                                  <v-card-text class="">{{ honeyDeposit.interest_user?.length }}</v-card-text>
+                                </v-col>
+                              </v-row>
+                              <hr />
+                              <v-row justify="center" align="center">
+                                <v-col cols="3" class="d-flex justify-center">
+                                  <v-card-text class="text-style" align="center">공시 제출일</v-card-text>
+                                </v-col>
+                                <v-col>
+                                  <v-card-text class="">{{ honeyDeposit.dcls_month }}</v-card-text>
+                                </v-col>
+                              </v-row>
+                              <hr />
+
+                              <v-row justify="center" align="center">
+                                <v-col cols="3" class="d-flex justify-center">
+                                  <v-card-text class="text-style" align="center">금융 상품명</v-card-text>
+                                </v-col>
+                                <v-col>
+                                  <v-card-text class="">{{ honeyDeposit.fin_prdt_nm }}</v-card-text>
+                                </v-col>
+                              </v-row>
+                              <hr />
+
+                              <v-row justify="center" align="center">
+                                <v-col cols="3" class="d-flex justify-center">
+                                  <v-card-text class="text-style" align="center">가입 방법</v-card-text>
+                                </v-col>
+                                <v-col>
+                                  <v-card-text class="">{{ honeyDeposit.join_way }}</v-card-text>
+                                </v-col>
+                              </v-row>
+                              <hr />
+                              <v-row justify="center" align="center">
+                                <v-col cols="3" class="d-flex justify-center">
+                                  <v-card-text class="text-style" align="center">만기 후 이자율</v-card-text>
+                                </v-col>
+                                <v-col>
+                                  <v-card-text class="">{{ honeyDeposit.mtrt_int }}</v-card-text>
+                                </v-col>
+                              </v-row>
+                              <hr />
+                              <v-row justify="center" align="center">
+                                <v-col cols="3" class="d-flex justify-center">
+                                  <v-card-text class="text-style" align="center">우대 조건</v-card-text>
+                                </v-col>
+                                <v-col>
+                                  <v-card-text class="">{{ honeyDeposit.spcl_cnd }}</v-card-text>
+                                </v-col>
+                              </v-row>
+                              <hr />
+                              <v-row justify="center" align="center">
+                                <v-col cols="3" class="d-flex justify-center">
+                                  <v-card-text class="text-style" align="center">가입 대상</v-card-text>
+                                </v-col>
+                                <v-col>
+                                  <v-card-text class="">{{ honeyDeposit.join_member }}</v-card-text>
+                                </v-col>
+                              </v-row>
+                              <hr />
+                              <v-row justify="center" align="center">
+                                <v-col cols="3" class="d-flex justify-center">
+                                  <v-card-text class="text-style" align="center">가입 제한</v-card-text>
+                                </v-col>
+                                <v-col>
+                                  {{ honeyDeposit.join_deny == 1 ? "제한없음" : honeyDeposit.join_deny == 2 ? "서민전용" : honeyDeposit.join_deny == 3 ? "일부제한" : "기타" }}
+                                </v-col>
+                              </v-row>
+                              <hr />
+                              <v-row justify="center" align="center">
+                                <v-col cols="3" class="d-flex justify-center">
+                                  <v-card-text class="text-style" align="center">최고 한도</v-card-text>
+                                </v-col>
+                                <v-col>
+                                  <v-card-text class="">{{ honeyDeposit.max_limit === null ? "한도 없음" : `${new Intl.NumberFormat("ko-KR", { style: "currency", currency: "KRW" }).format(honeyDeposit.max_limit)}` }}</v-card-text>
+                                </v-col>
+                              </v-row>
+                              <hr />
+                              <v-row justify="center" align="center">
+                                <v-col cols="3" class="d-flex justify-center">
+                                  <v-card-text class="text-style" align="center">기타 유의사항</v-card-text>
+                                </v-col>
+                                <v-col>
+                                  <v-card-text class="">{{ honeyDeposit.etc_note }}</v-card-text>
+                                </v-col>
+                              </v-row>
+                              <v-card-actions>
+                                <v-btn @click="dialog = false">OK</v-btn>
+                              </v-card-actions>
+                            </v-card>
+                          </v-dialog>
                         </v-container>
                       </v-card>
                     </v-card>
@@ -153,7 +281,7 @@
                         <v-card-text class="mt-3 pb-0 ibm-plex-sans-kr-regular">가입 방법 : {{ honeySaving.join_way }}</v-card-text>
                         <v-card-text class="ibm-plex-sans-kr-regular">만기 후 이자율 : {{ honeySaving.mtrt_int }}</v-card-text>
                         <v-container align="center">
-                          <v-btn color="yellow-darken-3" variant="tonal">Details</v-btn>
+                          <v-btn color="yellow-darken-3" variant="tonal" @click="viewDetailSaving(honeySaving)">Details</v-btn>
                         </v-container>
                       </v-card>
                     </v-card>
@@ -178,6 +306,9 @@ import axios from "axios";
 import { useDepositStore } from "@/stores/deposit";
 import { useSavingStore } from "@/stores/saving";
 import jar from "@/assets/jar.png";
+import cancel from "@/assets/cancel.png";
+import save from "@/assets/save.png";
+
 const depositStore = useDepositStore();
 const savingStore = useSavingStore();
 const userStore = useUserStore();
@@ -265,6 +396,17 @@ const submitForm = async () => {
     });
 };
 
+// 로고 사진도 가져오기
+
+const viewDetailDepositDialog = ref(false);
+const viewDetailDeposit = function (honeyDeposit) {
+  viewDetailDepositDialog.value = true;
+};
+const viewDetailSavingDialog = ref(false);
+const viewDetailSaving = function (honeySaving) {
+  viewDetailSavingDialog.value = true;
+};
+
 // 여기서 axios로 불러와서 연결해보자. 아니면 로그인 했을 때, 배열을 미리 받아두면 되지 않을까?
 </script>
 
@@ -287,5 +429,37 @@ const submitForm = async () => {
 .card-design {
   border-radius: 8px;
   background-color: rgba(255, 234, 0, 0.171);
+}
+
+.hoverable-row {
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.hoverable-row:hover {
+  background-color: #f5f5f5;
+}
+
+.custom-link:hover {
+  color: darkblue;
+}
+hr {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  margin-left: 40px;
+  margin-right: 40px;
+  box-shadow: 1px 1px 1px rgba(193, 193, 193, 0.435);
+  border: 1px solid rgba(255, 255, 255, 0);
+}
+.text-style {
+  font-weight: bolder;
+  font-size: medium;
+}
+.button-image {
+  transition: transform 0.3s ease-in-out;
+}
+
+.hover-effect:hover {
+  transform: translateY(-10px);
 }
 </style>
