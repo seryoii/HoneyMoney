@@ -39,6 +39,400 @@
         }}</v-btn>
       </template>
     </v-data-table-virtual>
+    <!-- ----------------------------------------------------------------------- -->
+    <v-dialog v-if="productType === '예금'" v-model="dialog" width="1000">
+      <v-card class="mx-auto" width="1000">
+        <template v-slot:subtitle>
+          <v-row>
+            <v-col align="center" cols="4">
+              <div class="custom-subtitle ibm-plex-sans-kr-regular">
+                {{ depositStore.getDepositDetail.kor_co_nm }}
+              </div>
+            </v-col>
+            <v-col cols="4"></v-col>
+            <v-col align="center" cols="4" class="ibm-plex-sans-kr-regular"
+              >꿀바르기</v-col
+            >
+          </v-row>
+        </template>
+        <template v-slot:title>
+          <v-row align="center" justify="space-between">
+            <v-col align="center">
+              <v-avatar :image="Toss" height="100" width="100" />
+            </v-col>
+            <v-col align="center" class="pb-0">
+              <span class="font-weight-black ibm-plex-sans-kr-regular">
+                <h2>{{ depositStore.getDepositDetail.fin_prdt_nm }}</h2>
+              </span>
+            </v-col>
+            <v-col align="center" class="pb-0">
+              <v-img
+                v-if="
+                  depositStore.getDepositDetail.interest_user &&
+                  !depositStore.getDepositDetail.interest_user.includes(
+                    userStore.userInfo.id
+                  )
+                "
+                @click="
+                  saveEvent(
+                    depositStore.getDepositDetail.fin_prdt_cd,
+                    depositStore.getDepositDetail.fin_prdt_nm
+                  )
+                "
+                :src="cancel"
+                class="button-image hover-effect"
+                max-width="60"
+              />
+              <v-img
+                v-else
+                @click="
+                  deleteEvent(
+                    depositStore.getDepositDetail.fin_prdt_cd,
+                    depositStore.getDepositDetail.fin_prdt_nm
+                  )
+                "
+                :src="save"
+                class="button-image hover-effect"
+                max-width="60"
+              />
+            </v-col>
+          </v-row>
+        </template>
+
+        <v-row justify="center" align="center">
+          <v-col cols="3" class="d-flex justify-center">
+            <v-card-text class="text-style" align="center"
+              >관심도 ★</v-card-text
+            >
+          </v-col>
+          <v-col>
+            <v-card-text class="">{{
+              depositStore.getDepositDetail.interest_user?.length
+            }}</v-card-text>
+          </v-col>
+        </v-row>
+        <hr />
+        <v-row justify="center" align="center">
+          <v-col cols="3" class="d-flex justify-center">
+            <v-card-text class="text-style" align="center"
+              >공시 제출일</v-card-text
+            >
+          </v-col>
+          <v-col>
+            <v-card-text class="">{{
+              depositStore.getDepositDetail.dcls_month
+            }}</v-card-text>
+          </v-col>
+        </v-row>
+        <hr />
+
+        <v-row justify="center" align="center">
+          <v-col cols="3" class="d-flex justify-center">
+            <v-card-text class="text-style" align="center"
+              >금융 상품명</v-card-text
+            >
+          </v-col>
+          <v-col>
+            <v-card-text class="">{{
+              depositStore.getDepositDetail.fin_prdt_nm
+            }}</v-card-text>
+          </v-col>
+        </v-row>
+        <hr />
+
+        <v-row justify="center" align="center">
+          <v-col cols="3" class="d-flex justify-center">
+            <v-card-text class="text-style" align="center"
+              >가입 방법</v-card-text
+            >
+          </v-col>
+          <v-col>
+            <v-card-text class="">{{
+              depositStore.getDepositDetail.join_way
+            }}</v-card-text>
+          </v-col>
+        </v-row>
+        <hr />
+        <v-row justify="center" align="center">
+          <v-col cols="3" class="d-flex justify-center">
+            <v-card-text class="text-style" align="center"
+              >만기 후 이자율</v-card-text
+            >
+          </v-col>
+          <v-col>
+            <v-card-text class="">{{
+              depositStore.getDepositDetail.mtrt_int
+            }}</v-card-text>
+          </v-col>
+        </v-row>
+        <hr />
+        <v-row justify="center" align="center">
+          <v-col cols="3" class="d-flex justify-center">
+            <v-card-text class="text-style" align="center"
+              >우대 조건</v-card-text
+            >
+          </v-col>
+          <v-col>
+            <v-card-text class="">{{
+              depositStore.getDepositDetail.spcl_cnd
+            }}</v-card-text>
+          </v-col>
+        </v-row>
+        <hr />
+        <v-row justify="center" align="center">
+          <v-col cols="3" class="d-flex justify-center">
+            <v-card-text class="text-style" align="center"
+              >가입 대상</v-card-text
+            >
+          </v-col>
+          <v-col>
+            <v-card-text class="">{{
+              depositStore.getDepositDetail.join_member
+            }}</v-card-text>
+          </v-col>
+        </v-row>
+        <hr />
+        <v-row justify="center" align="center">
+          <v-col cols="3" class="d-flex justify-center">
+            <v-card-text class="text-style" align="center"
+              >가입 제한</v-card-text
+            >
+          </v-col>
+          <v-col>
+            <v-card-text class="">{{ join_limit }}</v-card-text>
+          </v-col>
+        </v-row>
+        <hr />
+        <v-row justify="center" align="center">
+          <v-col cols="3" class="d-flex justify-center">
+            <v-card-text class="text-style" align="center"
+              >최고 한도</v-card-text
+            >
+          </v-col>
+          <v-col>
+            <v-card-text class="">{{ join_member }}</v-card-text>
+          </v-col>
+        </v-row>
+        <hr />
+        <v-row justify="center" align="center">
+          <v-col cols="3" class="d-flex justify-center">
+            <v-card-text class="text-style" align="center"
+              >기타 유의사항</v-card-text
+            >
+          </v-col>
+          <v-col>
+            <v-card-text class="">{{
+              depositStore.getDepositDetail.etc_note
+            }}</v-card-text>
+          </v-col>
+        </v-row>
+        <v-card-actions>
+          <v-btn @click="dialog = false">OK</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+    <v-dialog v-if="productType === '적금'" v-model="dialog" width="1000">
+      <v-card
+        class="mx-auto"
+        prepend-icon="$vuetify"
+        :subtitle="`${savingStore.getSavingDetail.kor_co_nm}`"
+        width="1000"
+      >
+        <template v-slot:title>
+          <v-row>
+            <v-col class="pb-0" cols="10">
+              <span class="font-weight-black">{{
+                savingStore.getSavingDetail.fin_prdt_nm
+              }}</span>
+            </v-col>
+            <v-col class="pb-0">
+              <v-card-actions>
+                <!-- 꿀바르기 버튼 -->
+                <v-img
+                  v-if="
+                    savingStore.getSavingDetail.interest_user &&
+                    !savingStore.getSavingDetail.interest_user.includes(
+                      userStore.userInfo.id
+                    )
+                  "
+                  @click="
+                    saveEvent(
+                      savingStore.getSavingDetail.fin_prdt_cd,
+                      savingStore.getSavingDetail.fin_prdt_nm
+                    )
+                  "
+                  :src="cancel"
+                  class="button-image hover-effect"
+                  max-width="50"
+                />
+                <v-img
+                  v-else
+                  @click="
+                    deleteEvent(
+                      savingStore.getSavingDetail.fin_prdt_cd,
+                      savingStore.getSavingDetail.fin_prdt_nm
+                    )
+                  "
+                  :src="save"
+                  class="button-image hover-effect"
+                  max-width="50"
+                />
+              </v-card-actions>
+            </v-col>
+          </v-row>
+        </template>
+
+        <v-row justify="center" align="center">
+          <v-col cols="3" class="d-flex justify-center">
+            <v-card-text class="text-style" align="center"
+              >관심도 ★</v-card-text
+            >
+          </v-col>
+          <v-col>
+            <v-card-text class="">{{
+              savingStore.getSavingDetail.interest_user?.length
+            }}</v-card-text>
+          </v-col>
+        </v-row>
+        <hr />
+        <v-row justify="center" align="center">
+          <v-col cols="3" class="d-flex justify-center">
+            <v-card-text class="text-style" align="center"
+              >공시 제출일</v-card-text
+            >
+          </v-col>
+          <v-col>
+            <v-card-text class="">{{
+              savingStore.getSavingDetail.dcls_month
+            }}</v-card-text>
+          </v-col>
+        </v-row>
+        <hr />
+
+        <v-row justify="center" align="center">
+          <v-col cols="3" class="d-flex justify-center">
+            <v-card-text class="text-style" align="center"
+              >금융 상품명</v-card-text
+            >
+          </v-col>
+          <v-col>
+            <v-card-text class="">{{
+              savingStore.getSavingDetail.fin_prdt_nm
+            }}</v-card-text>
+          </v-col>
+        </v-row>
+        <hr />
+
+        <v-row justify="center" align="center">
+          <v-col cols="3" class="d-flex justify-center">
+            <v-card-text class="text-style" align="center"
+              >가입 방법</v-card-text
+            >
+          </v-col>
+          <v-col>
+            <v-card-text class="">{{
+              savingStore.getSavingDetail.join_way
+            }}</v-card-text>
+          </v-col>
+        </v-row>
+        <hr />
+
+        <v-row justify="center" align="center">
+          <v-col cols="3" class="d-flex justify-center">
+            <v-card-text class="text-style" align="center"
+              >기간 별 이율</v-card-text
+            >
+          </v-col>
+          <v-col>
+            <v-card-text v-for="option in savingStore.getSavingDetailOption">
+              <p>적립 방법 : {{ option.rsrv_type_nm }}</p>
+              <p>개월 수 : {{ option.save_trm }}</p>
+              <p>이율 : {{ option.intr_rate }}</p>
+              <p>최대 이율 : {{ option.intr_rate2 }}</p>
+            </v-card-text>
+          </v-col>
+        </v-row>
+        <hr />
+
+        <v-row justify="center" align="center">
+          <v-col cols="3" class="d-flex justify-center">
+            <v-card-text class="text-style" align="center"
+              >만기 후 이자율</v-card-text
+            >
+          </v-col>
+          <v-col>
+            <v-card-text class="">{{
+              savingStore.getSavingDetail.mtrt_int
+            }}</v-card-text>
+          </v-col>
+        </v-row>
+        <hr />
+        <v-row justify="center" align="center">
+          <v-col cols="3" class="d-flex justify-center">
+            <v-card-text class="text-style" align="center"
+              >우대 조건</v-card-text
+            >
+          </v-col>
+          <v-col>
+            <v-card-text class="">{{
+              savingStore.getSavingDetail.spcl_cnd
+            }}</v-card-text>
+          </v-col>
+        </v-row>
+        <hr />
+        <v-row justify="center" align="center">
+          <v-col cols="3" class="d-flex justify-center">
+            <v-card-text class="text-style" align="center"
+              >가입 대상</v-card-text
+            >
+          </v-col>
+          <v-col>
+            <v-card-text class="">{{
+              savingStore.getSavingDetail.join_member
+            }}</v-card-text>
+          </v-col>
+        </v-row>
+        <hr />
+        <v-row justify="center" align="center">
+          <v-col cols="3" class="d-flex justify-center">
+            <v-card-text class="text-style" align="center"
+              >가입 제한</v-card-text
+            >
+          </v-col>
+          <v-col>
+            <v-card-text class="">{{ join_limit }}</v-card-text>
+          </v-col>
+        </v-row>
+        <hr />
+        <v-row justify="center" align="center">
+          <v-col cols="3" class="d-flex justify-center">
+            <v-card-text class="text-style" align="center"
+              >최고 한도</v-card-text
+            >
+          </v-col>
+          <v-col>
+            <v-card-text class="">{{ join_member }}</v-card-text>
+          </v-col>
+        </v-row>
+        <hr />
+        <v-row justify="center" align="center">
+          <v-col cols="3" class="d-flex justify-center">
+            <v-card-text class="text-style" align="center"
+              >기타 유의사항</v-card-text
+            >
+          </v-col>
+          <v-col>
+            <v-card-text class="">{{
+              savingStore.getSavingDetail.etc_note
+            }}</v-card-text>
+          </v-col>
+        </v-row>
+        <v-card-actions>
+          <v-btn @click="dialog = false">OK</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+    <!-- ----------------------------------------------------------------------- -->
   </div>
 </template>
 
@@ -68,8 +462,8 @@ onMounted(() => {
   store.getRecommendSecond();
 });
 
-const join_member = ref(null);
-const join_limit = ref(null);
+const join_member = ref("");
+const join_limit = ref("");
 
 const recommendFirst = ref([]);
 const recommend1 = function () {
@@ -202,6 +596,65 @@ onMounted(() => {
   recommend1();
   recommend2();
 });
+
+//////////////////////////////////////////////////////////////////////////
+const productType = ref("");
+const showDetails = (productName) => {
+  if (productName.includes("예금")) {
+    findDepositDetail(productName);
+    productType.value = "예금";
+  } else {
+    findSavingDetail(productName);
+    productType.value = "적금";
+  }
+  // 로딩 데이터 확인 후 출력될 다이얼로그 데이터에 삽입
+  dialog.value = true;
+};
+const findDepositDetail = function (productName) {
+  depositStore.getDepositData(productName);
+  const deposit_member = computed(() => {
+    return formatCurrency(depositStore.getDepositDetail.max_limit);
+  });
+
+  const deposit_limit = computed(() => {
+    if (depositStore.getDepositDetail.join_deny === 1) {
+      return `가입 제한 없음`;
+    } else if (depositStore.getDepositDetail.join_deny === 2) {
+      return `서민 전용`;
+    } else if (depositStore.getDepositDetail.join_deny === 3) {
+      return `일부 제한`;
+    }
+  });
+  join_member.value = deposit_member.value;
+  join_limit.value = deposit_limit.value;
+};
+const findSavingDetail = function (productName) {
+  savingStore.getSavingData(productName);
+  const saving_member = computed(() => {
+    return formatCurrency(savingStore.getSavingDetail.max_limit);
+  });
+
+  const saving_limit = computed(() => {
+    if (savingStore.getSavingDetail.join_deny === 1) {
+      return `가입 제한 없음`;
+    } else if (savingStore.getSavingDetail.join_deny === 2) {
+      return `서민 전용`;
+    } else if (savingStore.getSavingDetail.join_deny === 3) {
+      return `일부 제한`;
+    }
+  });
+  join_member.value = saving_member.value;
+  join_limit.value = saving_limit.value;
+};
+
+const formatCurrency = (amount) => {
+  if (amount === null || amount === undefined) return "한도 없음";
+  return new Intl.NumberFormat("ko-KR", {
+    style: "currency",
+    currency: "KRW",
+  }).format(amount);
+};
+//////////////////////////////////////////////////////////////////////////
 </script>
 
 <style scoped>

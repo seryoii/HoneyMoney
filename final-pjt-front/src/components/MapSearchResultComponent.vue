@@ -11,10 +11,15 @@
           >
         </v-card>
         <v-dialog v-model="result.dialog" width="1000">
-          <v-card class="mx-auto" prepend-icon="$vuetify" width="1000">
+          <v-card class="mx-auto" width="1000">
             <template v-slot:title>
               <v-row class="mb-0">
-                <v-col class="pb-0 mt-6 ms-3" cols="10">
+                <v-img
+                  :src="bankIcon2"
+                  class="mt-10 ms-3"
+                  style="height: 40px; width: 30px"
+                ></v-img>
+                <v-col class="pb-0 mt-6" cols="10">
                   <span class="font-weight-black text-h5">{{
                     result.fin_prdt_nm
                   }}</span>
@@ -196,6 +201,7 @@ import { useDepositStore } from "@/stores/deposit";
 import { useSavingStore } from "@/stores/saving";
 import swal from "sweetalert";
 import { useRouter } from "vue-router";
+import bankIcon2 from "@/assets/bank-icon2.png";
 
 const router = useRouter();
 const depositStore = useDepositStore();
