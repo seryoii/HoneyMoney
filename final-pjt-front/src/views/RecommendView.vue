@@ -237,7 +237,7 @@
               style="height: 40px; width: 30px"
             ></v-img>
             <v-col class="pb-0 mt-6" cols="10">
-              <span class="font-weight-black">{{
+              <span class="font-weight-black text-h5">{{
                 savingStore.getSavingDetail.fin_prdt_nm
               }}</span>
               <v-card-subtitle>{{
