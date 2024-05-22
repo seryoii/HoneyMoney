@@ -13,9 +13,9 @@
         <v-dialog v-model="result.dialog" width="1000">
           <v-card class="mx-auto" width="1000">
             <template v-slot:title>
-              <v-row class="mb-0">
+              <v-row class="mb-0 px-3">
                 <v-img
-                  :src="bankIcon2"
+                  :src="bankIcon"
                   class="mt-10 ms-3"
                   style="height: 40px; width: 30px"
                 ></v-img>
@@ -25,17 +25,17 @@
                   }}</span>
                   <v-card-subtitle>{{ result.kor_co_nm }}</v-card-subtitle>
                 </v-col>
-                <v-col class="pb-0">
-                  <v-card-actions>
-                    <!-- 꿀바르기 버튼 -->
+                <!-- 꿀바르기 버튼 시작-->
+                <v-col>
+                  <v-card-actions class="mt-3">
                     <v-img
                       v-if="
                         !result.interest_user.includes(userStore.userInfo.id)
                       "
                       @click="saveEvent(result.fin_prdt_cd, result.fin_prdt_nm)"
                       :src="cancel"
-                      class="button-image hover-effect mt-3"
-                      max-width="50"
+                      class="button-image hover-effect"
+                      style="width: 40px"
                     />
                     <v-img
                       v-else
@@ -44,10 +44,11 @@
                       "
                       :src="save"
                       class="button-image hover-effect"
-                      max-width="50"
+                      style="width: 40px"
                     />
                   </v-card-actions>
                 </v-col>
+                <!-- 꿀 바르기 버튼 끝 -->
               </v-row>
             </template>
             <v-row justify="center" align="center" class="m-0">
@@ -201,7 +202,7 @@ import { useDepositStore } from "@/stores/deposit";
 import { useSavingStore } from "@/stores/saving";
 import swal from "sweetalert";
 import { useRouter } from "vue-router";
-import bankIcon2 from "@/assets/bank-icon2.png";
+import bankIcon from "@/assets/bank-icon.png";
 
 const router = useRouter();
 const depositStore = useDepositStore();

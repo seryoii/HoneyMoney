@@ -42,63 +42,58 @@
     <!-- ----------------------------------------------------------------------- -->
     <v-dialog v-if="productType === '예금'" v-model="dialog" width="1000">
       <v-card class="mx-auto" width="1000">
-        <template v-slot:subtitle>
-          <v-row>
-            <v-col align="center" cols="4">
-              <div class="custom-subtitle ibm-plex-sans-kr-regular">
-                {{ depositStore.getDepositDetail.kor_co_nm }}
-              </div>
-            </v-col>
-            <v-col cols="4"></v-col>
-            <v-col align="center" cols="4" class="ibm-plex-sans-kr-regular"
-              >꿀바르기</v-col
-            >
-          </v-row>
-        </template>
         <template v-slot:title>
-          <v-row align="center" justify="space-between">
-            <v-col align="center">
-              <v-avatar :image="Toss" height="100" width="100" />
+          <v-row class="mb-0">
+            <v-img
+              :src="bankIcon"
+              class="mt-10 ms-3"
+              style="height: 40px; width: 30px"
+            ></v-img>
+            <v-col class="pb-0 mt-6" cols="10">
+              <span class="font-weight-black text-h5">{{
+                depositStore.getDepositDetail.fin_prdt_nm
+              }}</span>
+              <v-card-subtitle>{{
+                depositStore.getDepositDetail.kor_co_nm
+              }}</v-card-subtitle>
             </v-col>
-            <v-col align="center" class="pb-0">
-              <span class="font-weight-black ibm-plex-sans-kr-regular">
-                <h2>{{ depositStore.getDepositDetail.fin_prdt_nm }}</h2>
-              </span>
+            <!-- 꿀바르기 버튼 시작-->
+            <v-col>
+              <v-card-actions class="mt-3">
+                <v-img
+                  v-if="
+                    depositStore.getDepositDetail.interest_user &&
+                    !depositStore.getDepositDetail.interest_user.includes(
+                      userStore.userInfo.id
+                    )
+                  "
+                  @click="
+                    saveEvent(
+                      depositStore.getDepositDetail.fin_prdt_cd,
+                      depositStore.getDepositDetail.fin_prdt_nm
+                    )
+                  "
+                  :src="cancel"
+                  class="button-image hover-effect"
+                  style="width: 40px"
+                />
+                <v-img
+                  v-else
+                  @click="
+                    deleteEvent(
+                      depositStore.getDepositDetail.fin_prdt_cd,
+                      depositStore.getDepositDetail.fin_prdt_nm
+                    )
+                  "
+                  :src="save"
+                  class="button-image hover-effect"
+                  style="width: 40px"
+                />
+              </v-card-actions>
             </v-col>
-            <v-col align="center" class="pb-0">
-              <v-img
-                v-if="
-                  depositStore.getDepositDetail.interest_user &&
-                  !depositStore.getDepositDetail.interest_user.includes(
-                    userStore.userInfo.id
-                  )
-                "
-                @click="
-                  saveEvent(
-                    depositStore.getDepositDetail.fin_prdt_cd,
-                    depositStore.getDepositDetail.fin_prdt_nm
-                  )
-                "
-                :src="cancel"
-                class="button-image hover-effect"
-                max-width="60"
-              />
-              <v-img
-                v-else
-                @click="
-                  deleteEvent(
-                    depositStore.getDepositDetail.fin_prdt_cd,
-                    depositStore.getDepositDetail.fin_prdt_nm
-                  )
-                "
-                :src="save"
-                class="button-image hover-effect"
-                max-width="60"
-              />
-            </v-col>
+            <!-- 꿀 바르기 버튼 끝 -->
           </v-row>
         </template>
-
         <v-row justify="center" align="center">
           <v-col cols="3" class="d-flex justify-center">
             <v-card-text class="text-style" align="center"
@@ -231,23 +226,27 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+    <!-- 적금 디테일 페이지 -->
     <v-dialog v-if="productType === '적금'" v-model="dialog" width="1000">
-      <v-card
-        class="mx-auto"
-        prepend-icon="$vuetify"
-        :subtitle="`${savingStore.getSavingDetail.kor_co_nm}`"
-        width="1000"
-      >
+      <v-card class="mx-auto" width="1000">
         <template v-slot:title>
-          <v-row>
-            <v-col class="pb-0" cols="10">
+          <v-row class="mb-0">
+            <v-img
+              :src="bankIcon"
+              class="mt-10 ms-3"
+              style="height: 40px; width: 30px"
+            ></v-img>
+            <v-col class="pb-0 mt-6" cols="10">
               <span class="font-weight-black">{{
                 savingStore.getSavingDetail.fin_prdt_nm
               }}</span>
+              <v-card-subtitle>{{
+                savingStore.getSavingDetail.kor_co_nm
+              }}</v-card-subtitle>
             </v-col>
-            <v-col class="pb-0">
-              <v-card-actions>
-                <!-- 꿀바르기 버튼 -->
+            <!-- 꿀바르기 버튼 시작-->
+            <v-col>
+              <v-card-actions class="mt-3">
                 <v-img
                   v-if="
                     savingStore.getSavingDetail.interest_user &&
@@ -263,7 +262,7 @@
                   "
                   :src="cancel"
                   class="button-image hover-effect"
-                  max-width="50"
+                  style="width: 40px"
                 />
                 <v-img
                   v-else
@@ -275,10 +274,11 @@
                   "
                   :src="save"
                   class="button-image hover-effect"
-                  max-width="50"
+                  style="width: 40px"
                 />
               </v-card-actions>
             </v-col>
+            <!-- 꿀 바르기 버튼 끝 -->
           </v-row>
         </template>
 
@@ -441,7 +441,10 @@ import { useRecommendStore } from "@/stores/recommend";
 import { useDepositStore } from "@/stores/deposit";
 import { useSavingStore } from "@/stores/saving";
 import { useUserStore } from "@/stores/user";
+import cancel from "@/assets/cancel.png";
+import save from "@/assets/save.png";
 import { onMounted, ref, computed } from "vue";
+import bankIcon from "@/assets/bank-icon.png";
 
 const store = useRecommendStore();
 const state = ref("financial");
@@ -706,5 +709,13 @@ hr {
 
 .custom-bg {
   background-color: #f7ecd3;
+}
+
+.button-image {
+  transition: transform 0.3s ease-in-out;
+}
+
+.hover-effect:hover {
+  transform: translateY(-10px);
 }
 </style>
