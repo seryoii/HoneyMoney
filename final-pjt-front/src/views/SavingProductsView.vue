@@ -4,63 +4,34 @@
       <v-row class="align-center">
         <v-col>
           <v-tabs class="mb-3" v-model="type" variant="outlined" divided>
-            <v-tab class="ibm-plex-sans-kr-regular" @click="loaddata_free()"
-              ><h3>자유 적립식</h3></v-tab
-            >
-            <v-tab class="ibm-plex-sans-kr-regular" @click="loaddata_period()"
-              ><h3>정액 적립식</h3></v-tab
-            >
+            <v-tab class="ibm-plex-sans-kr-regular" @click="loaddata_free()"><h3>자유 적립식</h3></v-tab>
+            <v-tab class="ibm-plex-sans-kr-regular" @click="loaddata_period()"><h3>정액 적립식</h3></v-tab>
           </v-tabs>
         </v-col>
         <v-col class="d-flex justify-end">
-          <v-select
-            class="ps-16 ms-16 ibm-plex-sans-kr-regular"
-            v-model="bank"
-            :items="bankList"
-            label="은행"
-            variant="outlined"
-          ></v-select>
+          <v-select class="ps-16 ms-16 ibm-plex-sans-kr-regular" v-model="bank" :items="bankList" label="은행" variant="outlined"></v-select>
         </v-col>
       </v-row>
     </v-container>
-    <v-data-table-virtual
-      height="600"
-      :items="savingData"
-      class="elevation-2"
-      item-class="hoverable-row"
-    >
+    <v-data-table-virtual height="600" :items="savingData" class="elevation-2" item-class="hoverable-row">
       <!-- userPeriod에 따라 다른 기간을 선택하여 표시 -->
-      <template
-        v-if="userPeriod && userPeriod === 6"
-        v-slot:item.6개월="{ value }"
-      >
+      <template v-if="userPeriod && userPeriod === 6" v-slot:item.6개월="{ value }">
         <v-chip :color="getColor(value)">{{ value }}</v-chip>
       </template>
-      <template
-        v-else-if="userPeriod && userPeriod === 12"
-        v-slot:item.12개월="{ value }"
-      >
+      <template v-else-if="userPeriod && userPeriod === 12" v-slot:item.12개월="{ value }">
         <v-chip :color="getColor(value)">{{ value }}</v-chip>
       </template>
-      <template
-        v-else-if="userPeriod && userPeriod === 24"
-        v-slot:item.24개월="{ value }"
-      >
+      <template v-else-if="userPeriod && userPeriod === 24" v-slot:item.24개월="{ value }">
         <v-chip :color="getColor(value)">{{ value }}</v-chip>
       </template>
-      <template
-        v-else-if="userPeriod && userPeriod === 36"
-        v-slot:item.36개월="{ value }"
-      >
+      <template v-else-if="userPeriod && userPeriod === 36" v-slot:item.36개월="{ value }">
         <v-chip :color="getColor(value)">{{ value }}</v-chip>
       </template>
       <template v-else v-slot:item.6개월="{ value }">
         <v-chip :color="getColor(value)">{{ value }}</v-chip>
       </template>
       <template v-slot:item.상품명="{ item }">
-        <v-btn class="mx-auto custom-btn" @click="showDetails(item.상품명)">{{
-          item.상품명
-        }}</v-btn>
+        <v-btn class="mx-auto custom-btn" @click="showDetails(item.상품명)">{{ item.상품명 }}</v-btn>
       </template>
     </v-data-table-virtual>
 
@@ -68,51 +39,22 @@
       <v-card class="mx-auto" width="1000">
         <template v-slot:title>
           <v-row class="mb-0">
-            <v-img
-              :src="bankIcon"
-              class="mt-10 ms-3"
-              style="height: 40px; width: 30px"
-            ></v-img>
+            <v-img :src="bankIcon" class="mt-10 ms-3" style="height: 40px; width: 30px"></v-img>
             <v-col class="pb-0 mt-6" cols="10">
-              <span class="font-weight-black text-h5">{{
-                savingStore.getSavingDetail.fin_prdt_nm
-              }}</span>
-              <v-card-subtitle>{{
-                savingStore.getSavingDetail.kor_co_nm
-              }}</v-card-subtitle>
+              <span class="font-weight-black text-h5">{{ savingStore.getSavingDetail.fin_prdt_nm }}</span>
+              <v-card-subtitle>{{ savingStore.getSavingDetail.kor_co_nm }}</v-card-subtitle>
             </v-col>
             <!-- 꿀바르기 버튼 시작-->
             <v-col>
               <v-card-actions class="mt-3">
                 <v-img
-                  v-if="
-                    savingStore.getSavingDetail.interest_user &&
-                    !savingStore.getSavingDetail.interest_user.includes(
-                      userStore.userInfo.id
-                    )
-                  "
-                  @click="
-                    saveEvent(
-                      savingStore.getSavingDetail.fin_prdt_cd,
-                      savingStore.getSavingDetail.fin_prdt_nm
-                    )
-                  "
+                  v-if="savingStore.getSavingDetail.interest_user && !savingStore.getSavingDetail.interest_user.includes(userStore.userInfo.id)"
+                  @click="saveEvent(savingStore.getSavingDetail.fin_prdt_cd, savingStore.getSavingDetail.fin_prdt_nm)"
                   :src="cancel"
                   class="button-image hover-effect"
                   style="width: 40px"
                 />
-                <v-img
-                  v-else
-                  @click="
-                    deleteEvent(
-                      savingStore.getSavingDetail.fin_prdt_cd,
-                      savingStore.getSavingDetail.fin_prdt_nm
-                    )
-                  "
-                  :src="save"
-                  class="button-image hover-effect"
-                  style="width: 40px"
-                />
+                <v-img v-else @click="deleteEvent(savingStore.getSavingDetail.fin_prdt_cd, savingStore.getSavingDetail.fin_prdt_nm)" :src="save" class="button-image hover-effect" style="width: 40px" />
               </v-card-actions>
             </v-col>
             <!-- 꿀 바르기 버튼 끝 -->
@@ -120,64 +62,46 @@
         </template>
         <v-row justify="center" align="center">
           <v-col cols="3" class="d-flex justify-center">
-            <v-card-text class="text-style" align="center"
-              >관심도 ★</v-card-text
-            >
+            <v-card-text class="text-style" align="center">관심도 ★</v-card-text>
           </v-col>
           <v-col>
-            <v-card-text class="">{{
-              savingStore.getSavingDetail.interest_user?.length
-            }}</v-card-text>
+            <v-card-text class="">{{ savingStore.getSavingDetail.interest_user?.length }}</v-card-text>
           </v-col>
         </v-row>
         <hr />
         <v-row justify="center" align="center">
           <v-col cols="3" class="d-flex justify-center">
-            <v-card-text class="text-style" align="center"
-              >공시 제출일</v-card-text
-            >
+            <v-card-text class="text-style" align="center">공시 제출일</v-card-text>
           </v-col>
           <v-col>
-            <v-card-text class="">{{
-              savingStore.getSavingDetail.dcls_month
-            }}</v-card-text>
+            <v-card-text class="">{{ savingStore.getSavingDetail.dcls_month }}</v-card-text>
           </v-col>
         </v-row>
         <hr />
 
         <v-row justify="center" align="center">
           <v-col cols="3" class="d-flex justify-center">
-            <v-card-text class="text-style" align="center"
-              >금융 상품명</v-card-text
-            >
+            <v-card-text class="text-style" align="center">금융 상품명</v-card-text>
           </v-col>
           <v-col>
-            <v-card-text class="">{{
-              savingStore.getSavingDetail.fin_prdt_nm
-            }}</v-card-text>
+            <v-card-text class="">{{ savingStore.getSavingDetail.fin_prdt_nm }}</v-card-text>
           </v-col>
         </v-row>
         <hr />
 
         <v-row justify="center" align="center">
           <v-col cols="3" class="d-flex justify-center">
-            <v-card-text class="text-style" align="center"
-              >가입 방법</v-card-text
-            >
+            <v-card-text class="text-style" align="center">가입 방법</v-card-text>
           </v-col>
           <v-col>
-            <v-card-text class="">{{
-              savingStore.getSavingDetail.join_way
-            }}</v-card-text>
+            <v-card-text class="">{{ savingStore.getSavingDetail.join_way }}</v-card-text>
           </v-col>
         </v-row>
         <hr />
 
         <v-row justify="center" align="center">
           <v-col cols="3" class="d-flex justify-center">
-            <v-card-text class="text-style" align="center"
-              >기간 별 이율</v-card-text
-            >
+            <v-card-text class="text-style" align="center">기간 별 이율</v-card-text>
           </v-col>
           <v-col>
             <v-card-text v-for="option in savingStore.getSavingDetailOption">
@@ -192,48 +116,34 @@
 
         <v-row justify="center" align="center">
           <v-col cols="3" class="d-flex justify-center">
-            <v-card-text class="text-style" align="center"
-              >만기 후 이자율</v-card-text
-            >
+            <v-card-text class="text-style" align="center">만기 후 이자율</v-card-text>
           </v-col>
           <v-col>
-            <v-card-text class="">{{
-              savingStore.getSavingDetail.mtrt_int
-            }}</v-card-text>
+            <v-card-text class="me-12">{{ savingStore.getSavingDetail.mtrt_int }}</v-card-text>
           </v-col>
         </v-row>
         <hr />
         <v-row justify="center" align="center">
           <v-col cols="3" class="d-flex justify-center">
-            <v-card-text class="text-style" align="center"
-              >우대 조건</v-card-text
-            >
+            <v-card-text class="text-style" align="center">우대 조건</v-card-text>
           </v-col>
           <v-col>
-            <v-card-text class="">{{
-              savingStore.getSavingDetail.spcl_cnd
-            }}</v-card-text>
+            <v-card-text class="me-12">{{ savingStore.getSavingDetail.spcl_cnd }}</v-card-text>
           </v-col>
         </v-row>
         <hr />
         <v-row justify="center" align="center">
           <v-col cols="3" class="d-flex justify-center">
-            <v-card-text class="text-style" align="center"
-              >가입 대상</v-card-text
-            >
+            <v-card-text class="text-style" align="center">가입 대상</v-card-text>
           </v-col>
           <v-col>
-            <v-card-text class="">{{
-              savingStore.getSavingDetail.join_member
-            }}</v-card-text>
+            <v-card-text class="">{{ savingStore.getSavingDetail.join_member }}</v-card-text>
           </v-col>
         </v-row>
         <hr />
         <v-row justify="center" align="center">
           <v-col cols="3" class="d-flex justify-center">
-            <v-card-text class="text-style" align="center"
-              >가입 제한</v-card-text
-            >
+            <v-card-text class="text-style" align="center">가입 제한</v-card-text>
           </v-col>
           <v-col>
             <v-card-text class="">{{ join_limit }}</v-card-text>
@@ -242,9 +152,7 @@
         <hr />
         <v-row justify="center" align="center">
           <v-col cols="3" class="d-flex justify-center">
-            <v-card-text class="text-style" align="center"
-              >최고 한도</v-card-text
-            >
+            <v-card-text class="text-style" align="center">최고 한도</v-card-text>
           </v-col>
           <v-col>
             <v-card-text class="">{{ join_member }}</v-card-text>
@@ -253,14 +161,10 @@
         <hr />
         <v-row justify="center" align="center">
           <v-col cols="3" class="d-flex justify-center">
-            <v-card-text class="text-style" align="center"
-              >기타 유의사항</v-card-text
-            >
+            <v-card-text class="text-style" align="center">기타 유의사항</v-card-text>
           </v-col>
           <v-col>
-            <v-card-text class="">{{
-              savingStore.getSavingDetail.etc_note
-            }}</v-card-text>
+            <v-card-text class="me-12">{{ savingStore.getSavingDetail.etc_note }}</v-card-text>
           </v-col>
         </v-row>
         <v-card-actions>
@@ -299,34 +203,17 @@ const loaddata_free = function () {
   if (savingStore.allSaving && savingStore.allSaving.length > 0) {
     savingData.value = savingStore.allSaving
       .map((element) => {
-        const option6 = element.savingoption_set.find(
-          (option) =>
-            option.save_trm === 6 && option.rsrv_type_nm === "자유적립식"
-        );
+        const option6 = element.savingoption_set.find((option) => option.save_trm === 6 && option.rsrv_type_nm === "자유적립식");
         const intrRate6 = option6 ? option6.intr_rate : null;
-        const option12 = element.savingoption_set.find(
-          (option) =>
-            option.save_trm === 12 && option.rsrv_type_nm === "자유적립식"
-        );
+        const option12 = element.savingoption_set.find((option) => option.save_trm === 12 && option.rsrv_type_nm === "자유적립식");
         const intrRate12 = option12 ? option12.intr_rate : null;
-        const option24 = element.savingoption_set.find(
-          (option) =>
-            option.save_trm === 24 && option.rsrv_type_nm === "자유적립식"
-        );
+        const option24 = element.savingoption_set.find((option) => option.save_trm === 24 && option.rsrv_type_nm === "자유적립식");
         const intrRate24 = option24 ? option24.intr_rate : null;
-        const option36 = element.savingoption_set.find(
-          (option) =>
-            option.save_trm === 36 && option.rsrv_type_nm === "자유적립식"
-        );
+        const option36 = element.savingoption_set.find((option) => option.save_trm === 36 && option.rsrv_type_nm === "자유적립식");
         const intrRate36 = option36 ? option36.intr_rate : null;
 
         // 모든 이자율 값이 null인지 확인
-        if (
-          intrRate6 === null &&
-          intrRate12 === null &&
-          intrRate24 === null &&
-          intrRate36 === null
-        ) {
+        if (intrRate6 === null && intrRate12 === null && intrRate24 === null && intrRate36 === null) {
           return null; // 모두 null이면 null을 반환
         }
 
@@ -351,34 +238,17 @@ const loaddata_period = function () {
   if (savingStore.allSaving && savingStore.allSaving.length > 0) {
     savingData.value = savingStore.allSaving
       .map((element) => {
-        const option6 = element.savingoption_set.find(
-          (option) =>
-            option.save_trm === 6 && option.rsrv_type_nm === "정액적립식"
-        );
+        const option6 = element.savingoption_set.find((option) => option.save_trm === 6 && option.rsrv_type_nm === "정액적립식");
         const intrRate6 = option6 ? option6.intr_rate : null;
-        const option12 = element.savingoption_set.find(
-          (option) =>
-            option.save_trm === 12 && option.rsrv_type_nm === "정액적립식"
-        );
+        const option12 = element.savingoption_set.find((option) => option.save_trm === 12 && option.rsrv_type_nm === "정액적립식");
         const intrRate12 = option12 ? option12.intr_rate : null;
-        const option24 = element.savingoption_set.find(
-          (option) =>
-            option.save_trm === 24 && option.rsrv_type_nm === "정액적립식"
-        );
+        const option24 = element.savingoption_set.find((option) => option.save_trm === 24 && option.rsrv_type_nm === "정액적립식");
         const intrRate24 = option24 ? option24.intr_rate : null;
-        const option36 = element.savingoption_set.find(
-          (option) =>
-            option.save_trm === 36 && option.rsrv_type_nm === "정액적립식"
-        );
+        const option36 = element.savingoption_set.find((option) => option.save_trm === 36 && option.rsrv_type_nm === "정액적립식");
         const intrRate36 = option36 ? option36.intr_rate : null;
 
         // 모든 이자율 값이 null인지 확인
-        if (
-          intrRate6 === null &&
-          intrRate12 === null &&
-          intrRate24 === null &&
-          intrRate36 === null
-        ) {
+        if (intrRate6 === null && intrRate12 === null && intrRate24 === null && intrRate36 === null) {
           return null; // 모두 null이면 null을 반환
         }
 
@@ -491,24 +361,16 @@ const join_limit = computed(() => {
 const saveEvent = function (productCode, productName) {
   console.log(productCode);
   console.log(`꿀바르기!`);
-  if (productName.includes("예금")) {
-    // 예금 쪽 확인
-    depositStore.getHoney(productCode);
-  } else if (productName.includes("적금")) {
-    // 적금 쪽 확인
-    savingStore.getHoney(productCode);
-  }
+  console.log(productName);
+  // 적금 쪽 확인
+  savingStore.getHoney(productCode, productName);
 };
 const deleteEvent = function (productCode, productName) {
   console.log(productCode);
   console.log(`꿀버리기...`);
-  if (productName.includes("예금")) {
-    // 예금 쪽 확인
-    depositStore.getHoney(productCode);
-  } else if (productName.includes("적금")) {
-    // 적금 쪽 확인
-    savingStore.getHoney(productCode);
-  }
+  console.log(productName);
+  // 적금 쪽 확인
+  savingStore.getHoney(productCode, productName);
 };
 
 // getColor 함수 정의

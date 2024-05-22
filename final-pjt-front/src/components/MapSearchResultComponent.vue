@@ -19,14 +19,6 @@
                   <span class="font-weight-black text-h5">{{ result.fin_prdt_nm }}</span>
                   <v-card-subtitle>{{ result.kor_co_nm }}</v-card-subtitle>
                 </v-col>
-                <!-- 꿀바르기 버튼 시작-->
-                <v-col>
-                  <v-card-actions class="mt-3">
-                    <v-img v-if="!result.interest_user.includes(userStore.userInfo.id)" @click="saveEvent(result.fin_prdt_cd, result.fin_prdt_nm)" :src="cancel" class="button-image hover-effect" style="width: 40px" />
-                    <v-img v-else @click="deleteEvent(result.fin_prdt_cd, result.fin_prdt_nm)" :src="save" class="button-image hover-effect" style="width: 40px" />
-                  </v-card-actions>
-                </v-col>
-                <!-- 꿀 바르기 버튼 끝 -->
               </v-row>
             </template>
             <v-row justify="center" align="center" class="m-0">
@@ -73,7 +65,7 @@
                 <v-card-text class="text-style" align="center">만기 후 이자율</v-card-text>
               </v-col>
               <v-col>
-                <v-card-text class="">{{ result.mtrt_int }}</v-card-text>
+                <v-card-text class="me-12">{{ result.mtrt_int }}</v-card-text>
               </v-col>
             </v-row>
             <hr />
@@ -82,7 +74,7 @@
                 <v-card-text class="text-style" align="center">우대 조건</v-card-text>
               </v-col>
               <v-col>
-                <v-card-text class="">{{ result.spcl_cnd }}</v-card-text>
+                <v-card-text class="me-12">{{ result.spcl_cnd }}</v-card-text>
               </v-col>
             </v-row>
             <hr />
@@ -129,7 +121,7 @@
                 <v-card-text class="text-style" align="center">기타 유의사항</v-card-text>
               </v-col>
               <v-col>
-                <v-card-text class="">{{ result.etc_note }}</v-card-text>
+                <v-card-text class="me-12">{{ result.etc_note }}</v-card-text>
               </v-col>
             </v-row>
             <v-card-actions>
@@ -245,24 +237,28 @@ const openDialog = (result) => {
   result.dialog = true;
 };
 
-const saveEvent = function (productCode, productName) {
+const saveEvent = function (productCode, productName, bankName) {
   console.log(`꿀바르기!`);
   if (productName.includes("예금")) {
     // 예금 쪽 확인
-    depositStore.getHoney(productCode);
+    depositStore.getHoney(productCode, productName);
+    searchDeposit(bankName);
   } else if (productName.includes("적금")) {
     // 적금 쪽 확인
-    savingStore.getHoney(productCode);
+    savingStore.getHoney(productCode, productName);
+    searchSaving(bankName);
   }
 };
-const deleteEvent = function (productCode, productName) {
+const deleteEvent = function (productCode, productName, bankName) {
   console.log(`꿀버리기...`);
   if (productName.includes("예금")) {
     // 예금 쪽 확인
-    depositStore.getHoney(productCode);
+    depositStore.getHoney(productCode, productName);
+    searchDeposit(bankName);
   } else if (productName.includes("적금")) {
     // 적금 쪽 확인
-    savingStore.getHoney(productCode);
+    savingStore.getHoney(productCode, productName);
+    searchSaving(bankName);
   }
 };
 </script>

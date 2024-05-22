@@ -84,7 +84,7 @@ export const useSavingStore = defineStore(
           console.log(err);
         });
     };
-    const getHoney = function (productCode) {
+    const getHoney = function (productCode, productName) {
       axios({
         method: "post",
         url: `${API_URL}/like/saving/${productCode}/`,
@@ -93,7 +93,8 @@ export const useSavingStore = defineStore(
         },
       }).then((res) => {
         console.log(res);
-      });
+        getSavingData(productName);
+      }); 
     };
     const profileSavingData = ref([]);
     const getProfileSaving = function (userSaving) {
