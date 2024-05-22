@@ -24,7 +24,17 @@ export const useUserStore = defineStore(
 
     // 회원가입 부분
     const createUser = function (payload) {
-      const { username, nickname, password1, password2, age, salary, wealth, tendency, desirePeriod } = payload;
+      const {
+        username,
+        nickname,
+        password1,
+        password2,
+        age,
+        salary,
+        wealth,
+        tendency,
+        desirePeriod,
+      } = payload;
       axios({
         method: "post",
         url: `${API_URL}/dj-rest-auth/registration/`,
@@ -71,10 +81,13 @@ export const useUserStore = defineStore(
           userInfo.value = res.data.user;
           userDesirePeriod.value = res.data.user.desirePeriod;
           router.push({ name: "MainView" });
-          swal(`${res.data.user.nickname}님 HoneyMoney에 오신 것을 환영합니다!`, {
-            buttons: false,
-            timer: 1000,
-          }).then((res) => {
+          swal(
+            `${res.data.user.nickname}님 HoneyMoney에 오신 것을 환영합니다!`,
+            {
+              buttons: false,
+              timer: 1000,
+            }
+          ).then((res) => {
             getProfile();
           });
         })
@@ -116,7 +129,17 @@ export const useUserStore = defineStore(
         userProfile.value = res.data;
       });
     };
-    return { createUser, loginUser, logoutUser, getProfile, token, isLogin, userInfo, userProfile, userDesirePeriod };
+    return {
+      createUser,
+      loginUser,
+      logoutUser,
+      getProfile,
+      token,
+      isLogin,
+      userInfo,
+      userProfile,
+      userDesirePeriod,
+    };
   },
   { persist: true }
 );

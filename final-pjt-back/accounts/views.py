@@ -6,13 +6,9 @@ from rest_framework.decorators import api_view, authentication_classes, permissi
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
-from .serializers import UserPageSerializer, UserInfoChangeSerializer, UserGetInterestSerializer, NewInfoChangeSerializer
+from .serializers import UserPageSerializer, UserInfoChangeSerializer, NewInfoChangeSerializer
 from .models import User
 from financial_products.models import DepositProduct, SavingProduct
-
-# Create your views here.
-# @authentication_classes([TokenAuthentication])
-# @permission_classes([IsAuthenticated])
 
 @api_view(['GET', 'PUT'])
 @permission_classes([IsAuthenticated])
@@ -66,11 +62,10 @@ def get_interest(request):
 
     return JsonResponse({'message': 'Successfully assigned interest users to deposit, saving products'})
 
-def personal_interest(request, user_id):
-    user = User.objects.get(id=user_id)
-    user_ids = user.interest_deposit.all()
-    for deposit_product in user_ids:
-        print(deposit_product.id)    
-    return JsonResponse({'message': 'success'})
-    # objects.filter(depositproduct_id=depositproduct_id).values_list('user_id', flat=True)
-
+@api_view(['DELETE'])
+def user_delete(request, username):
+    if request.method == 'DELETE':
+        if request.user.username == username:
+            user = User.objects.get(username=username)
+            user.delete()
+            return Response(status=status.HTTP_204_NO_CONTENT)

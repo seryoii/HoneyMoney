@@ -389,7 +389,7 @@ const getColor = (value) => {
     return "white";
   }
 };
-const userPeriod = userStore.userDesirePeriod;
+const userPeriod = userStore.userProfile.desirePeriod;
 </script>
 
 <style scoped>

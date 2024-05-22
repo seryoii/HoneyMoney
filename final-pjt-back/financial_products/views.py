@@ -352,7 +352,7 @@ def saving_recommend(request, username):
     for value in range(len(cnt_lst)):
         cnt_tpl.append((cnt_lst[value], value))
     cnt_tpl.sort(key= lambda x: -x[0])
-    print(cnt_tpl)
+    # print(cnt_tpl)
     best = []
     for i in range(5):
         best.append(cnt_tpl[i][1])
