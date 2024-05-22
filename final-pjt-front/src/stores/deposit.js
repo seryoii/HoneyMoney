@@ -123,7 +123,21 @@ export const useDepositStore = defineStore(
           console.log(err);
         });
     };
-    return { depositProductsData, loadDepositData, allDeposit, getAllDeposit, bankList, getDepositData, getDepositDetail, getDepositOptionData, getDepositDetailOption, getHoney, getProfileDeposit, profileDepositData, depositHoney };
+    return {
+      depositProductsData,
+      loadDepositData,
+      allDeposit,
+      getAllDeposit,
+      bankList,
+      getDepositData,
+      getDepositDetail,
+      getDepositOptionData,
+      getDepositDetailOption,
+      getHoney,
+      getProfileDeposit,
+      profileDepositData,
+      depositHoney,
+    };
   },
   { persist: true }
 );
