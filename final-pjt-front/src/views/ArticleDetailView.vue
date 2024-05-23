@@ -79,7 +79,21 @@ const returnArticleList = () => {
 };
 
 const articleDelete = () => {
-  articleStore.deleteArticle(articleStore.articleDetail.id);
+  swal({
+    title: "정말 삭제하실건가요?",
+    icon: "warning",
+    buttons: true,
+    dangerMode: true,
+  }).then((willDelete) => {
+    if (willDelete) {
+      articleStore.deleteArticle(articleStore.articleDetail.id);
+      swal("성공적으로 삭제 되었습니다!", {
+        icon: "success",
+      });
+    } else {
+      swal("취소되었습니다!");
+    }
+  });
 };
 
 onMounted(() => {

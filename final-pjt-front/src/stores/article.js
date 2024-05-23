@@ -85,7 +85,6 @@ export const useArticleStore = defineStore(
       })
         .then((res) => {
           console.log(res);
-          window.alert("게시글이 수정되었습니다.");
           router.push({ name: "ArticleDetailView", params: { id: res.data.id } });
         })
         .catch((err) => {
@@ -103,7 +102,6 @@ export const useArticleStore = defineStore(
       })
         .then((res) => {
           console.log(res);
-          window.alert("삭제가 완료되었습니다.");
           router.push({ name: "CommunityView" });
         })
         .catch((err) => {

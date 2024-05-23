@@ -21,6 +21,7 @@
 import { onMounted, ref, watch } from "vue";
 import { useArticleStore } from "@/stores/article.js";
 import { useRoute } from "vue-router";
+import swal from "sweetalert";
 
 const articleStore = useArticleStore();
 const updatetitle = ref("");
@@ -43,12 +44,23 @@ onMounted(() => {
 // 제출 시 데이터 수정
 
 const updateArticle = function () {
-  const databox = {
-    title: updatetitle.value,
-    content: updatecontent.value,
-    articleId: route.params.id,
-  };
-  articleStore.updateArticle(databox);
+  swal({
+    title: "수정할까요?",
+    icon: "info",
+    buttons: true,
+  }).then((willDelete) => {
+    if (willDelete) {
+      const databox = {
+        title: updatetitle.value,
+        content: updatecontent.value,
+        articleId: route.params.id,
+      };
+      articleStore.updateArticle(databox);
+      swal("성공적으로 수정되었습니다!", {
+        icon: "success",
+      });
+    }
+  });
 };
 </script>
 
