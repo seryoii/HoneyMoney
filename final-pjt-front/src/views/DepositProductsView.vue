@@ -136,6 +136,12 @@
           </v-col>
         </v-row>
         <hr />
+        <v-row justify="center" class="mt-2" align="center">
+          <v-col>
+            <ChartComponent v-if="depositStore.getDepositDetailOption" :data="depositStore.getDepositDetailOption" :title="depositStore.getDepositDetail.fin_prdt_nm" />
+          </v-col>
+        </v-row>
+        <hr />
         <v-card-actions class="justify-center">
           <v-btn class="mb-6" @click="dialog = false">OK</v-btn>
         </v-card-actions>
@@ -152,6 +158,7 @@ import bankIcon from "@/assets/bank-icon.png";
 import swal from "sweetalert";
 import jar from "@/assets/jar.png";
 import empty from "@/assets/empty.png";
+import ChartComponent from "@/components/DepositChartComponent.vue";
 
 const userStore = useUserStore();
 
@@ -226,6 +233,7 @@ const showDetails = (productName) => {
 
 const findDetail = function (productName) {
   depositStore.getDepositData(productName);
+  depositStore.getDepositOptionData(productName);
 };
 
 const saveEvent = function (productCode, productName, productInfo) {
@@ -319,7 +327,6 @@ hr {
 .hover-effect {
   transition: transform 0.3s, filter 0.3s;
   cursor: pointer;
-
 }
 .hover-effect:hover {
   transform: scale(1.2);

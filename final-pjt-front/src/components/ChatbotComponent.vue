@@ -26,7 +26,7 @@
 </template>
 
 <script setup>
-import { ref, watch, nextTick, onMounted } from "vue";
+import { ref, onMounted } from "vue";
 import axios from "axios";
 import { useUserStore } from "@/stores/user";
 import MessageContent from "@/components/MessageContent.vue"; // 새로 만든 컴포넌트 임포트
@@ -43,31 +43,6 @@ const chatbotResponse = ref("");
 
 // 메시지 컨테이너 참조
 const messageContainer = ref(null);
-
-// 메시지 추가 시 자동 스크롤 함수
-const scrollToBottom = () => {
-  nextTick(() => {
-    if (messageContainer.value) {
-      messageContainer.value.scrollTop = messageContainer.value.scrollHeight;
-    }
-  });
-};
-
-// messages 배열의 변화를 감지하여 자동 스크롤
-watch(
-  messages,
-  (newMessages, oldMessages) => {
-    if (newMessages.length !== oldMessages.length) {
-      scrollToBottom();
-    }
-  },
-  { deep: true, flush: "post" }
-);
-
-// 초기 로드 시 스크롤을 하단으로 이동
-onMounted(() => {
-  scrollToBottom();
-});
 
 // JSON 파일 불러오기
 const depositData = ref([]);
@@ -138,7 +113,6 @@ const getChatbot = async () => {
     chatbotResponse.value = "Error: Unable to fetch response.";
   } finally {
     loading.value = false;
-    scrollToBottom(); // 추가된 메시지 이후에 스크롤
   }
 };
 
@@ -148,9 +122,6 @@ const formatData = (data) => {
 
 const resetChat = () => {
   messages.value = [{ role: "assistant", content: "어서오세요! 투자 관련 질문을 환영합니다. 어떻게 도와드릴까요?" }];
-  nextTick(() => {
-    scrollToBottom();
-  });
 };
 </script>
 

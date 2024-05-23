@@ -10,7 +10,8 @@
     <v-card class="mx-auto py-5">
       <v-row>
         <v-col class="my-auto" cols="6">
-          <v-container class="" align="center">
+          <!-- 사용자 프로필 섹션 -->
+          <v-container align="center">
             <v-avatar :image="profileImg" size="200" alt="User Profile Image" cover></v-avatar>
             <v-card-title class="mt-3 ibm-plex-sans-kr-bold">
               <h2>{{ userProfile.nickname }} 님</h2>
@@ -103,6 +104,7 @@
             </v-container>
           </v-col>
         </v-col>
+        <!-- 예금 섹션 -->
         <v-col class="px-0 mx-0" cols="6">
           <v-row class="px-0 mx-0">
             <v-container v-if="depositStore.profileDepositData.length" class="py-0 my-7">
@@ -142,14 +144,14 @@
                       <v-card-text class="mt-3 pb-0 ibm-plex-sans-kr-regular">가입 방법 : {{ honeyDeposit.join_way }}</v-card-text>
                       <v-card-text class="ibm-plex-sans-kr-regular">만기 후 이자율 : {{ honeyDeposit.mtrt_int }}</v-card-text>
                       <v-container align="center">
-                        <v-btn color="yellow-darken-3" variant="tonal" @click="viewDetailDeposit">Details</v-btn>
+                        <v-btn color="yellow-darken-3" variant="tonal" @click="viewDetailDeposit(honeyDeposit)">Details</v-btn>
                         <v-dialog v-model="viewDetailDepositDialog" width="1000">
                           <v-card class="mx-auto" width="1000">
                             <template v-slot:subtitle>
                               <v-row>
                                 <v-col cols="4"></v-col>
                                 <v-col align="center" cols="4">
-                                  <div class="my-2 custom-subtitle ibm-plex-sans-kr-regular">{{ honeyDeposit.kor_co_nm }} ({{ honeyDeposit.dcls_month }})</div>
+                                  <div class="my-2 custom-subtitle ibm-plex-sans-kr-regular">{{ selectedDeposit?.kor_co_nm }} ({{ selectedDeposit?.dcls_month }})</div>
                                 </v-col>
                               </v-row>
                             </template>
@@ -158,7 +160,7 @@
                                 <v-col align="center"></v-col>
                                 <v-col align="center" class="pb-0 my-2">
                                   <span class="font-weight-black ibm-plex-sans-kr-regular">
-                                    <h2>{{ honeyDeposit.fin_prdt_nm }}</h2>
+                                    <h2>{{ selectedDeposit?.fin_prdt_nm }}</h2>
                                   </span>
                                 </v-col>
                                 <v-col align="center" class="pb-0 mt-2"></v-col>
@@ -176,17 +178,16 @@
                                 </v-tooltip>
                               </v-col>
                               <v-col>
-                                <v-card-text class="">{{ savingStore.getSavingDetail.interest_user?.length }} 명</v-card-text>
+                                <v-card-text class="">{{ honeyDeposit.interest_user?.length }} 명</v-card-text>
                               </v-col>
                             </v-row>
                             <hr />
-
                             <v-row justify="center" align="center">
                               <v-col cols="3" class="d-flex justify-center">
                                 <v-card-text class="text-style" align="center">가입 방법</v-card-text>
                               </v-col>
                               <v-col>
-                                <v-card-text class="">{{ honeyDeposit.join_way }}</v-card-text>
+                                <v-card-text class="">{{ selectedDeposit?.join_way }}</v-card-text>
                               </v-col>
                             </v-row>
                             <hr />
@@ -195,7 +196,7 @@
                                 <v-card-text class="text-style" align="center">만기 후 이자율</v-card-text>
                               </v-col>
                               <v-col>
-                                <v-card-text class="me-12">{{ honeyDeposit.mtrt_int }}</v-card-text>
+                                <v-card-text class="me-12">{{ selectedDeposit?.mtrt_int }}</v-card-text>
                               </v-col>
                             </v-row>
                             <hr />
@@ -204,7 +205,7 @@
                                 <v-card-text class="text-style" align="center">우대 조건</v-card-text>
                               </v-col>
                               <v-col>
-                                <v-card-text class="me-12">{{ honeyDeposit.spcl_cnd }}</v-card-text>
+                                <v-card-text class="me-12">{{ selectedDeposit?.spcl_cnd }}</v-card-text>
                               </v-col>
                             </v-row>
                             <hr />
@@ -213,7 +214,7 @@
                                 <v-card-text class="text-style" align="center">가입 대상</v-card-text>
                               </v-col>
                               <v-col>
-                                <v-card-text class="">{{ honeyDeposit.join_member }}</v-card-text>
+                                <v-card-text class="">{{ selectedDeposit?.join_member }}</v-card-text>
                               </v-col>
                             </v-row>
                             <hr />
@@ -223,7 +224,7 @@
                               </v-col>
                               <v-col>
                                 <v-card-text class="">
-                                  {{ honeyDeposit.join_deny == 1 ? "제한없음" : honeyDeposit.join_deny == 2 ? "서민전용" : honeyDeposit.join_deny == 3 ? "일부제한" : "기타" }}
+                                  {{ selectedDeposit?.join_deny == 1 ? "제한없음" : selectedDeposit?.join_deny == 2 ? "서민전용" : selectedDeposit?.join_deny == 3 ? "일부제한" : "기타" }}
                                 </v-card-text>
                               </v-col>
                             </v-row>
@@ -235,12 +236,12 @@
                               <v-col>
                                 <v-card-text class="">
                                   {{
-                                    honeyDeposit.max_limit === null
+                                    selectedDeposit?.max_limit === null
                                       ? "한도 없음"
                                       : `${new Intl.NumberFormat("ko-KR", {
                                           style: "currency",
                                           currency: "KRW",
-                                        }).format(honeyDeposit.max_limit)}`
+                                        }).format(selectedDeposit?.max_limit)}`
                                   }}
                                 </v-card-text>
                               </v-col>
@@ -251,7 +252,13 @@
                                 <v-card-text class="text-style" align="center">기타 유의사항</v-card-text>
                               </v-col>
                               <v-col>
-                                <v-card-text class="me-12">{{ honeyDeposit.etc_note }}</v-card-text>
+                                <v-card-text class="me-12">{{ selectedDeposit?.etc_note }}</v-card-text>
+                              </v-col>
+                            </v-row>
+                            <hr />
+                            <v-row justify="center" class="mt-2" align="center">
+                              <v-col>
+                                <DepositChartComponent :data="honeyDeposit.depositoption_set" :title="honeyDeposit.fin_prdt_nm" />
                               </v-col>
                             </v-row>
                             <hr />
@@ -276,6 +283,7 @@
               </v-container>
             </v-container>
           </v-row>
+          <!-- 적금 섹션 -->
           <v-row class="py-0 my-0">
             <v-col class="d-flex align-center justify-center py-0 my-0">
               <v-container class="py-0 mb-0" v-if="savingStore.profileSavingData.length">
@@ -315,14 +323,14 @@
                         <v-card-text class="mt-3 pb-0 ibm-plex-sans-kr-regular">가입 방법 : {{ honeySaving.join_way }}</v-card-text>
                         <v-card-text class="ibm-plex-sans-kr-regular">만기 후 이자율 : {{ honeySaving.mtrt_int }}</v-card-text>
                         <v-container align="center">
-                          <v-btn color="yellow-darken-3" variant="tonal" @click="viewDetailSaving">Details</v-btn>
+                          <v-btn color="yellow-darken-3" variant="tonal" @click="viewDetailSaving(honeySaving)">Details</v-btn>
                           <v-dialog v-model="viewDetailSavingDialog" width="1000">
                             <v-card class="mx-auto" width="1000">
                               <template v-slot:subtitle>
                                 <v-row>
                                   <v-col cols="4"></v-col>
                                   <v-col align="center" cols="4">
-                                    <div class="my-2 custom-subtitle ibm-plex-sans-kr-regular">{{ honeySaving.kor_co_nm }} ({{ honeySaving.dcls_month }})</div>
+                                    <div class="my-2 custom-subtitle ibm-plex-sans-kr-regular">{{ selectedSaving?.kor_co_nm }} ({{ selectedSaving?.dcls_month }})</div>
                                   </v-col>
                                 </v-row>
                               </template>
@@ -331,7 +339,7 @@
                                   <v-col align="center"></v-col>
                                   <v-col align="center" class="pb-0 my-2">
                                     <span class="font-weight-black ibm-plex-sans-kr-regular">
-                                      <h2>{{ honeySaving.fin_prdt_nm }}</h2>
+                                      <h2>{{ selectedSaving?.fin_prdt_nm }}</h2>
                                     </span>
                                   </v-col>
                                   <v-col align="center" class="pb-0 mt-2"></v-col>
@@ -348,26 +356,17 @@
                                   </v-tooltip>
                                 </v-col>
                                 <v-col>
-                                  <v-card-text class="">{{ savingStore.getSavingDetail.interest_user?.length }} 명</v-card-text>
+                                  <v-card-text class="">{{ honeySaving.interest_user?.length }} 명</v-card-text>
                                 </v-col>
                               </v-row>
                               <hr />
-
                               <v-row justify="center" align="center">
                                 <v-col cols="3" class="d-flex justify-center">
                                   <v-card-text class="text-style" align="center">가입 방법</v-card-text>
                                 </v-col>
                                 <v-col>
-                                  <v-card-text class="">{{ honeySaving.join_way }}</v-card-text>
+                                  <v-card-text class="">{{ selectedSaving?.join_way }}</v-card-text>
                                 </v-col>
-                              </v-row>
-                              <hr />
-
-                              <v-row justify="center" align="center">
-                                <v-col cols="3" class="d-flex justify-center">
-                                  <v-card-text class="text-style" align="center">기간 별 이율</v-card-text>
-                                </v-col>
-                                <v-col></v-col>
                               </v-row>
                               <hr />
                               <v-row justify="center" align="center">
@@ -375,7 +374,7 @@
                                   <v-card-text class="text-style" align="center">만기 후 이자율</v-card-text>
                                 </v-col>
                                 <v-col>
-                                  <v-card-text class="me-12">{{ honeySaving.mtrt_int }}</v-card-text>
+                                  <v-card-text class="me-12">{{ selectedSaving?.mtrt_int }}</v-card-text>
                                 </v-col>
                               </v-row>
                               <hr />
@@ -384,7 +383,7 @@
                                   <v-card-text class="text-style" align="center">우대 조건</v-card-text>
                                 </v-col>
                                 <v-col>
-                                  <v-card-text class="me-12">{{ honeySaving.spcl_cnd }}</v-card-text>
+                                  <v-card-text class="me-12">{{ selectedSaving?.spcl_cnd }}</v-card-text>
                                 </v-col>
                               </v-row>
                               <hr />
@@ -393,7 +392,7 @@
                                   <v-card-text class="text-style" align="center">가입 대상</v-card-text>
                                 </v-col>
                                 <v-col>
-                                  <v-card-text class="">{{ honeySaving.join_member }}</v-card-text>
+                                  <v-card-text class="">{{ selectedSaving?.join_member }}</v-card-text>
                                 </v-col>
                               </v-row>
                               <hr />
@@ -403,7 +402,7 @@
                                 </v-col>
                                 <v-col>
                                   <v-card-text class="">
-                                    {{ honeySaving.join_deny == 1 ? "제한없음" : honeySaving.join_deny == 2 ? "서민전용" : honeySaving.join_deny == 3 ? "일부제한" : "기타" }}
+                                    {{ selectedSaving?.join_deny == 1 ? "제한없음" : selectedSaving?.join_deny == 2 ? "서민전용" : selectedSaving?.join_deny == 3 ? "일부제한" : "기타" }}
                                   </v-card-text>
                                 </v-col>
                               </v-row>
@@ -415,12 +414,12 @@
                                 <v-col>
                                   <v-card-text class="">
                                     {{
-                                      honeySaving.max_limit === null
+                                      selectedSaving?.max_limit === null
                                         ? "한도 없음"
                                         : `${new Intl.NumberFormat("ko-KR", {
                                             style: "currency",
                                             currency: "KRW",
-                                          }).format(honeySaving.max_limit)}`
+                                          }).format(selectedSaving?.max_limit)}`
                                     }}
                                   </v-card-text>
                                 </v-col>
@@ -431,11 +430,16 @@
                                   <v-card-text class="text-style" align="center">기타 유의사항</v-card-text>
                                 </v-col>
                                 <v-col>
-                                  <v-card-text class="me-12">{{ honeySaving.etc_note }}</v-card-text>
+                                  <v-card-text class="me-12">{{ selectedSaving?.etc_note }}</v-card-text>
                                 </v-col>
                               </v-row>
                               <hr />
-
+                              <v-row justify="center" align="center">
+                                <v-col>
+                                  <SavingChartComponent :data="honeySaving.savingoption_set" :title="honeySaving.fin_prdt_nm" />
+                                </v-col>
+                              </v-row>
+                              <hr />
                               <v-card-actions class="justify-center">
                                 <v-btn class="mb-6" @click="viewDetailSavingDialog = false">OK</v-btn>
                               </v-card-actions>
@@ -463,7 +467,6 @@
     </v-card>
   </v-container>
 </template>
-
 <script setup>
 import { ref, computed, onMounted } from "vue";
 import { storeToRefs } from "pinia";
@@ -475,6 +478,8 @@ import jar from "@/assets/jar.png";
 import empty from "@/assets/empty.png";
 import { useRouter } from "vue-router";
 import swal from "sweetalert";
+import DepositChartComponent from "@/components/DepositChartComponent.vue";
+import SavingChartComponent from "@/components/SavingChartComponent.vue";
 
 import Kyungnam from "@/assets/bank/Kyungnam.jpg";
 import Gwangju from "@/assets/bank/Gwangju.jpg";
@@ -509,9 +514,9 @@ const bankIcon = {
   전북은행: Jeonbuk,
   제주은행: Jeju,
   중소기업은행: IBK,
-  '주식회사 카카오뱅크': Kakao,
-  '주식회사 케이뱅크': Kbank,
-  '토스뱅크 주식회사': Toss,
+  "주식회사 카카오뱅크": Kakao,
+  "주식회사 케이뱅크": Kbank,
+  "토스뱅크 주식회사": Toss,
   하나은행: Hana,
   한국산업은행: KDB,
 };
@@ -533,8 +538,10 @@ const isLoading = ref(true);
 const value = ref(0);
 const interval = ref(-1);
 
+const selectedDeposit = ref(null); // 선택된 예금 데이터
+const selectedSaving = ref(null); // 선택된 적금 데이터
+
 onMounted(() => {
-  console.log("onMounted");
   userStore.getProfile();
   checkDeposit();
   checkSaving();
@@ -556,12 +563,10 @@ onMounted(() => {
 // 꿀바른 상품 확인 함수
 const checkDeposit = function () {
   depositStore.getProfileDeposit(userProfile.value.interest_deposit);
-  console.log(userProfile.value.interest_deposit);
 };
 
 const checkSaving = function () {
   savingStore.getProfileSaving(userProfile.value.interest_saving);
-  console.log(userProfile.value.interest_saving);
 };
 
 const dialog = ref(false);
@@ -603,7 +608,6 @@ const submitForm = async () => {
     },
   })
     .then((res) => {
-      console.log(res);
       swal("성공적으로 저장되었습니다!", "You clicked the button!", "success");
       dialog.value = false;
       userStore.getProfile(); // 업데이트된 프로필을 다시 가져옵니다.
@@ -617,16 +621,16 @@ const preventClose = function () {
   swal("Save 버튼을 눌러주세요!");
 };
 
-// 로고 사진도 가져오기
-
 const viewDetailDepositDialog = ref(false);
-const viewDetailDeposit = function () {
-  console.log("위에꺼");
+const viewDetailSavingDialog = ref(false);
+
+const viewDetailDeposit = function (depositData) {
+  selectedDeposit.value = depositData;
   viewDetailDepositDialog.value = true;
 };
-const viewDetailSavingDialog = ref(false);
-const viewDetailSaving = function () {
-  console.log(`아래꺼`);
+
+const viewDetailSaving = function (savingData) {
+  selectedSaving.value = savingData;
   viewDetailSavingDialog.value = true;
 };
 
@@ -657,8 +661,6 @@ const deleteAccount = function () {
         },
       })
         .then((res) => {
-          console.log(res);
-          console.log(`회원탈퇴 완료!`);
           userStore.logoutUser();
           router.push({ name: "MainView" });
         })

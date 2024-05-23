@@ -58,11 +58,9 @@ const userStore = useUserStore();
 onMounted(() => {
   console.log(userStore.userInfo);
   userStore.getProfile();
-  // console.log(userStore.userInfo.username);
-  // console.log(articleStore.articleDetail.user.username);
 });
 const profileImg = computed(() => {
-  return `http://localhost:8000${userStore.userProfile.profile_img}`;
+  return `http://localhost:8000${articleStore.articleDetail.user.profile_img}`;
 });
 
 const articleUpdate = () => {

@@ -138,6 +138,12 @@
           </v-col>
         </v-row>
         <hr />
+        <v-row justify="center" align="center">
+          <v-col>
+            <ChartComponent v-if="savingStore.getSavingDetailOption" :data="savingStore.getSavingDetailOption" :title="savingStore.getSavingDetail.fin_prdt_nm" :chartType="charttype" />
+          </v-col>
+        </v-row>
+        <hr />
         <v-card-actions class="justify-center">
           <v-btn class="mb-6" @click="dialog = false">OK</v-btn>
         </v-card-actions>
@@ -154,7 +160,8 @@ import bankIcon from "@/assets/bank-icon.png";
 import swal from "sweetalert";
 import jar from "@/assets/jar.png";
 import empty from "@/assets/empty.png";
-
+import ChartComponent from "@/components/SavingChartComponent.vue";
+const charttype = ref("F");
 const userStore = useUserStore();
 const dialog = ref(false);
 const activeButton = ref("free");
@@ -164,6 +171,7 @@ const savingData = ref([]);
 onMounted(() => {
   bank.value = "모든은행";
   savingStore.getAllSaving();
+  charttype.value = "F";
 });
 
 const type = ref("");
@@ -201,7 +209,6 @@ const loaddata_free = function () {
       .filter((data) => data !== null); // null이 아닌 값만 필터링
   }
 };
-
 const loaddata_period = function () {
   let i = 1;
   activeButton.value = "period";
@@ -245,10 +252,12 @@ watch(
     if (type.value == 0) {
       bank.value = "모든은행";
       // 자유 적금
+      charttype.value = "F";
       loaddata_free();
     } else if (type.value == 1) {
       bank.value = "모든은행";
       // 정기 적금
+      charttype.value = "T";
       loaddata_period();
       console.log(bankList.value);
     }

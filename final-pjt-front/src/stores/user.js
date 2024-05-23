@@ -3,10 +3,12 @@ import { ref, computed } from "vue";
 import { useRouter } from "vue-router";
 import axios from "axios";
 import swal from "sweetalert";
+import { useRecommendStore } from "./recommend";
 
 export const useUserStore = defineStore(
   "user",
   () => {
+    const recommendStore = useRecommendStore();
     const API_URL = "http://127.0.0.1:8000";
     const router = useRouter();
     const token = ref(null);
@@ -69,6 +71,8 @@ export const useUserStore = defineStore(
           token.value = res.data.key;
           userInfo.value = res.data.user;
           getProfile();
+          recommendStore.getRecommendFirst();
+          recommendStore.getRecommendSecond();
           userDesirePeriod.value = res.data.user.desirePeriod;
           router.push({ name: "MainView" });
           swal(`${res.data.user.nickname}님 HoneyMoney에 오신 것을 환영합니다!`, {

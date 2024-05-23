@@ -1,68 +1,28 @@
 <template>
   <v-app>
-    <v-main
-      v-if="!isMainView"
-      class="app-background"
-      style="position: relative"
-    >
+    <v-main v-if="!isMainView" class="app-background" style="position: relative">
       <v-row class="mt-6 d-flex justify-center align-center">
         <v-col cols="auto" class="py-0">
-          <v-img
-            class="cursor"
-            @click="mainMove"
-            :src="logo"
-            width="200"
-          ></v-img>
+          <v-img class="cursor" @click="mainMove" :src="logo" width="200"></v-img>
         </v-col>
       </v-row>
       <v-container class="mx-auto under-bar"></v-container>
       <v-container>
         <v-row justify="center">
           <v-col class="py-6" cols="auto">
-            <v-tab
-              class="mx-4 font-weight-bold"
-              value="one"
-              @click="moveProducts"
-              >Products</v-tab
-            >
-            <v-tab
-              class="mx-4 font-weight-bold"
-              value="two"
-              @click="moveFindBank"
-              >Find Bank</v-tab
-            >
-            <v-tab
-              class="mx-4 font-weight-bold"
-              value="three"
-              @click="moveExchange"
-              >Exchange</v-tab
-            >
-            <v-tab
-              class="ms-4 me-8 font-weight-bold"
-              value="four"
-              @click="moveRecommend"
-              >Recommend</v-tab
-            >
+            <v-tab class="mx-4 font-weight-bold" value="one" @click="moveProducts">Products</v-tab>
+            <v-tab class="mx-4 font-weight-bold" value="two" @click="moveFindBank">Find Bank</v-tab>
+            <v-tab class="mx-4 font-weight-bold" value="three" @click="moveExchange">Exchange</v-tab>
+            <v-tab class="ms-4 me-8 font-weight-bold" value="four" @click="moveRecommend">Recommend</v-tab>
             <v-menu class="mx-4" v-if="more.length">
               <template v-slot:activator="{ props }">
-                <v-btn
-                  class="align-self-center font-weight-bold"
-                  height="100%"
-                  rounded="0"
-                  variant="plain"
-                  v-bind="props"
-                >
+                <v-btn class="align-self-center font-weight-bold" height="100%" rounded="0" variant="plain" v-bind="props">
                   more
                   <v-icon icon="mdi-menu-down" end></v-icon>
                 </v-btn>
               </template>
               <v-list class="bg-grey-lighten-3">
-                <v-list-item
-                  v-for="item in more"
-                  :key="item"
-                  :title="item"
-                  @click="handleMoreClick(item)"
-                ></v-list-item>
+                <v-list-item v-for="item in more" :key="item" :title="item" @click="handleMoreClick(item)"></v-list-item>
               </v-list>
             </v-menu>
           </v-col>
@@ -73,12 +33,7 @@
     <v-main v-else class="app-background">
       <v-row class="mt-6 d-flex justify-center align-center">
         <v-col cols="auto" class="py-0">
-          <v-img
-            class="cursor"
-            @click="mainMove"
-            :src="logo"
-            width="200"
-          ></v-img>
+          <v-img class="cursor" @click="mainMove" :src="logo" width="200"></v-img>
         </v-col>
       </v-row>
       <v-container class="mx-auto under-bar"></v-container>
@@ -87,22 +42,12 @@
 
     <!-- 챗봇 -->
     <Transition name="bounce">
-      <v-card
-        v-show="expand"
-        style="position: fixed; bottom: 130px; right: 50px; z-index: 1000"
-        class="mx-auto bg-secondary expand-component"
-        height="600"
-        width="400"
-      >
-        <ChatbotComponent /> </v-card
-    ></Transition>
+      <v-card v-show="expand" style="position: fixed; bottom: 130px; right: 50px; z-index: 1000" class="mx-auto bg-secondary expand-component" height="600" width="400">
+        <ChatbotComponent />
+      </v-card>
+    </Transition>
     <p class="chatbot-info ibm-plex-sans-kr-regular">AI챗봇에게 물어보세요!</p>
-    <v-avatar
-      @click="expand = !expand"
-      class="chatbot-btn"
-      size="90"
-      color="transparent"
-    >
+    <v-avatar @click="expand = !expand" class="chatbot-btn" size="90" color="transparent">
       <v-img :src="chatbot"></v-img>
     </v-avatar>
   </v-app>
@@ -141,9 +86,7 @@ const moveRecommend = () => {
 };
 
 const more = computed(() => {
-  return isLoggedIn.value
-    ? ["COMMUNITY", "PROFILE", "LOGOUT"]
-    : ["LOGIN", "SIGNUP"];
+  return isLoggedIn.value ? ["COMMUNITY", "PROFILE", "LOGOUT"] : ["LOGIN", "SIGNUP"];
 });
 
 const handleMoreClick = (item) => {
@@ -189,8 +132,7 @@ const expand = ref(false);
   text-decoration: none;
   color: black;
   font-weight: bold;
-  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
-    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande", "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
 }
 .app-background {
   background-color: rgba(253, 248, 222, 0.658);
@@ -199,8 +141,7 @@ const expand = ref(false);
 }
 
 .font {
-  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
-    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande", "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
 }
 
 .under-bar {
