@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <v-container v-if="articleStore.articleDetail && userStore.userInfo">
     <v-btn class="returnBtn" @click="returnArticleList"><- Back</v-btn>
     <v-card class="mx-auto px-4 pt-4" width="80%">
       <template v-slot:title class="mt-2">
