@@ -309,7 +309,7 @@ const findDetail = function (productName) {
 const saveEvent = function (productCode, productName, productInfo) {
   console.log(`꿀바르기!`);
   // 적금 쪽 확인
-  swal("꿀통에 저장했습니다!", "꿀통이 더 달달해졌어요!", "success", {
+  swal("꿀통에 저장했습니다!", "PROFILE에서 꿀통을 확인하세요!", "success", {
     button: false,
     timer: 1500,
   });
@@ -390,11 +390,12 @@ hr {
 }
 
 .button-image {
-  transition: transform 0.3s ease-in-out;
+  transition: transform 0.3s, filter 0.3s;
+  cursor: pointer;
 }
 
 .hover-effect:hover {
-  transform: translateY(-10px);
+  transform: scale(1.2);
   filter: brightness(1.1);
 }
 </style>

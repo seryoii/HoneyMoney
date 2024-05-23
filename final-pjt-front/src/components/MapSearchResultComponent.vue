@@ -13,41 +13,15 @@
         <v-dialog v-model="result.dialog" width="1000">
           <v-card class="mx-auto" width="1000">
             <template v-slot:title>
-              <v-row class="mb-0 px-3">
+              <v-row class="mb-0">
                 <v-img :src="bankIcon" class="mt-10 ms-3" style="height: 40px; width: 30px"></v-img>
                 <v-col class="pb-0 mt-6" cols="10">
                   <span class="font-weight-black text-h5">{{ result.fin_prdt_nm }}</span>
                   <v-card-subtitle>{{ result.kor_co_nm }}</v-card-subtitle>
                 </v-col>
+                <v-col></v-col>
               </v-row>
             </template>
-            <v-row justify="center" align="center" class="m-0">
-              <v-col cols="3" class="d-flex justify-center">
-                <v-card-text class="text-style" align="center">관심도 ★</v-card-text>
-              </v-col>
-              <v-col>
-                <v-card-text class="">{{ result.interest_user?.length }}</v-card-text>
-              </v-col>
-            </v-row>
-            <hr />
-            <v-row justify="center" align="center">
-              <v-col cols="3" class="d-flex justify-center">
-                <v-card-text class="text-style" align="center">공시 제출일</v-card-text>
-              </v-col>
-              <v-col>
-                <v-card-text class="">{{ result.dcls_month }}</v-card-text>
-              </v-col>
-            </v-row>
-            <hr />
-
-            <v-row justify="center" align="center">
-              <v-col cols="3" class="d-flex justify-center">
-                <v-card-text class="text-style" align="center">금융 상품명</v-card-text>
-              </v-col>
-              <v-col>
-                <v-card-text class="">{{ result.fin_prdt_nm }}</v-card-text>
-              </v-col>
-            </v-row>
             <hr />
 
             <v-row justify="center" align="center">

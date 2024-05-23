@@ -8,11 +8,6 @@ from rest_framework import status
 from .models import Article, Comment
 from .serializers import ArticleListSerializer, ArticleSerializer, CommentSerializer
 # Create your views here.
-@api_view(['GET'])
-# @authentication_classes([TokenAuthentication])
-@permission_classes([IsAuthenticated])
-def function(request):
-    pass
 
 @permission_classes([IsAuthenticated])
 @api_view(['GET', 'POST'])

@@ -76,7 +76,7 @@
             <v-card-text class="text-style" align="center">만기 후 이자율</v-card-text>
           </v-col>
           <v-col>
-            <v-card-text class="">{{ depositStore.getDepositDetail.mtrt_int }}</v-card-text>
+            <v-card-text class="me-12">{{ depositStore.getDepositDetail.mtrt_int }}</v-card-text>
           </v-col>
         </v-row>
         <hr />
@@ -85,7 +85,7 @@
             <v-card-text class="text-style" align="center">우대 조건</v-card-text>
           </v-col>
           <v-col>
-            <v-card-text class="">{{ depositStore.getDepositDetail.spcl_cnd }}</v-card-text>
+            <v-card-text class="me-12">{{ depositStore.getDepositDetail.spcl_cnd }}</v-card-text>
           </v-col>
         </v-row>
         <hr />
@@ -132,7 +132,7 @@
             <v-card-text class="text-style" align="center">기타 유의사항</v-card-text>
           </v-col>
           <v-col>
-            <v-card-text class="">{{ depositStore.getDepositDetail.etc_note }}</v-card-text>
+            <v-card-text class="me-12">{{ depositStore.getDepositDetail.etc_note }}</v-card-text>
           </v-col>
         </v-row>
         <hr />
@@ -231,7 +231,7 @@ const findDetail = function (productName) {
 const saveEvent = function (productCode, productName, productInfo) {
   console.log(`꿀바르기!`);
   // 예금 쪽 확인
-  swal("꿀통에 저장했습니다!", "꿀통이 더 달달해졌어요!", "success", {
+  swal("꿀통에 저장했습니다!", "PROFILE에서 꿀통을 확인하세요!", "success", {
     button: false,
     timer: 1500,
   });
@@ -318,6 +318,8 @@ hr {
 }
 .hover-effect {
   transition: transform 0.3s, filter 0.3s;
+  cursor: pointer;
+
 }
 .hover-effect:hover {
   transform: scale(1.2);

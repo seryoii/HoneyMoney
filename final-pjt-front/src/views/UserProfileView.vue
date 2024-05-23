@@ -121,16 +121,13 @@
               <v-carousel height="300" show-arrows="hover" hide-delimiters>
                 <v-carousel-item v-for="(honeyDeposit, index) in depositStore.profileDepositData" :key="`carousel1-${index}`" class="no-padding">
                   <v-card class="mx-16 fill-height d-flex align-center justify-center" elevation="0">
-                    <v-card v-card :style="{ position: 'relative' }" class="card-design mb-2 density-compact" variant="text">
+                    <v-card class="card-design mb-2 density-compact" :prepend-avatar="getBankIcon(honeyDeposit.kor_co_nm)" variant="text">
                       <template v-slot:subtitle>
                         <span class="ibm-plex-sans-kr-regular">{{ honeyDeposit.kor_co_nm }}</span>
                       </template>
                       <template v-slot:title>
-                        <span class="ms-1 font-weight-black ibm-plex-sans-kr-regular" style="display: flex; align-items: center">
-                          <v-avatar class="me-2" style="display: inline-block">
-                            <v-img src="https://randomuser.me/api/portraits/women/10.jpg" alt="User avatar" width="50" height="50"/>
-                          </v-avatar>
-                          <h4 style="margin-right: 0.5rem; display: inline-block">{{ honeyDeposit.fin_prdt_nm }}</h4>
+                        <span class="font-weight-black ibm-plex-sans-kr-regular">
+                          <h4>{{ honeyDeposit.fin_prdt_nm }}</h4>
                         </span>
                         <v-spacer></v-spacer>
                         <v-btn class="absolute-btn" elevation="0" icon @click="removeDepositCard(honeyDeposit)">
@@ -171,7 +168,12 @@
                             <hr />
                             <v-row justify="center" align="center">
                               <v-col cols="3" class="d-flex justify-center">
-                                <v-img class="mb-0" :src="jar" width="40px" height="40px" :style="{ display: 'inline-block', marginLeft: '8px' }"></v-img>
+                                <v-tooltip activator="parent" location="top">
+                                  <template v-slot:activator="{ on, attrs }">
+                                    <v-img class="mb-0" :src="jar" width="40px" height="40px" :style="{ display: 'inline-block', marginLeft: '8px' }" v-bind="attrs" v-on="on"></v-img>
+                                  </template>
+                                  꿀통에 담은 이용자 수
+                                </v-tooltip>
                               </v-col>
                               <v-col>
                                 <v-card-text class="">{{ savingStore.getSavingDetail.interest_user?.length }} 명</v-card-text>
@@ -193,7 +195,7 @@
                                 <v-card-text class="text-style" align="center">만기 후 이자율</v-card-text>
                               </v-col>
                               <v-col>
-                                <v-card-text class="">{{ honeyDeposit.mtrt_int }}</v-card-text>
+                                <v-card-text class="me-12">{{ honeyDeposit.mtrt_int }}</v-card-text>
                               </v-col>
                             </v-row>
                             <hr />
@@ -202,7 +204,7 @@
                                 <v-card-text class="text-style" align="center">우대 조건</v-card-text>
                               </v-col>
                               <v-col>
-                                <v-card-text class="">{{ honeyDeposit.spcl_cnd }}</v-card-text>
+                                <v-card-text class="me-12">{{ honeyDeposit.spcl_cnd }}</v-card-text>
                               </v-col>
                             </v-row>
                             <hr />
@@ -249,7 +251,7 @@
                                 <v-card-text class="text-style" align="center">기타 유의사항</v-card-text>
                               </v-col>
                               <v-col>
-                                <v-card-text class="">{{ honeyDeposit.etc_note }}</v-card-text>
+                                <v-card-text class="me-12">{{ honeyDeposit.etc_note }}</v-card-text>
                               </v-col>
                             </v-row>
                             <hr />
@@ -292,7 +294,7 @@
                 <v-carousel height="300" show-arrows="hover" hide-delimiters>
                   <v-carousel-item v-for="(honeySaving, index) in savingStore.profileSavingData" :key="`carousel2-${index}`" class="no-padding">
                     <v-card class="mx-16 fill-height d-flex align-center justify-center" elevation="0">
-                      <v-card class="card-design mb-2 density-compact" :prepend-avatar="jar" variant="text">
+                      <v-card class="card-design mb-2 density-compact" :prepend-avatar="getBankIcon(honeySaving.kor_co_nm)" variant="text">
                         <template v-slot:subtitle>
                           <span class="ibm-plex-sans-kr-regular">{{ honeySaving.kor_co_nm }}</span>
                         </template>
@@ -338,7 +340,12 @@
                               <hr />
                               <v-row justify="center" align="center">
                                 <v-col cols="3" class="d-flex justify-center">
-                                  <v-img class="mb-0" :src="jar" width="40px" height="40px" :style="{ display: 'inline-block', marginLeft: '8px' }"></v-img>
+                                  <v-tooltip activator="parent" location="top">
+                                    <template v-slot:activator="{ on, attrs }">
+                                      <v-img class="mb-0" :src="jar" width="40px" height="40px" :style="{ display: 'inline-block', marginLeft: '8px' }" v-bind="attrs" v-on="on"></v-img>
+                                    </template>
+                                    꿀통에 담은 이용자 수
+                                  </v-tooltip>
                                 </v-col>
                                 <v-col>
                                   <v-card-text class="">{{ savingStore.getSavingDetail.interest_user?.length }} 명</v-card-text>
@@ -368,7 +375,7 @@
                                   <v-card-text class="text-style" align="center">만기 후 이자율</v-card-text>
                                 </v-col>
                                 <v-col>
-                                  <v-card-text class="">{{ honeySaving.mtrt_int }}</v-card-text>
+                                  <v-card-text class="me-12">{{ honeySaving.mtrt_int }}</v-card-text>
                                 </v-col>
                               </v-row>
                               <hr />
@@ -377,7 +384,7 @@
                                   <v-card-text class="text-style" align="center">우대 조건</v-card-text>
                                 </v-col>
                                 <v-col>
-                                  <v-card-text class="">{{ honeySaving.spcl_cnd }}</v-card-text>
+                                  <v-card-text class="me-12">{{ honeySaving.spcl_cnd }}</v-card-text>
                                 </v-col>
                               </v-row>
                               <hr />
@@ -424,7 +431,7 @@
                                   <v-card-text class="text-style" align="center">기타 유의사항</v-card-text>
                                 </v-col>
                                 <v-col>
-                                  <v-card-text class="">{{ honeySaving.etc_note }}</v-card-text>
+                                  <v-card-text class="me-12">{{ honeySaving.etc_note }}</v-card-text>
                                 </v-col>
                               </v-row>
                               <hr />
@@ -468,6 +475,51 @@ import jar from "@/assets/jar.png";
 import empty from "@/assets/empty.png";
 import { useRouter } from "vue-router";
 import swal from "sweetalert";
+
+import Kyungnam from "@/assets/bank/Kyungnam.jpg";
+import Gwangju from "@/assets/bank/Gwangju.jpg";
+import Kookmin from "@/assets/bank/Kookmin.jpg";
+import Nonghyup from "@/assets/bank/Nonghyup.jpg";
+import Daegu from "@/assets/bank/Daegu.jpg";
+import Busan from "@/assets/bank/Busan.jpg";
+import Suhyup from "@/assets/bank/Suhyup.jpg";
+import StandardChartered from "@/assets/bank/StandardChartered.jpg";
+import Shinhan from "@/assets/bank/Shinhan.jpg";
+import Woori from "@/assets/bank/Woori.jpg";
+import Jeonbuk from "@/assets/bank/Jeonbuk.jpg";
+import Jeju from "@/assets/bank/Jeju.jpg";
+import IBK from "@/assets/bank/IBK.jpg";
+import Kakao from "@/assets/bank/Kakao.jpg";
+import Kbank from "@/assets/bank/Kbank.png";
+import Toss from "@/assets/bank/Toss.jpg";
+import Hana from "@/assets/bank/Hana.jpg";
+import KDB from "@/assets/bank/KDB.jpg";
+
+const bankIcon = {
+  경남은행: Kyungnam,
+  광주은행: Gwangju,
+  국민은행: Kookmin,
+  농협은행주식회사: Nonghyup,
+  대구은행: Daegu,
+  부산은행: Busan,
+  수협은행: Suhyup,
+  한국스탠다드차타드은행: StandardChartered,
+  신한은행: Shinhan,
+  우리은행: Woori,
+  전북은행: Jeonbuk,
+  제주은행: Jeju,
+  중소기업은행: IBK,
+  '주식회사 카카오뱅크': Kakao,
+  '주식회사 케이뱅크': Kbank,
+  '토스뱅크 주식회사': Toss,
+  하나은행: Hana,
+  한국산업은행: KDB,
+};
+
+const getBankIcon = function (korCoNm) {
+  return bankIcon[korCoNm] || "defaultIcon";
+}; // 기본 아이콘 설정 가능
+
 const router = useRouter();
 const depositLoding = ref(false);
 const savingLoding = ref(false);

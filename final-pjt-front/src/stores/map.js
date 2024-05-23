@@ -154,7 +154,6 @@ export const useMapStore = defineStore("map", () => {
     "우체국",
     "신한은행",
     "한국스탠다드차타드은행",
-    "SC은행",
     "전북은행",
     "KEB하나은행",
     "수협은행",

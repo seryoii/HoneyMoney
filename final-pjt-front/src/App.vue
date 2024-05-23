@@ -96,14 +96,14 @@
       >
         <ChatbotComponent /> </v-card
     ></Transition>
-    <p class="chatbot-info ibm-plex-sans-kr-regular">챗봇에게 물어보세요!</p>
+    <p class="chatbot-info ibm-plex-sans-kr-regular">AI챗봇에게 물어보세요!</p>
     <v-avatar
       @click="expand = !expand"
       class="chatbot-btn"
-      size="70"
+      size="90"
       color="transparent"
     >
-      <v-img :src="chatbot" width="50" height="50"></v-img>
+      <v-img :src="chatbot"></v-img>
     </v-avatar>
   </v-app>
 </template>
@@ -114,7 +114,7 @@ import { useRouter, useRoute, RouterLink, RouterView } from "vue-router";
 import { ref, computed } from "vue";
 import swal from "sweetalert";
 import ChatbotComponent from "@/components/ChatbotComponent.vue";
-import chatbot from "@/assets/chatbot.png";
+import chatbot from "@/assets/chatbot3.png";
 
 const userStore = useUserStore();
 import logo from "@/assets/logo_dev.png";

@@ -14,13 +14,13 @@
         <v-container class="pt-6 pb-0">
           <v-card class="border card-style mx-4">
             <v-row class="pb-0">
-              <v-col cols="8">
+              <v-col cols="7">
                 <p class="title-style ps-4">Title</p>
               </v-col>
-              <v-col cols="2" class="ps-auto">
-                <p class="nick-style">Nickname</p>
+              <v-col cols="2" class="">
+                <p class="nick-style" style="text-align: center;">Nickname</p>
               </v-col>
-              <v-col cols="2">
+              <v-col cols="3">
                 <p class="date-style">Date</p>
               </v-col>
             </v-row>
