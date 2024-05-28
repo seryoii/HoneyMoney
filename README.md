@@ -170,7 +170,13 @@ https://github.com/piaoria/HoneyMoney/assets/155702981/2afaf557-13cf-4453-b6be-5
 
 ### 4-2. 회원가입 (오류)
 
-https://github.com/piaoria/HoneyMoney/assets/155702981/4476089a-f721-411f-8e34-7884a6207d8b
+https://github.com/piaoria/HoneyMoney/assets/155702981/d316a261-97a8-4a43-ba92-3110a675f893
+
+https://github.com/piaoria/HoneyMoney/assets/155702981/ea81e8f2-45cb-4948-a9a6-777bcea80fb0
+
+https://github.com/piaoria/HoneyMoney/assets/155702981/9ab7e1b2-72ed-42e1-a7b0-d5e61d7e652f
+
+
 
 
 
