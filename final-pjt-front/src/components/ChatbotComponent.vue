@@ -1,19 +1,19 @@
 <template>
   <div>
     <v-list ref="messageContainer" style="width: 400px; height: 505px; overflow-y: auto">
-      <v-list-item v-for="(message, index) in messages" :key="index">
-        <v-list-item-content
-          class="ibm-plex-sans-kr-regular"
-          :class="{
-            'user-message': message.role === 'user',
-            'assistant-message': message.role === 'assistant',
-            'system-message': message.role === 'system',
-          }"
-        >
-          <MessageContent :content="message.content" />
-        </v-list-item-content>
-      </v-list-item>
-    </v-list>
+    <v-list-item v-for="(message, index) in messages" :key="index">
+      <div
+        class="ibm-plex-sans-kr-regular"
+        :class="{
+          'user-message': message.role === 'user',
+          'assistant-message': message.role === 'assistant',
+          'system-message': message.role === 'system',
+        }"
+      >
+        <MessageContent :content="message.content" />
+      </div>
+    </v-list-item>
+  </v-list>
     <div class="message-input">
       <v-progress-linear v-if="loading" color="grey-lighten-1" indeterminate></v-progress-linear>
       <div class="d-flex">
