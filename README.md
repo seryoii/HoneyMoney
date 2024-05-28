@@ -88,6 +88,89 @@
   - 웹 사이트의 모든 화면에서 언제든지 챗봇과 대화하기 가능
   - 내 금융 정보를 기반으로 챗봇에게 금융 상품 추천받기
 
+
+### 최종 진척도 (기능구현🟢5개=완료 / CSS🔵=완료 / 🤔🥲😀)
+
+1. 회원가입 🟢🟢🟢🟢🟢🔵
+
+2. 로그인 🟢🟢🟢🟢🟢🔵
+
+3. 웹 소개 메인 🟢🟢🟢🟢🟢🔵
+
+4. 금융 상품 조회
+	4.a 금융 상품 조회 전 예,적금 선택 🟢🟢🟢🟢🟢🔵
+
+	4.b 예금 상품 목록 🟢🟢🟢🟢🟢🔵
+
+	4.c.1 자유 적금형 🟢🟢🟢🟢🟢🔵
+
+	4.c.2 정기 적금형 🟢🟢🟢🟢🟢🔵
+
+	4.d 상품 Detail 페이지 🟢🟢🟢🟢🟢🔵
+
+5. 내 주변 은행 찾기 🟢🟢🟢🟢🟢🔵
+
+6. 개인(신규) 프로필 정보를 통한 추천 알고리즘 🟢🟢🟢🟢🟢🔵
+
+7. 환율 조회 🟢🟢🟢🟢🟢🔵
+
+8. 커뮤니티
+	8.a 게시글 조회 🟢🟢🟢🟢🟢🔵
+
+	Creation 🟢🟢🟢🟢🟢🔵
+
+	Read 🟢🟢🟢🟢🟢🔵
+
+	Update 🟢🟢🟢🟢🟢🔵
+
+	Delete 🟢🟢🟢🟢🟢🔵
+
+	8.b 댓글 조회 🟢🟢🟢🟢🟢🔵
+
+	Creation 🟢🟢🟢🟢🟢🔵
+
+	Read 🟢🟢🟢🟢🟢🔵
+
+	Update 🟢🟢🟢🟢🟢🔵
+
+	Delete 🟢🟢🟢🟢🟢🔵
+
+9. 개인 프로필 🟢🟢🟢🟢🟢🔵
+
+10. 금융 상품 Chat Bot 🟢🟢🟢🟢🟢🔵
+
+
+
+## 페이지 뷰
+
+### 1. 메인 페이지
+https://github.com/piaoria/HoneyMoney/assets/155702981/8c616f09-6caa-49f8-9fc7-9b8d0640778d
+- v-tab과 v-carousel을 이용한 메인페이지
+- Tab을 클릭하거나 마우스 오버 시 carousel 화살표 호버. 클릭 시 동일하게 이동 가능
+- 이미지는 https://www.bing.com/images/create 이용
+
+### 2. 환율 페이지
+https://github.com/piaoria/HoneyMoney/assets/155702981/ca6bdea3-6d13-4c20-bf8f-0861bc3fdb25
+- v-form의 v-select을 통해 데이터 받아서 반응성 변수 활용
+- @submit.prevent는 이용하지 않음
+
+### 3. 주변 은행 찾기 (비로그인)
+https://github.com/piaoria/HoneyMoney/assets/155702981/e32e165f-2659-4d91-b9d9-a9e5a13d61e4
+https://github.com/piaoria/HoneyMoney/assets/155702981/74a90be2-715f-4fa9-8e4f-3ebc0359000a
+- KAKAO MAP API 사용
+- v-select을 통해 검색
+- 비로그인 시 로그인 팝업(1회)
+- 로그인 하지 않아도 은행 검색 기능 활성화
+
+### 4-1. 회원가입 (성공)
+https://github.com/piaoria/HoneyMoney/assets/155702981/2afaf557-13cf-4453-b6be-550f3d0cf80f
+
+### 4-2. 회원가입 (오류)
+
+
+
+
+
 ## 후기
 
 ### 🙋🏻박효진
