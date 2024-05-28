@@ -154,11 +154,12 @@ https://github.com/piaoria/HoneyMoney/assets/155702981/ca6bdea3-6d13-4c20-bf8f-0
 - v-form의 v-select을 통해 데이터 받아서 반응성 변수 활용
 - @submit.prevent는 이용하지 않음
 
-### 3. 주변 은행 찾기 (비로그인)
-
+### 3. 주변 은행 찾기 (비로그인 / 로그인)
 https://github.com/piaoria/HoneyMoney/assets/155702981/e32e165f-2659-4d91-b9d9-a9e5a13d61e4
 
 https://github.com/piaoria/HoneyMoney/assets/155702981/74a90be2-715f-4fa9-8e4f-3ebc0359000a
+
+https://github.com/piaoria/HoneyMoney/assets/155702981/c18ffae2-a16c-45cf-9bec-ff3e3137be4e
 
 - KAKAO MAP API 사용
 - v-select을 통해 검색
@@ -169,12 +170,72 @@ https://github.com/piaoria/HoneyMoney/assets/155702981/74a90be2-715f-4fa9-8e4f-3
 https://github.com/piaoria/HoneyMoney/assets/155702981/2afaf557-13cf-4453-b6be-550f3d0cf80f
 
 ### 4-2. 회원가입 (오류)
-
 https://github.com/piaoria/HoneyMoney/assets/155702981/d316a261-97a8-4a43-ba92-3110a675f893
 
 https://github.com/piaoria/HoneyMoney/assets/155702981/ea81e8f2-45cb-4948-a9a6-777bcea80fb0
 
 https://github.com/piaoria/HoneyMoney/assets/155702981/9ab7e1b2-72ed-42e1-a7b0-d5e61d7e652f
+
+### 5. 로그인
+https://github.com/piaoria/HoneyMoney/assets/155702981/3757a94e-d6e4-43e1-a024-d35d102c6d59
+
+
+### 6. 프로필 변경
+https://github.com/piaoria/HoneyMoney/assets/155702981/662541e9-8bd8-4ec0-ad74-201ca221f4a5
+
+### 7. 댓글 CRUD
+https://github.com/piaoria/HoneyMoney/assets/155702981/cbe5f03a-badd-4024-a660-382385468801
+
+### 8. 게시글CRUD + 댓글(작성자 구분)
+https://github.com/piaoria/HoneyMoney/assets/155702981/9371c743-4622-4ece-93e0-b0fc97482d92
+
+https://github.com/piaoria/HoneyMoney/assets/155702981/ebb1e09e-1236-4b13-a1fd-cdb8998e30b2
+
+### 9. 예금 리스트
+
+https://github.com/piaoria/HoneyMoney/assets/155702981/a387aeb1-7a2e-4ad0-b738-dae1af58477f
+
+https://github.com/piaoria/HoneyMoney/assets/155702981/bf69b2b1-f8dd-48c9-8a6c-448a0ef67dff
+
+https://github.com/piaoria/HoneyMoney/assets/155702981/7fde8ee5-a1db-4421-a898-e56d9c5090b9
+
+### 10. 적금 리스트
+
+https://github.com/piaoria/HoneyMoney/assets/155702981/5d835899-793c-4806-9b52-4d7e82f82eb8
+
+### 11. 상품 Detail
+
+https://github.com/piaoria/HoneyMoney/assets/155702981/9028eced-ca27-4017-a8a6-3b8a31d541a2
+
+https://github.com/piaoria/HoneyMoney/assets/155702981/cb80e5e6-e273-4612-9f0f-274bdaeacee5
+
+### 12. Profile 페이지 (담은 꿀통 확인 및 삭제)
+
+https://github.com/piaoria/HoneyMoney/assets/155702981/c6e66cab-1809-42d6-b624-7ac638ed30f6
+
+### 13. Recommend Page
+
+https://github.com/piaoria/HoneyMoney/assets/155702981/b522c7db-25aa-4906-8591-a2f9f68db7db
+
+https://github.com/piaoria/HoneyMoney/assets/155702981/1f0c87f8-6ce1-4bf0-a86e-744fd8436533
+
+https://github.com/piaoria/HoneyMoney/assets/155702981/01a1817e-586c-4f9a-80cc-8a951319004b
+
+### 14. Profile 변경 후 Recommend Page
+
+https://github.com/piaoria/HoneyMoney/assets/155702981/c417b204-e560-44bc-b0d1-7d9bd4523263
+
+### 15. AI ChatBot
+https://github.com/piaoria/HoneyMoney/assets/155702981/0b382da9-069a-42a4-8385-a2e07a504f50
+
+https://github.com/piaoria/HoneyMoney/assets/155702981/a4967a61-ea72-47a4-9c6a-58259cd560e0
+
+https://github.com/piaoria/HoneyMoney/assets/155702981/72cae23e-28f3-4e16-a9df-3d0c31dacb72
+
+### 16. 회원탈퇴
+https://github.com/piaoria/HoneyMoney/assets/155702981/860af049-182b-439d-a096-7e799c5de4aa
+
+https://github.com/piaoria/HoneyMoney/assets/155702981/df809d26-3f7e-4034-a053-20dbe05d2898
 
 
 
