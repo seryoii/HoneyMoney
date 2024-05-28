@@ -155,8 +155,11 @@ https://github.com/piaoria/HoneyMoney/assets/155702981/ca6bdea3-6d13-4c20-bf8f-0
 - @submit.prevent는 이용하지 않음
 
 ### 3. 주변 은행 찾기 (비로그인)
+
 https://github.com/piaoria/HoneyMoney/assets/155702981/e32e165f-2659-4d91-b9d9-a9e5a13d61e4
+
 https://github.com/piaoria/HoneyMoney/assets/155702981/74a90be2-715f-4fa9-8e4f-3ebc0359000a
+
 - KAKAO MAP API 사용
 - v-select을 통해 검색
 - 비로그인 시 로그인 팝업(1회)
@@ -166,6 +169,8 @@ https://github.com/piaoria/HoneyMoney/assets/155702981/74a90be2-715f-4fa9-8e4f-3
 https://github.com/piaoria/HoneyMoney/assets/155702981/2afaf557-13cf-4453-b6be-550f3d0cf80f
 
 ### 4-2. 회원가입 (오류)
+
+https://github.com/piaoria/HoneyMoney/assets/155702981/4476089a-f721-411f-8e34-7884a6207d8b
 
 
 
