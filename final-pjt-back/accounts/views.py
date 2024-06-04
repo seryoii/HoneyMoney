@@ -1,9 +1,8 @@
 from django.http import JsonResponse
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404
 from django.contrib.auth import get_user_model
 from rest_framework.response import Response
-from rest_framework.decorators import api_view, authentication_classes, permission_classes
-from rest_framework.authentication import TokenAuthentication
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
 from .serializers import UserPageSerializer, UserInfoChangeSerializer, NewInfoChangeSerializer
@@ -17,7 +16,6 @@ def mypage(request, username):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     if request.method == 'GET':
-        # if request.user.username == username:
         user = get_object_or_404(get_user_model(), username=username)
         serializer = NewInfoChangeSerializer(user)
         return Response(serializer.data)
@@ -44,7 +42,6 @@ def user_profile(request, username):
 # 더미 데이터의 deposit, saving 기반으로 상품에 관심있는 테이블 생성
 @api_view(['GET'])
 def get_interest(request):
-# 유저 객체 가져오기
     for user_id in range(1, 10001):
         user = get_object_or_404(User, id=user_id)
 

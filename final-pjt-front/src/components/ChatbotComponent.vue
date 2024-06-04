@@ -1,25 +1,48 @@
 <template>
   <div>
-    <v-list ref="messageContainer" style="width: 400px; height: 505px; overflow-y: auto">
-    <v-list-item v-for="(message, index) in messages" :key="index">
-      <div
-        class="ibm-plex-sans-kr-regular"
-        :class="{
-          'user-message': message.role === 'user',
-          'assistant-message': message.role === 'assistant',
-          'system-message': message.role === 'system',
-        }"
-      >
-        <MessageContent :content="message.content" />
-      </div>
-    </v-list-item>
-  </v-list>
+    <v-list
+      ref="messageContainer"
+      style="width: 400px; height: 505px; overflow-y: auto"
+    >
+      <v-list-item v-for="(message, index) in messages" :key="index">
+        <div
+          class="ibm-plex-sans-kr-regular"
+          :class="{
+            'user-message': message.role === 'user',
+            'assistant-message': message.role === 'assistant',
+            'system-message': message.role === 'system',
+          }"
+        >
+          <MessageContent :content="message.content" />
+        </div>
+      </v-list-item>
+    </v-list>
     <div class="message-input">
-      <v-progress-linear v-if="loading" color="grey-lighten-1" indeterminate></v-progress-linear>
+      <v-progress-linear
+        v-if="loading"
+        color="grey-lighten-1"
+        indeterminate
+      ></v-progress-linear>
       <div class="d-flex">
-        <v-text-field hint="나에게 맞는 금융 상품은?" class="ms-5 me-3 mt-5" v-model="inputMessage" label="메시지를 입력하세요" @keydown.enter="getChatbot" rows="1" outlined></v-text-field>
-        <v-btn icon="mdi-arrow-up" class="custom-btn mt-6" @click="getChatbot()"></v-btn>
-        <v-btn icon="mdi-cached" class="custom-btn mt-6 mr-4 ms-3" @click="resetChat()"></v-btn>
+        <v-text-field
+          hint="나에게 맞는 금융 상품은?"
+          class="ms-5 me-3 mt-5"
+          v-model="inputMessage"
+          label="메시지를 입력하세요"
+          @keydown.enter="getChatbot"
+          rows="1"
+          outlined
+        ></v-text-field>
+        <v-btn
+          icon="mdi-arrow-up"
+          class="custom-btn mt-6"
+          @click="getChatbot()"
+        ></v-btn>
+        <v-btn
+          icon="mdi-cached"
+          class="custom-btn mt-6 mr-4 ms-3"
+          @click="resetChat()"
+        ></v-btn>
       </div>
     </div>
   </div>
@@ -49,10 +72,14 @@ const depositData = ref([]);
 const savingData = ref([]);
 
 const loadJSONData = async () => {
-  const depositDataModule = await import("@/data/deposit_product_data.json");
-  const savingDataModule = await import("@/data/saving_product_data.json");
-  depositData.value = depositDataModule.default;
-  savingData.value = savingDataModule.default;
+  try {
+    const depositDataModule = await import("@/data/deposit_product_data.json");
+    const savingDataModule = await import("@/data/saving_product_data.json");
+    depositData.value = depositDataModule.default;
+    savingData.value = savingDataModule.default;
+  } catch (error) {
+    console.error("Failed to load JSON files:", error);
+  }
 };
 
 onMounted(() => {
@@ -87,11 +114,14 @@ const getChatbot = async () => {
             - 연봉: ${userStore.userProfile.salary}<br>
             - 자산: ${userStore.userProfile.wealth}<br>
             - 투자 성향: ${
-              userStore.userProfile.tendency >= 0 && userStore.userProfile.tendency <= 3
+              userStore.userProfile.tendency >= 0 &&
+              userStore.userProfile.tendency <= 3
                 ? "안정적인 투자 성향"
-                : userStore.userProfile.tendency >= 4 && userStore.userProfile.tendency <= 7
+                : userStore.userProfile.tendency >= 4 &&
+                  userStore.userProfile.tendency <= 7
                 ? "중간 투자 성향"
-                : userStore.userProfile.tendency >= 8 && userStore.userProfile.tendency <= 10
+                : userStore.userProfile.tendency >= 8 &&
+                  userStore.userProfile.tendency <= 10
                 ? "공격적인 투자 성향"
                 : "중간 투자 성향"
             }
@@ -121,7 +151,12 @@ const formatData = (data) => {
 };
 
 const resetChat = () => {
-  messages.value = [{ role: "assistant", content: "어서오세요! 투자 관련 질문을 환영합니다. 어떻게 도와드릴까요?" }];
+  messages.value = [
+    {
+      role: "assistant",
+      content: "어서오세요! 투자 관련 질문을 환영합니다. 어떻게 도와드릴까요?",
+    },
+  ];
 };
 </script>
 

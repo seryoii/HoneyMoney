@@ -33,11 +33,26 @@
 <script setup>
 import { ref, computed } from "vue";
 import { Bar } from "vue-chartjs";
-import { Chart as ChartJS, Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale } from "chart.js";
+import {
+  Chart as ChartJS,
+  Title,
+  Tooltip,
+  Legend,
+  BarElement,
+  CategoryScale,
+  LinearScale,
+} from "chart.js";
 import colors from "vuetify/lib/util/colors";
 
 // Chart.js를 위한 플러그인 등록
-ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale);
+ChartJS.register(
+  Title,
+  Tooltip,
+  Legend,
+  BarElement,
+  CategoryScale,
+  LinearScale
+);
 
 const props = defineProps({
   data: Array,
@@ -72,8 +87,14 @@ const createChartData = (data, type) => {
 // 평균 계산 함수
 const calculateAverage = (data, type) => {
   const filteredData = data.filter((item) => item.rsrv_type === type);
-  const totalInterestRate = filteredData.reduce((sum, item) => sum + item.intr_rate, 0);
-  const totalMaxRate = filteredData.reduce((sum, item) => sum + item.intr_rate2, 0);
+  const totalInterestRate = filteredData.reduce(
+    (sum, item) => sum + item.intr_rate,
+    0
+  );
+  const totalMaxRate = filteredData.reduce(
+    (sum, item) => sum + item.intr_rate2,
+    0
+  );
   const count = filteredData.length;
   return {
     averageInterestRate: count > 0 ? (totalInterestRate / count).toFixed(2) : 0,
@@ -125,7 +146,7 @@ const chartOptionsF = ref({
   plugins: {
     title: {
       display: true,
-      text: `<정액정립식 저축 금리`,
+      text: `정액정립식 저축 금리`,
       font: {
         size: 18, // 제목의 글꼴 크기 설정
       },

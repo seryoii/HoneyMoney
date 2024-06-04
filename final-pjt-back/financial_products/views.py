@@ -1,33 +1,23 @@
-from django.http import JsonResponse
 import requests
-import random
-from django.shortcuts import render
+from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
-from django.db.models import Q
 from django.conf import settings
 from rest_framework import status
-from rest_framework.decorators import api_view, authentication_classes, permission_classes
-from rest_framework.authentication import TokenAuthentication
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-from .serializers import DepositSerializer, DepositOptionSerializer, DepositListSerializer, InterestDepositSerializer, DepositRecommendSerializer
-from .serializers import SavingSerializer, SavingOptionSerializer, SavingListSerializer, InterestSavingSerializer, SavingRecommendSerializer
+from .serializers import DepositSerializer, DepositOptionSerializer, DepositListSerializer, DepositRecommendSerializer
+from .serializers import SavingSerializer, SavingOptionSerializer, SavingListSerializer, SavingRecommendSerializer
 from .models import DepositProduct, SavingProduct, DepositOption, SavingOption
 from accounts.models import User
 
-# @permission_classes([IsAuthenticated])
-# @permission_classes([IsAuthenticated])
-
 API_KEY = settings.FIN_API_KEY
-# Create your views here.
 
 @api_view(['GET'])
 def get_deposit_products(request):
     deposit_API_URL = f'http://finlife.fss.or.kr/finlifeapi/depositProductsSearch.json?auth={API_KEY}&topFinGrpNo=020000&pageNo=1'
-
     deposit_baselist = requests.get(deposit_API_URL).json().get('result').get('baseList')
     deposit_optionlist = requests.get(deposit_API_URL).json().get('result').get('optionList')
-
     # return Response(deposit_baselist)   
 
     for base in deposit_baselist:
@@ -149,7 +139,6 @@ def saving_detail(request, saving_name):
 def deposit_option_list(request, deposit_name):
     deposit = get_object_or_404(DepositProduct, fin_prdt_nm=deposit_name)
     deposit_options = DepositOption.objects.filter(deposit_product=deposit)
-
     if request.method == 'GET':
         serializer = DepositOptionSerializer(deposit_options, many=True)
         return Response(serializer.data)
@@ -168,7 +157,6 @@ def deposit_option_detail(request, deposit_code, option_id):
 def saving_option_list(request, saving_name):
     saving = get_object_or_404(SavingProduct, fin_prdt_nm=saving_name)
     saving_options = SavingOption.objects.filter(saving_product=saving)
-
     if request.method == 'GET':
         serializer = SavingOptionSerializer(saving_options, many=True)
         return Response(serializer.data)
@@ -231,6 +219,7 @@ def saving_option_detail(request, saving_code, option_id):
 #             return Response({ "detail": "삭제되었습니다." }, status=status.HTTP_204_NO_CONTENT)
 #         else:
 #             return Response({ "detail": "삭제할 항목이 없습니다." }, status=status.HTTP_404_NOT_FOUND)
+
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def bank_deposit(request, bank_name):
