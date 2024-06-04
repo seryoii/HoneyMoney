@@ -37,23 +37,21 @@ https://scarce-frame-2fc.notion.site/HONEYMONEY-c823d9fc99ce441badea1cbb12e6f7d0
 
 #### 설계 아키텍처
 
-![설계 아키텍처](README_IMG/설계아키텍처.png)
+<img src="README_IMG/설계아키텍처.png" width="75%" height="75%"/>
 
 #### 디자인 목업
-
-![디자인목업](README_IMG/디자인목업.png)
+<img src="README_IMG/디자인목업.png" width="75%" height="75%"/>
 
 ## 📊ERD
-
-![ERD](README_IMG/ERD.png)
+<img src="README_IMG/ERD.png" width="75%" height="75%"/>
 
 ## 📌 금융 상품 추천 알고리즘
 
-### 1. 나의 금융 정보와 비슷한 금융 정보를 가진 유저들이 가입한 상품 추천받기
+#### 1. 나의 금융 정보와 비슷한 금융 정보를 가진 유저들이 가입한 상품 추천받기
 
 😄사용자는 회원가입 시 연봉, 자산, 저축 성향, 저축 희망 기간을 입력합니다. 최소 10000명의 유저가 가입된 HONEYMONEY에서는 모든 사용자의 금융 정보를 기반으로 내 금융 정보 맞춤 상품 10개를 추천합니다.
 
-### 2. 내 나이대의 사용자들이 가장 많이 가입한 상품 추천 받기
+#### 2. 내 나이대의 사용자들이 가장 많이 가입한 상품 추천 받기
 
 😄사용자가 회원가입 시 입력한 나이를 기반으로 상품을 추천합니다. HONEYMONEY 내 같은 나이 대의 유저들이 가장 많이 가입한 상품 10개를 추천합니다.
 
