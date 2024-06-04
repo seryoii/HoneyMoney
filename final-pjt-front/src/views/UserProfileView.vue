@@ -278,7 +278,7 @@
                 <v-img width="100" :src="empty"></v-img>
                 <p class="gray-text">예금 꿀통이 비어있어요...</p>
                 <v-btn @click="goDeposit" color="yellow-darken-2 mt-4" size="large" variant="tonal">
-                  <p class="ibm-plex-sans-kr-regular bold-text">적금 꿀 바르러 가기!</p>
+                  <p class="ibm-plex-sans-kr-regular bold-text">예금 꿀 바르러 가기!</p>
                 </v-btn>
               </v-container>
             </v-container>
