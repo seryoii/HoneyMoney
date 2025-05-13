@@ -1,10 +1,6 @@
-##### 프로젝트 상세 소개 및 서비스 화면은 Notion 링크를 참고해주세요.
-https://scarce-frame-2fc.notion.site/HONEYMONEY-c823d9fc99ce441badea1cbb12e6f7d0?pvs=4
-
----
 ## 📽️ 프로젝트 소개
 주제 : 금융 데이터를 활용한 금융 상품 비교 애플리케이션
-<strong>나에게 맞는 금융 상품을 추천받자!😀</strong> 사용자 금융 정보와 HONEYMONEY의 모든 이용자의 데이터베이스를 통해 맞춤형 상품을 추천합니다.
+<strong>나에게 맞는 금융 상품을 추천받자!😀</strong> 사용자 금융 정보와 HoneyMoney의 모든 이용자의 데이터베이스를 통해 맞춤형 상품을 추천합니다.
 
 |팀원|역할|
 |------|---|
